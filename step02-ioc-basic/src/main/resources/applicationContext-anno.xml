@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+           http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context.xsd">
+        
+        <!--
+	        component-scan: 지정 패키지를 탐색해 @Component 계열 어노테이션이 붙은
+	        클래스를 자동으로 Bean으로 등록한다.
+	    -->
+        <context:component-scan base-package="annotiation"/>
+        
+</beans>
+
+
+
+
+
+
+
