@@ -18,9 +18,29 @@ public class SingletonMainApp {
 		System.out.println("c2 identityHashCode : " + System.identityHashCode(c2) );
 		System.out.println("c1 == c2 : " + (c1 == c2));
 		
+		c1.increment();
+		c1.increment();
+		c1.increment();
+		c2.increment();
+		System.out.println(c1.getCount() + " " + c2.getCount());
+		
+		System.out.println("=== Prototype ===");
+		TemporaryBean b1 = context.getBean(TemporaryBean.class);
+		TemporaryBean b2 = context.getBean(TemporaryBean.class);
+		
+		System.out.println("b1 identityHashCode : " + System.identityHashCode(b1) );
+		System.out.println("b2 identityHashCode : " + System.identityHashCode(b2) );
+		System.out.println("b1 == b2 : " + (b1 == b2));
+		
+		((ClassPathXmlApplicationContext) context).close();
+		
 	}
 
 }
+
+
+
+
 
 
 
