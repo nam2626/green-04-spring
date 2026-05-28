@@ -5,5 +5,7 @@
 		https://www.springframework.org/schema/beans/spring-beans.xsd">
 	
 	<bean id="messageBean" class="com.spring.MessageBean" />
+	<bean id="customMessageBean" class="com.spring.MessageBean">
+	</bean>
 	
 </beans>
