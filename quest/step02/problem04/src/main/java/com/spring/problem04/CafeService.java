@@ -1,6 +1,9 @@
 package com.spring.problem04;
 
+import org.springframework.stereotype.Service;
+
 // TODO [도전 4-3] 이 클래스를 서비스 레이어 Bean으로 등록하는 어노테이션을 추가하세요.
+@Service
 public class CafeService {
 
     public void printWelcome() {

@@ -24,18 +24,26 @@ public class ProblemMain {
     public static void main(String[] args) {
 
         // TODO ①: ApplicationContext를 생성하세요.
-
+    	ApplicationContext context = 
+    			new ClassPathXmlApplicationContext("applicationContext.xml");
 
         // TODO ②: cafeService Bean을 꺼내 printWelcome()을 호출하세요.
-
+    	CafeService cafeService = context.getBean(CafeService.class);
+    	cafeService.printWelcome();
 
         // TODO ③: CoffeeItem Bean 3개를 꺼내세요.
-
+    	CoffeeItem item1 = context.getBean("americano",CoffeeItem.class);
+    	CoffeeItem item2 = context.getBean("latteCoffee",CoffeeItem.class);
+    	CoffeeItem item3 = context.getBean("vanillaLatte",CoffeeItem.class);
 
         // TODO ④: coffeeMenu Bean을 꺼내 printMenu()를 호출하세요.
-
+    	CoffeeMenu coffeeMenu = context.getBean(CoffeeMenu.class);
+    	coffeeMenu.printMenu(item1,item2,item3);
 
         // TODO ⑤: 컨테이너를 종료하세요.
-
+    	((ClassPathXmlApplicationContext) context).close();
     }
 }
+
+
+

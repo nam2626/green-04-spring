@@ -17,17 +17,47 @@ package com.spring.problem04;
 public class CoffeeItem {
 
     // TODO 1: 필드를 선언하세요.
-
+	private String name;
+	private int price;
+	private String size;
 
     // TODO 2: 기본 생성자를 작성하세요.
-
+	public CoffeeItem() {	}
 
     // TODO 2: getter / setter를 작성하세요.
+    public String getName() {
+		return name;
+	}
 
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    // TODO 3: toString()을 작성하세요.
+	public int getPrice() {
+		return price;
+	}
+
+	public void setPrice(int price) {
+		this.price = price;
+	}
+
+	public String getSize() {
+		return size;
+	}
+
+	public void setSize(String size) {
+		this.size = size;
+	}
+
+	// TODO 3: toString()을 작성하세요.
     @Override
     public String toString() {
-        return ""; // TODO: 형식에 맞게 수정하세요.
+        return String.format("%s | %d원 | %s", name,price,size); // TODO: 형식에 맞게 수정하세요.
     }
+
 }
+
+
+
+
+

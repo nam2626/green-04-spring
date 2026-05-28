@@ -31,5 +31,27 @@
       base-package: com.spring.problem04
     ====================================================================
     -->
-
+	<bean id="americano" class="com.spring.problem04.CoffeeItem">
+		<property name="name" value="아메리카노"></property>
+		<property name="price" value="4500"></property>
+		<property name="size" value="Medium"></property>
+	</bean>
+	<bean id="latteCoffee" class="com.spring.problem04.CoffeeItem">
+		<property name="name" value="카페라떼"></property>
+		<property name="price" value="5000"></property>
+		<property name="size" value="Medium"></property>
+	</bean>
+	<bean id="vanillaLatte" class="com.spring.problem04.CoffeeItem">
+		<property name="name" value="바닐라라떼"></property>
+		<property name="price" value="5500"></property>
+		<property name="size" value="Medium"></property>
+	</bean>
+	
+	<context:component-scan base-package="com.spring.problem04"></context:component-scan>
 </beans>
+
+
+
+
+
+
