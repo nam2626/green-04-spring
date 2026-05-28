@@ -16,9 +16,17 @@ public class ProblemMain {
         PaymentService service = context.getBean("paymentService", PaymentService.class);
         service.processPayment(50000);
 
-        NotificationSender sender = context.getBean("notificationSender", NotificationSender.class);
-        sender.send("결제가 완료되었습니다.");
+        NotificationSender sender1 = context.getBean("notificationSender", NotificationSender.class);
+        NotificationSender sender2 = context.getBean("notificationSender", NotificationSender.class);
+        sender1.send("결제가 완료되었습니다.");
+        
+        System.out.println(sender1 == sender2);
 
         ((ClassPathXmlApplicationContext) context).close();
     }
 }
+
+
+
+
+

@@ -19,5 +19,10 @@
         <context:component-scan base-package="패키지명"/>
     ====================================================================
     -->
-
+	<context:component-scan base-package="com.spring.problem02"></context:component-scan>	
 </beans>
+
+
+
+
+
