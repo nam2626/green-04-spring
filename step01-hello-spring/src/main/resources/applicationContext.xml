@@ -5,7 +5,9 @@
 		https://www.springframework.org/schema/beans/spring-beans.xsd">
 	
 	<bean id="messageBean" class="com.spring.MessageBean" />
+	
 	<bean id="customMessageBean" class="com.spring.MessageBean">
+		<constructor-arg value="안녕하세요. Spring MessageBean 입니다."/>
 	</bean>
 	
 </beans>

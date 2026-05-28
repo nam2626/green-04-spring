@@ -16,6 +16,11 @@ public class MainApp {
 		MessageBean messageBean = context.getBean("messageBean", MessageBean.class);
 		messageBean.printMessage();
 		
+		// 3. customMessageBean 꺼내기
+		MessageBean customMessageBean = 
+				context.getBean("customMessageBean", MessageBean.class);
+		customMessageBean.printMessage();
+		
 	}
 
 }
