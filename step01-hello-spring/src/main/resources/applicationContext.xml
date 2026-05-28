@@ -4,11 +4,23 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		https://www.springframework.org/schema/beans/spring-beans.xsd">
 	
+	<!--
+		messageBean은 기본 생성자로 만들어지는 Bean입니다.
+		MessageBean() 생성자가 실행되어 "Hello Spring!" 기본 메시지가 들어갑니다.
+	-->
 	<bean id="messageBean" class="com.spring.MessageBean" />
 	
+	<!--
+		customMessageBean은 생성자 주입 예제입니다.
+		<constructor-arg> 값이 MessageBean(String message) 생성자 인자로 전달됩니다.
+	-->
 	<bean id="customMessageBean" class="com.spring.MessageBean">
 		<constructor-arg value="안녕하세요. Spring MessageBean 입니다."/>
 	</bean>
 	
+	<!--
+		calculator는 별도 값 주입 없이 객체만 Bean으로 등록하는 예제입니다.
+		MainApp에서 getBean("calculator", Calculator.class)로 꺼내 사용합니다.
+	-->
 	<bean id="calculator" class="com.spring.Calculator" />
 </beans>

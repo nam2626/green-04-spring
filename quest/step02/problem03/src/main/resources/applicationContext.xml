@@ -6,10 +6,16 @@
 
     <!-- 이 파일은 수정하지 않아도 됩니다. ProblemMain.java만 완성하세요. -->
 
-    <!-- singleton (기본값 — scope 생략 가능) -->
+    <!--
+        singleton은 Spring의 기본 스코프입니다.
+        컨테이너가 CounterBean 객체를 하나만 만들고 계속 재사용합니다.
+    -->
     <bean id="counterBean"   class="com.spring.problem03.CounterBean" scope="singleton"/>
 
-    <!-- prototype — getBean() 마다 새 인스턴스 생성 -->
+    <!--
+        prototype은 getBean()을 호출할 때마다 새 인스턴스를 생성합니다.
+        서로 독립된 상태가 필요한 객체를 설명할 때 자주 비교 예제로 사용합니다.
+    -->
     <bean id="temporaryBean" class="com.spring.problem03.TemporaryBean" scope="prototype"/>
 
 </beans>
