@@ -21,9 +21,25 @@ public class MainApp {
 				context.getBean("customMessageBean", MessageBean.class);
 		customMessageBean.printMessage();
 		
+		// 4. Calculator 꺼내기
+//		Calculator calculator = context.getBean(Calculator.class);
+		Calculator calculator = context.getBean("calculator",Calculator.class);
+		
+		System.out.println("[Calculator] : " + calculator.add(10, 5));
+		System.out.println("[Calculator] : " + calculator.sub(10, 5));
+		System.out.println("[Calculator] : " + calculator.mul(10, 5));
+		System.out.println("[Calculator] : " + calculator.div(10, 5));
+		
+		// 5. 컨테이너 종료 - Bean을 소멸하는 콜백 호출
+		((ClassPathXmlApplicationContext)context).close();
+		System.out.println("==== Spring 컨테이너 종료 ====");
+		
 	}
 
 }
+
+
+
 
 
 

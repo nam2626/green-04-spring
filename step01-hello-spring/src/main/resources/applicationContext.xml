@@ -10,4 +10,5 @@
 		<constructor-arg value="안녕하세요. Spring MessageBean 입니다."/>
 	</bean>
 	
+	<bean id="calculator" class="com.spring.Calculator" />
 </beans>
