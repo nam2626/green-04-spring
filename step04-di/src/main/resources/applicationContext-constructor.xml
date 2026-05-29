@@ -12,7 +12,7 @@
            <!-- FixeDiscountPolicy 등록
            			생성자 : 1000
             -->
-           <bean id="fixeDiscountPolicy" class="com.spring.constructor.FixeDiscountPolicy">
+           <bean id="fixeDiscountPolicy" class="com.spring.constructor.FixedDiscountPolicy">
            		<constructor-arg value="1000"/>
            </bean>
             
