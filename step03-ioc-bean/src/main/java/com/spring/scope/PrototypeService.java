@@ -17,10 +17,10 @@ public class PrototypeService {
 
 	@PreDestroy
 	public void onDestroy() {
-		System.out.println("PrototypeService onDestory()");
+		// prototype bean은 컨테이너가 생성 이후의 소멸 callback을 관리하지 않는다.
+		System.out.println("PrototypeService onDestroy()");
 	}
 }
-
 
 
 

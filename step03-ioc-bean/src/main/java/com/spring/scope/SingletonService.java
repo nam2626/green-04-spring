@@ -15,11 +15,10 @@ public class SingletonService {
 	}
 	
 	@PreDestroy
-	public void onDestory() {
+	public void onDestroy() {
 		System.out.println("SingletonService의 onDestroy 호출됨");
 	}
 }
-
 
 
 
