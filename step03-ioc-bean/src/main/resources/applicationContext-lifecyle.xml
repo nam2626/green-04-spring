@@ -12,4 +12,11 @@
        		<property name="host" value="localhost"></property>
        		<property name="port" value="3306"></property>
        </bean>
+       <bean id="networkService" class="com.spring.life_cycle.NetworkService" />
 </beans>
+
+
+
+
+
+

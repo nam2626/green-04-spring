@@ -15,6 +15,9 @@ public class LifecycleMainApp {
         connector1.query("select * from member");
         DatabaseConnector connector2 = context.getBean(DatabaseConnector.class);
 		
+        //NetworkService 생성
+        NetworkService networkService = context.getBean(NetworkService.class);
+                
         System.out.println("\n▶ 컨테이너 종료(close()) 시작\n");
         // 소멸할때 호출되는 메서드는 scope가 singleton 일때만 호출됨
         // prototype은 호출이 안됨 - IoC가 생성후에 관리를 안함
