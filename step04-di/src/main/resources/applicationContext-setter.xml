@@ -8,14 +8,20 @@
            http://www.springframework.org/schema/context
            http://www.springframework.org/schema/context/spring-context.xsd">
          
+       <!--
+           setter 주입 예제.
+           Spring은 MenuService를 먼저 생성한 뒤 setMenuRepository(), setStoreName()을 호출한다.
+       -->
        <bean id="menuService" class="com.spring.setter.MenuService">
+           <!-- ref는 다른 bean 객체를 주입할 때 사용한다. -->
            <property name="menuRepository" ref="menuRepository"/>
+           <!-- value는 문자열, 숫자 같은 단순 값을 주입할 때 사용한다. -->
            <property name="storeName" value="김밥천국"/>	
        </bean>
        
+       <!-- MenuService가 사용할 의존 객체. -->
        <bean id="menuRepository" class="com.spring.setter.MenuRepository"/>
 </beans>           
-
 
 
 

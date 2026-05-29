@@ -7,22 +7,28 @@
            http://www.springframework.org/schema/beans/spring-beans.xsd
            http://www.springframework.org/schema/context
            http://www.springframework.org/schema/context/spring-context.xsd">
-           <!-- OrderRepository 등록 -->
+           <!--
+               1. 주문 저장 담당 bean.
+               다른 bean에서 ref="orderRepository"로 참조할 수 있다.
+           -->
            <bean id="orderRepository" class="com.spring.constructor.OrderRepository"></bean>
-           <!-- FixeDiscountPolicy 등록
-           			생성자 : 1000
-            -->
+           <!--
+               2. 정액 할인 정책 bean.
+               constructor-arg value="1000"은 FixedDiscountPolicy(int discountAmount)에 전달된다.
+           -->
            <bean id="fixeDiscountPolicy" class="com.spring.constructor.FixedDiscountPolicy">
            		<constructor-arg value="1000"/>
            </bean>
             
-            <!-- KioskOrderService 등록, 위에 생성한 객체를 생성자에게 전달  -->
+            <!--
+                3. 생성자 주입 예제.
+                KioskOrderService(OrderRepository, DiscountPolicy) 생성자에 위 bean들을 전달한다.
+            -->
            <bean id="kioskOrderService" class="com.spring.constructor.KioskOrderService">
            		<constructor-arg ref="orderRepository"/>
            		<constructor-arg ref="fixeDiscountPolicy"/>
            </bean>
 </beans>           
-
 
 
 

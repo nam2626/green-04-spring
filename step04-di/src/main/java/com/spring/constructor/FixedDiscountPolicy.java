@@ -1,8 +1,10 @@
 package com.spring.constructor;
 
+// 정해진 금액만큼 할인하는 구현체.
 public class FixedDiscountPolicy implements DiscountPolicy{
 	private final int discountAmount;
 	
+	// XML의 <constructor-arg value="1000"/> 값이 이 생성자 인자로 들어온다.
 	public FixedDiscountPolicy(int discountAmount) {
 		this.discountAmount = discountAmount;
 	}
