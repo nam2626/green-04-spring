@@ -7,14 +7,18 @@
            http://www.springframework.org/schema/beans/spring-beans.xsd
            http://www.springframework.org/schema/context
            http://www.springframework.org/schema/context/spring-context.xsd">
+       <!-- XML 속성으로 init/destroy 메서드를 직접 지정하는 방식 -->
        <bean id="databaseConnector" class="com.spring.life_cycle.DatabaseConnector"
        		init-method="connect" destroy-method="disconnect" scope="prototype">
        		<property name="host" value="localhost"></property>
        		<property name="port" value="3306"></property>
        </bean>
+       <!-- InitializingBean / DisposableBean 구현체는 별도 속성 없이 callback이 실행된다. -->
        <bean id="networkService" class="com.spring.life_cycle.NetworkService" />
+       
+       <!-- @Component, @PostConstruct, @PreDestroy를 사용한 bean을 등록한다. -->
+       <context:component-scan base-package="com.spring.life_cycle"/>
 </beans>
-
 
 
 

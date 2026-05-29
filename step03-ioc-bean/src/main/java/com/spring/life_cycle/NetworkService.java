@@ -3,6 +3,7 @@ package com.spring.life_cycle;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 
+// Spring 전용 생명주기 인터페이스를 구현하는 방식의 예제
 public class NetworkService implements InitializingBean, DisposableBean{
 	
 	public NetworkService() {
@@ -21,5 +22,4 @@ public class NetworkService implements InitializingBean, DisposableBean{
 	}
 
 }
-
 
