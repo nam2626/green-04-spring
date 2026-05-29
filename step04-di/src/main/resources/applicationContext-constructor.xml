@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+           http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context.xsd">
+           <!-- OrderRepository 등록 -->
+           <bean id="orderRepository" class="com.spring.constructor.OrderRepository"></bean>
+           <!-- FixeDiscountPolicy 등록
+           			생성자 : 1000
+            -->
+           <bean id="fixeDiscountPolicy" class="com.spring.constructor.FixeDiscountPolicy">
+           		<constructor-arg value="1000"/>
+           </bean>
+            
+            <!-- KioskOrderService 등록, 위에 생성한 객체를 생성자에게 전달  -->
+           <bean id="kioskOrderService" class="com.spring.constructor.KioskOrderService">
+           		<constructor-arg ref="orderRepository"/>
+           		<constructor-arg ref="fixeDiscountPolicy"/>
+           </bean>
+</beans>           
+
+
+
+
+
+
+
+
+
