@@ -11,6 +11,6 @@
     <p>메뉴명: ${menuName}</p>
     <p>가격: ${price}원</p>
     <p>카테고리: ${category}</p>
-    <p><a href="order?item=${menuName}&qty=1">주문하기</a></p>
+    <p><a href="./menu/order?item=${menuName}&qty=1">주문하기</a></p>
 </body>
 </html>
