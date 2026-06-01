@@ -18,9 +18,15 @@ public class HelloController {
 	/*
 	  '/hello/greet'
 	*/
+//	@GetMapping("/greet")
+//	public String greet(@RequestParam(name = "name", defaultValue = "손님") String name,
+//			Model model) {
+//		model.addAttribute("name", name);
+//		model.addAttribute("message", name + "님, 반갑습니다.");
+//		return "greet";
+//	}
 	@GetMapping("/greet")
-	public String greet(@RequestParam(name = "name", defaultValue = "손님") String name,
-			Model model) {
+	public String greet(String name, Model model) {
 		model.addAttribute("name", name);
 		model.addAttribute("message", name + "님, 반갑습니다.");
 		return "greet";
