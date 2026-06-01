@@ -1,5 +1,8 @@
 package com.spring.problem03;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public class CartService {
 
     private final CartRepository cartRepository;
