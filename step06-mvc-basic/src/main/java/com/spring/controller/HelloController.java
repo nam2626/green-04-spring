@@ -4,6 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/hello")
@@ -13,4 +14,25 @@ public class HelloController {
 		model.addAttribute("greeting", "안녕하세요. hello 컨트롤러 입니다.");
 		return "hello";
 	}
+
+	/*
+	  '/hello/greet'
+	*/
+	@GetMapping("/greet")
+	public String greet(@RequestParam(name = "name", defaultValue = "손님") String name,
+			Model model) {
+		model.addAttribute("name", name);
+		model.addAttribute("message", name + "님, 반갑습니다.");
+		return "greet";
+	}
+	
+	
 }
+
+
+
+
+
+
+
+
