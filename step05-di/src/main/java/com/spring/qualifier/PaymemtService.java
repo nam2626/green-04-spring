@@ -1,6 +1,7 @@
 package com.spring.qualifier;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -8,7 +9,7 @@ public class PaymemtService {
 	private final PaymentGateway paymentGateway;
 
 	@Autowired
-	public PaymemtService(PaymentGateway paymentGateway) {
+	public PaymemtService(@Qualifier("kakaoPaymentGateway") PaymentGateway paymentGateway) {
 		this.paymentGateway = paymentGateway;
 	}
 	
