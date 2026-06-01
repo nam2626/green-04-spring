@@ -1,6 +1,9 @@
 package com.spring.problem04;
 
+import org.springframework.stereotype.Component;
+
 // TODO: @Component 어노테이션을 추가하라.
+@Component
 public class CardPayment implements PaymentProcessor {
 
     @Override
