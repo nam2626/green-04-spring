@@ -1,6 +1,8 @@
 package com.spring.problem04.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -71,7 +73,18 @@ public class KioskController {
     //   - model.addAttribute("totalPrice", unitPrice * qty)
     //   - return "kiosk/order"  → /WEB-INF/views/kiosk/order.jsp
 	@GetMapping("/order")
-	public ModelAndView order(ModelAndView view) {
+	public ModelAndView order(ModelAndView view, String menu, int qty) {
+		Map<String, Integer> prices = new HashMap<>();
+		prices.put("불고기버거", 8500);
+		prices.put("치킨버거", 9000);
+		prices.put("새우버거", 8000);
+		
+		view.addObject("orderMenu",menu);
+		view.addObject("orderQty", qty);
+		int unitPrice = prices.getOrDefault(menu, 0);
+		view.addObject("totalPrice", unitPrice  * qty);
+		
+		view.setViewName("kiosk/order");
 		return view;
 	}
 }
