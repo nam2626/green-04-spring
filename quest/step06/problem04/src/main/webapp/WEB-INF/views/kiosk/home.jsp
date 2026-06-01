@@ -9,8 +9,8 @@
 <body>
     <h1>그린 키오스크</h1>
     <ul>
-        <li><a href="menu">메뉴 보기</a></li>
-        <li><a href="order?menu=불고기버거&qty=1">주문하기</a></li>
+        <li><a href="${pageContext.request.contextPath }/kiosk/menu">메뉴 보기</a></li>
+        <li><a href="${pageContext.request.contextPath }/kiosk/order?menu=불고기버거&qty=1">주문하기</a></li>
     </ul>
 </body>
 </html>

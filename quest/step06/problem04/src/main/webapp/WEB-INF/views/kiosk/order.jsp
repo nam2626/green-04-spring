@@ -11,6 +11,6 @@
     <p>메뉴: ${orderMenu}</p>
     <p>수량: ${orderQty}개</p>
     <p>합계: ${totalPrice}원</p>
-    <p><a href="home">홈으로</a></p>
+    <p><a href="${pageContext.request.contextPath }/kiosk/home">홈으로</a></p>
 </body>
 </html>

@@ -18,6 +18,6 @@
             </tr>
         </c:forEach>
     </table>
-    <p><a href="home">홈으로</a></p>
+    <p><a href="${pageContext.request.contextPath }/kiosk/home">홈으로</a></p>
 </body>
 </html>
