@@ -11,6 +11,7 @@
     <ul>
         <li><a href="${pageContext.request.contextPath }/kiosk/menu">메뉴 보기</a></li>
         <li><a href="${pageContext.request.contextPath }/kiosk/order?menu=불고기버거&qty=1">주문하기</a></li>
+        <li><a href="${pageContext.request.contextPath }/kiosk/register/view">주문하기</a></li>
     </ul>
 </body>
 </html>

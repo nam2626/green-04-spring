@@ -1,24 +1,40 @@
 package com.spring.problem04.dto;
 
 /**
- * [완성된 파일 — 수정 불필요]
- * 메뉴 항목 DTO (Data Transfer Object)
+ * [완성된 파일 — 수정 불필요] 메뉴 항목 DTO (Data Transfer Object)
  */
 public class MenuItem {
 
-    private String name;
-    private int price;
+	private String name;
+	private int price;
 
-    public MenuItem(String name, int price) {
-        this.name = name;
-        this.price = price;
-    }
+	public MenuItem(String name, int price) {
+		this.name = name;
+		this.price = price;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public MenuItem() {
+	}
 
-    public int getPrice() {
-        return price;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setPrice(int price) {
+		this.price = price;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public int getPrice() {
+		return price;
+	}
+
+	@Override
+	public String toString() {
+		return "MenuItem [name=" + name + ", price=" + price + "]";
+	}
+
 }

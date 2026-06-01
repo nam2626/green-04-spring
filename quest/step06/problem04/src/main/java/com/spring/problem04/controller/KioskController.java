@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -86,6 +87,16 @@ public class KioskController {
 		
 		view.setViewName("kiosk/order");
 		return view;
+	}
+	
+	@GetMapping("/register/view")
+	public String regView() {
+		return "kiosk/form";
+	}
+	
+	@PostMapping("/register")
+	public void register(MenuItem item) {
+		System.out.println(item);
 	}
 }
 
