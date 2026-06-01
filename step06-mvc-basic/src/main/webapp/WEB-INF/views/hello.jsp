@@ -7,10 +7,8 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h1>${message }</h1>
-	<p>서버시간 : ${serverTime }</p>
-	<ul>
-		<li><a href="${pageContext.request.contextPath }/hello">인사페이지</a></li>
-	</ul>
+	<h1>${greeting }</h1>
+	<!-- <a href="/step06-mvc-basic/">홈으로 돌아가기</a> -->
+	<a href="${pageContext.request.contextPath }/">홈으로 돌아가기</a>
 </body>
 </html>
