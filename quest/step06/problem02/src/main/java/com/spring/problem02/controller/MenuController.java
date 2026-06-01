@@ -7,47 +7,54 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-// TODO 1: @Controller 어노테이션을 추가하라.
-//         → Spring MVC가 이 클래스를 요청 처리 Handler로 인식한다.
-
-// TODO 2: @RequestMapping("/menu") 를 클래스 레벨에 추가하라.
-//         → 이 클래스의 모든 메서드는 /menu 로 시작하는 URL을 처리한다.
+/**
+ * [실습] 메뉴 및 주문 처리를 담당하는 컨트롤러
+ * 
+ * @RequestMapping("/menu"): 이 클래스의 모든 매핑 URL 앞에 "/menu"가 자동으로 붙습니다.
+ */
 @Controller
 @RequestMapping("/menu")
 public class MenuController {
 
-    // TODO 3: GET /menu 요청을 처리하는 메서드를 작성하라.
-    //   - @GetMapping 추가 (메서드 레벨 URL 없음 → 클래스 레벨 /menu 만 사용)
-    //   - Model 파라미터 추가
-    //   - model.addAttribute("menuName", "불고기버거")
-    //   - model.addAttribute("price", 8500)
-    //   - model.addAttribute("category", "버거")
-    //   - return "menu"  ← ViewResolver가 /WEB-INF/views/menu.jsp 로 변환
+    /**
+     * 메뉴 정보 조회 (GET /menu)
+     * 
+     * ModelAndView: Model(데이터)과 View(이동할 페이지)를 한 번에 다룰 수 있는 객체입니다.
+     */
 	@GetMapping
 	public ModelAndView menu(ModelAndView view) {
+		// 데이터를 "key-value" 쌍으로 담습니다.
 		view.addObject("menuName", "불고기버거");
 		view.addObject("price", 8500);
 		view.addObject("category", "버거");
+		
+		// 이동할 JSP 파일의 이름을 지정합니다 (/WEB-INF/views/menu.jsp)
 		view.setViewName("menu");
+		
 		return view;
 	}
 
-    // TODO 4: GET /menu/order?item=불고기버거&qty=2 요청을 처리하는 메서드를 작성하라.
-    //   - @GetMapping("/order") 추가
-    //   - @RequestParam String item 파라미터 추가
-    //   - @RequestParam(defaultValue = "1") int qty 파라미터 추가
-    //   - Model 파라미터 추가
-    //   - model.addAttribute("itemName", item)
-    //   - model.addAttribute("quantity", qty)
-    //   - model.addAttribute("totalPrice", qty * 8500)
-    //   - return "order"
+    /**
+     * 주문 처리 (GET /menu/order)
+     * 
+     * @param item: URL 쿼리 스트링의 'item' 파라미터 값을 받아옵니다.
+     * @param qty: URL 쿼리 스트링의 'qty' 파라미터 값을 int로 자동 변환하여 받아옵니다.
+     */
 	@GetMapping("/order")
-	public ModelAndView order(String item, int qty,ModelAndView view) {
+	public ModelAndView order(String item, int qty, ModelAndView view) {
+		// 전달받은 데이터를 다시 JSP로 전달하기 위해 저장합니다.
 		view.addObject("itemName", item);
 		view.addObject("quantity", qty);
+		
+		// 계산된 총액 데이터 추가
 		view.addObject("totalPrice", qty * 8500);
+		
+		// 이동할 JSP 이름 지정 (/WEB-INF/views/order.jsp)
 		view.setViewName("order");
-		System.out.println("order : " + qty);
+		
+		// 콘솔 출력 (서버 확인용)
+		System.out.println("주문 수량: " + qty);
+		
 		return view;
 	}
 
