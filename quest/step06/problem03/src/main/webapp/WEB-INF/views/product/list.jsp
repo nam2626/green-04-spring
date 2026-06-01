@@ -13,7 +13,7 @@
         <c:forEach var="product" items="${products}">
             <li>
                 ${product}
-                (<a href="/problem03/product/detail?name=${product}">상세보기</a>)
+                (<a href="${pageContext.request.contextPath }/product/detail?name=${product}">상세보기</a>)
             </li>
         </c:forEach>
     </ul>

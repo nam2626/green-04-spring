@@ -10,6 +10,6 @@
     <h1>상품 상세</h1>
     <p>상품명: ${productName}</p>
     <p>가격: ${price}원</p>
-    <p><a href="/problem03/product/list">목록으로 돌아가기</a></p>
+    <p><a href="${pageContext.request.contextPath }/product/list">목록으로 돌아가기</a></p>
 </body>
 </html>

@@ -17,7 +17,7 @@
       힌트: <mvc:annotation-driven/>
     ===================================================
     -->
-
+	<mvc:annotation-driven/>
 
     <!--
     ===================================================
@@ -25,7 +25,7 @@
       힌트: <context:component-scan base-package="..."/>
     ===================================================
     -->
-
+	<context:component-scan base-package="com.spring.problem03.controller"/>
 
     <!--
     ===================================================
@@ -38,6 +38,15 @@
             </bean>
     ===================================================
     -->
-
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/views/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
 
 </beans>
+
+
+
+
+
+
