@@ -1,5 +1,14 @@
 package com.spring.problem04.controller;
 
+import java.util.List;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.spring.problem04.dto.MenuItem;
+
 // TODO 1: 필요한 import를 추가하라.
 //   import org.springframework.stereotype.Controller;
 //   import org.springframework.ui.Model;
@@ -14,13 +23,18 @@ package com.spring.problem04.controller;
 
 // TODO 3: @RequestMapping("/kiosk")를 클래스 레벨에 추가하라.
 //         → 이 클래스의 모든 메서드는 /kiosk 로 시작하는 URL을 처리한다.
+@RequestMapping("/kiosk")
+@Controller
 public class KioskController {
 
     // TODO 4: GET /kiosk/home 요청을 처리하는 메서드를 작성하라.
     //   - @GetMapping("/home") 추가
     //   - Model 데이터 추가 없음
     //   - return "kiosk/home"  → /WEB-INF/views/kiosk/home.jsp
-
+	@GetMapping("/home")
+	public String home() {
+		return "kiosk/home";
+	}
 
     // TODO 5: GET /kiosk/menu 요청을 처리하는 메서드를 작성하라.
     //   - @GetMapping("/menu") 추가
@@ -31,7 +45,15 @@ public class KioskController {
     //       new MenuItem("새우버거", 8000)
     //   - model.addAttribute("menuList", menuList)
     //   - return "kiosk/menu"  → /WEB-INF/views/kiosk/menu.jsp
-
+	@GetMapping("/menu")
+	public ModelAndView menu(ModelAndView view) {
+		List<MenuItem> list = List.of(new MenuItem("불고기버거", 8500),
+				new MenuItem("치킨버거", 9000),
+				new MenuItem("새우버거", 8000));
+		view.addObject("menuList", list);
+		view.setViewName("kiosk/menu");
+		return view;
+	}
 
     // TODO 6: GET /kiosk/order?menu=...&qty=... 요청을 처리하는 메서드를 작성하라.
     //   - @GetMapping("/order") 추가
@@ -48,5 +70,14 @@ public class KioskController {
     //   - model.addAttribute("orderQty", qty)
     //   - model.addAttribute("totalPrice", unitPrice * qty)
     //   - return "kiosk/order"  → /WEB-INF/views/kiosk/order.jsp
-
+	@GetMapping("/order")
+	public ModelAndView order(ModelAndView view) {
+		return view;
+	}
 }
+
+
+
+
+
+
