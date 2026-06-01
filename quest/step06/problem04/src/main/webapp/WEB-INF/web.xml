@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="https://jakarta.ee/xml/ns/jakartaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee
+             https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
+         version="6.0">
+
+    <!--
+    ===================================================
+    TODO 1: DispatcherServlet을 등록하라.
+      - servlet-name: dispatcher
+      - servlet-class: org.springframework.web.servlet.DispatcherServlet
+      - init-param: contextConfigLocation = /WEB-INF/spring/dispatcher-context.xml
+      - load-on-startup: 1
+    ===================================================
+    -->
+
+
+    <!--
+    ===================================================
+    TODO 2: dispatcher 서블릿이 모든 요청(/)을 처리하도록 매핑하라.
+    ===================================================
+    -->
+
+
+    <!--
+    ===================================================
+    TODO 3: CharacterEncodingFilter를 등록하여 UTF-8 인코딩을 적용하라.
+      - filter-name: encodingFilter
+      - filter-class: org.springframework.web.filter.CharacterEncodingFilter
+      - encoding=UTF-8, forceEncoding=true
+      - url-pattern: /*
+    ===================================================
+    -->
+
+
+</web-app>
