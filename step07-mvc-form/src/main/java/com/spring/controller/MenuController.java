@@ -1,6 +1,7 @@
 package com.spring.controller;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -30,9 +31,11 @@ public class MenuController {
 	
 	@GetMapping("/search")
 	public ModelAndView search(ModelAndView view, String keyword) {
-		List<MenuDTO> list = null;
 		//list에 검색 결과 저장
-		
+		// 검색어가 메뉴명에 포함되어있거나?, 검색어가 카테고리에 포함되어 있거나?
+		List<MenuDTO> list = menuList.stream()
+				.filter(dto -> dto.getName().contains(keyword) || 
+						dto.getCategory().contains(keyword)).toList();
 		// 데이터 셋팅
 		view.addObject("menus", list);
 		// 뷰 경로
