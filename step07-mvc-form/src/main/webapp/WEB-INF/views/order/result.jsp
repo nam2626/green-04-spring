@@ -7,12 +7,17 @@
 </head>
 <body>
     <h1>주문 결과</h1>
+    <%-- 
+    	orderForm: OrderController에서 전달한 OrderDTO 객체
+    	menu: OrderController에서 전달한 MenuDTO 객체
+    --%>
     <p>고객명: ${orderForm.customerName}</p>
     <p>메뉴명: ${menu.name}</p>
     <p>카테고리: ${menu.category}</p>
     <p>수량: ${orderForm.quantity}</p>
     <p>요청사항: ${orderForm.requestMessage}</p>
     <p>합계: ${totalPrice}원</p>
+    
     <p><a href="${pageContext.request.contextPath}/menus">메뉴 목록으로</a></p>
 </body>
 </html>
