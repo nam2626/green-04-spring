@@ -41,7 +41,7 @@
 							<td>${menu.name }</td>
 							<td>${menu.category }</td>
 							<td>${menu.price }</td>
-							<td><a href="">주문</a>
+							<td><a href="">주문</a></td>
 						</tr>					
 					</c:forEach>
 				</tbody>
