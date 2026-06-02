@@ -4,10 +4,12 @@ import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.spring.dto.MenuDTO;
+import com.spring.dto.OrderDTO;
 
 @Controller
 @RequestMapping("/orders")
@@ -27,6 +29,23 @@ public class OrderController {
 		return view;
 	}
 	
+	@PostMapping
+	public ModelAndView order(ModelAndView view, OrderDTO order) {
+		// OrderDTO : 고객명, 메뉴번호, 주문개수, 요청사항
+		// 선택된 메뉴를 저장
+		MenuDTO menu = menuList.stream().filter(item -> 
+			item.getId() == order.getMenuId()).
+					findFirst().orElse(new MenuDTO(0, "알수 없는 메뉴", "기타", 0));
+		view.addObject("menu", menu);
+		// 주문내용 저장
+		view.addObject("orderForm", order);
+		// 주문 총액
+		view.addObject("totalPrice", menu.getPrice() * order.getQuantity());
+		//이동 경로 order/result
+		view.setViewName("order/result");
+		
+		return view;
+	}
 	
 	
 	

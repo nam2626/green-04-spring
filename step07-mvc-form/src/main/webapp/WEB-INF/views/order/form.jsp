@@ -35,7 +35,7 @@
 		<p>
 			<label>요청사항</label> <input type="text" name="requestMessage" placeholder="예: 양파 빼주세요">
 		</p>
-		<button type="submit">주문하기</button>
+		<button>주문하기</button>
 	</form>
 	
 </body>
