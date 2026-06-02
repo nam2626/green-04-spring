@@ -10,10 +10,10 @@
 <body>
 	<h1>메뉴 목록</h1>
 	<!-- 메뉴명 검색하는 폼 -->
-	<form action="" method="get">
+	<form action="${pageContext.request.contextPath }/menus/search" method="get">
 		<input type="text" name="keyword" value="${keyword }" placeholder="메뉴명 또는 카테고리를 입력하세요">
 		<button>검색</button>
-		<a href="">전체보기</a>
+		<a href="${pageContext.request.contextPath }/menus">전체보기</a>
 	</form>
 	<!-- 메뉴 출력하는 표 
 		번호, 메뉴명, 카테고리, 가격, 주문

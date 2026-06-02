@@ -28,6 +28,19 @@ public class MenuController {
 		return view;
 	}
 	
+	@GetMapping("/search")
+	public ModelAndView search(ModelAndView view, String keyword) {
+		List<MenuDTO> list = null;
+		//list에 검색 결과 저장
+		
+		// 데이터 셋팅
+		view.addObject("menus", list);
+		// 뷰 경로
+		view.setViewName("menus/list");
+		return view;
+	}
+	
+	
 }
 
 
