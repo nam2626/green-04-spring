@@ -1,12 +1,18 @@
 package com.spring.problem01.controller;
 
 import java.util.List;
+
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 // TODO 1: @Controller 추가
 // TODO 2: @RequestMapping("/menus") 추가
+@Controller
+@RequestMapping("/menus")
 public class MenuController {
 
     private final List<MenuItem> menuList = List.of(
@@ -16,24 +22,31 @@ public class MenuController {
     );
 
     // TODO 3: GET /menus 요청을 처리하는 @GetMapping 추가
+    @GetMapping
     public String list(Model model) {
         // TODO 4: model에 "menus" 이름으로 menuList 추가
+    	model.addAttribute("menus", menuList);
         return "menu/list";
     }
 
     // TODO 5: GET /menus/{menuId} 요청을 처리하는 @GetMapping 추가
+    @GetMapping("/{menuId}")
     public String detail(@PathVariable Long menuId, Model model) {
         // TODO 6: model에 "menu" 이름으로 findMenu(menuId) 결과 추가
+    	model.addAttribute("menu", findMenu(menuId));
         return "menu/detail";
     }
 
     // TODO 7: GET /menus/search 요청을 처리하는 @GetMapping 추가
+    @GetMapping("/search")
     public String search(@RequestParam(defaultValue = "") String keyword, Model model) {
         List<MenuItem> result = menuList.stream()
                 .filter(menu -> menu.getName().contains(keyword) || menu.getCategory().contains(keyword))
                 .toList();
 
         // TODO 8: model에 "keyword"와 "menus" 추가
+        model.addAttribute("keyword", keyword);
+        model.addAttribute("menus", result);
         return "menu/list";
     }
 
