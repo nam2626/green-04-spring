@@ -20,7 +20,7 @@
 		단 menus에 값이 하나도 없으면, 검색 결과가 없습니다.
 	-->
 	<c:choose>
-		<c:when test="${menus.empty }">
+		<c:when test="${empty menus }">
 			<p>검색 결과가 없습니다.</p>
 		</c:when>
 		<c:otherwise>
