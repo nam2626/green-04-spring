@@ -27,13 +27,18 @@ public class OrderController {
 
     @PostMapping
     public String order(@ModelAttribute OrderForm form, Model model) {
+    	
         // TODO 4: form.getMenuName()으로 단가를 조회하라.
-        int unitPrice = 0;
+        int unitPrice = priceMap.get(form.getMenuName());
 
         // TODO 5: unitPrice * form.getQuantity()로 총 금액을 계산하라.
-        int totalPrice = 0;
+        int totalPrice = unitPrice * form.getQuantity();
 
         // TODO 6: model에 "orderForm", "unitPrice", "totalPrice" 추가
+        model.addAttribute("orderForm", form);
+        model.addAttribute("unitPrice", unitPrice);
+        model.addAttribute("totalPrice", totalPrice);
+        
         return "order/result";
     }
 }
