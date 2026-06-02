@@ -8,6 +8,7 @@
 </head>
 <body>
     <h1>주문 입력</h1>
+    <p>${sessionScope.msg }</p>
     <form action="${pageContext.request.contextPath}/orders" method="post">
         <p>
             <label>고객명</label>
