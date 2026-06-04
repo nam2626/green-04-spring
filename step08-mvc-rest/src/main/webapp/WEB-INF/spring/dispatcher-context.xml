@@ -37,6 +37,14 @@
         <property name="prefix" value="/WEB-INF/views/"/>
         <property name="suffix" value=".jsp"/>
     </bean>
+    
+    <!-- 인터셉터 등록 : /board/** 경로에만 LoginCheckIntercepter 적용 -->
+    <mvc:interceptors>
+    	<mvc:interceptor>
+    		<mvc:mapping path="/board/**"/>
+    		<bean class="com.spring.interceptor.LoginCheckInterceptor"/>
+    	</mvc:interceptor>
+    </mvc:interceptors>
 </beans>
 
 

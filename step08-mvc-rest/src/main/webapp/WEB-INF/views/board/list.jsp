@@ -5,7 +5,7 @@
 <head><meta charset="UTF-8"><title>게시판</title></head>
 <body>
   <h2>게시판 목록</h2>
-  <a href="write">글쓰기</a> | <a href="/logout">로그아웃</a>
+  <a href="write">글쓰기</a> | <a href="${pageContext.request.contextPath }/logout">로그아웃</a>
   <table border="1">
     <tr><th>번호</th><th>제목</th><th>작성자</th><th>날짜</th></tr>
     <c:forEach var="b" items="${boards}">
