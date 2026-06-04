@@ -21,20 +21,27 @@ public class UploadController {
 	}
 	
 	@PostMapping("/process")
-	public ModelAndView process(@RequestParam("file") MultipartFile file,ModelAndView view) throws IllegalStateException, IOException {
-		if(file.isEmpty()) {
-			view.addObject("message","파일을 선택하세요");
-		}else {
-			// 업로드한 파일명
-			view.addObject("fileName",file.getOriginalFilename());
-			view.addObject("fileSize",file.getSize());
-			view.addObject("contentType",file.getContentType());
-			view.addObject("message","파일 업로드 성공");
-			//실제 파일 저장하는 부분
-			File root = new File("c:\\fileupload");
-			File fpath = new File(root.getAbsoluteFile() + "\\" + file.getOriginalFilename());
-			file.transferTo(fpath);
+	public ModelAndView process(@RequestParam("file") MultipartFile[] arrFile,ModelAndView view) throws IllegalStateException, IOException {
+		String fileName = "";
+		String message = "";
+		for(MultipartFile file : arrFile) {
+			if(file.isEmpty()) {
+				continue;
+			}else {
+				// 업로드한 파일명
+//				view.addObject("fileName",file.getOriginalFilename());
+//				view.addObject("fileSize",file.getSize());
+//				view.addObject("contentType",file.getContentType());
+//				view.addObject("message","파일 업로드 성공");
+				fileName += file.getOriginalFilename() + "<br>";
+				//실제 파일 저장하는 부분
+				File root = new File("c:\\fileupload");
+				File fpath = new File(root.getAbsoluteFile() + "\\" + file.getOriginalFilename());
+				file.transferTo(fpath);
+			}
 		}
+		view.addObject("fileName", fileName);
+		view.addObject("message", fileName.isEmpty() ? "업로드된 파일이 없습니다." : "파일 업로드 성공");
 		view.setViewName("upload/result");
 		
 		return view;
