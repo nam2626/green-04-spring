@@ -11,8 +11,12 @@
 	<ul>
 		<li><a href="${pageContext.request.contextPath }/api/products">상품API</a></li>
 		<li><a href="${pageContext.request.contextPath }/api/products/1">1번 상품 호출 API</a></li>
-		<li><a href="">파일 업로드</a></li>
-		<li><a href="">게시판</a></li>
+		<li><a href="${pageContext.request.contextPath }/upload">파일 업로드</a></li>
+		<li><a href="${pageContext.request.contextPath }/board/list">게시판</a></li>
 	</ul>
 </body>
 </html>
+
+
+
+
