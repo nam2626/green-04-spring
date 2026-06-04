@@ -25,6 +25,9 @@
 			allowed-headers="*"
 			max-age="3600"/>
 	</mvc:cors>
+	<!-- 파일 업로드 Resolver: StandardServletMultipartResolver는 web.xml의 multipart-config를 사용 -->
+    <bean id="multipartResolver"
+          class="org.springframework.web.multipart.support.StandardServletMultipartResolver"/>
 	
 	<!-- 정적 자원(CSS, JS 등) 처리 -->
 	<mvc:resources location="/resources" mapping="/resources/**"/>

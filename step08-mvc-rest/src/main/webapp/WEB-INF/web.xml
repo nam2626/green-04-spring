@@ -17,6 +17,14 @@
             <param-value>/WEB-INF/spring/dispatcher-context.xml</param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
+        <multipart-config>
+        	<!-- 최대 파일 크기 : 5MB-->
+        	<max-file-size>5242880</max-file-size>
+        	<!-- 최대 요청 크기 : 50MB-->
+        	<max-request-size>52428800</max-request-size>
+        	<!-- 파일 크기 임계값 : 0(항상 임시 파일 사용) -->
+        	<file-size-threshold>0</file-size-threshold>
+        </multipart-config>
     </servlet>
     
     <servlet-mapping>
