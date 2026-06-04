@@ -16,6 +16,15 @@
 	
 	<!-- MVC 어노테이션(@RequestMapping 등) 활성화 -->
 	<mvc:annotation-driven/>
+
+	<!-- CORS 전역 설정 -->
+	<mvc:cors>
+		<mvc:mapping path="/**"
+			allowed-origins="*"
+			allowed-methods="GET,POST,PUT,DELETE,OPTIONS"
+			allowed-headers="*"
+			max-age="3600"/>
+	</mvc:cors>
 	
 	<!-- 정적 자원(CSS, JS 등) 처리 -->
 	<mvc:resources location="/resources" mapping="/resources/**"/>
