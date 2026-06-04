@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -37,6 +39,17 @@ public class ProductRestController {
 	public ProductDTO detail(@PathVariable long id) {
 		return products.stream().filter(item -> item.getId() == id)
 				.findFirst().orElse(new ProductDTO(-1, "상품정보없음", 0, null));
+	}
+	
+	/**
+	 * POST /api/products -> 상품 등록 후 JSON으로 반환
+	 * @RequestBody : 요청 본문의 JSON을 ProductDTO로 역직렬화
+	 */
+	@PostMapping
+	public ProductDTO create(@RequestBody ProductDTO dto) {
+		dto.setId(products.size()+1);
+		products.add(dto);
+		return dto;		
 	}
 }
 
