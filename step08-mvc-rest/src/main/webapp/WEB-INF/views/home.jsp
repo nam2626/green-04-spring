@@ -9,7 +9,7 @@
 <body>
 	<h1>Spring MVC</h1>
 	<ul>
-		<li><a href="">상품API</a></li>
+		<li><a href="${pageContext.request.contextPath }/api/products">상품API</a></li>
 		<li><a href="">파일 업로드</a></li>
 		<li><a href="">게시판</a></li>
 	</ul>
