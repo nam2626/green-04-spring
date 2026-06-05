@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -28,6 +29,24 @@ public class OrderController {
 		view.addObject("orderForm", order);
 		view.addObject("menus", menuList);
 		view.setViewName("order/form");
+		return view;
+	}
+
+	@PostMapping
+	public ModelAndView orderSubmit(OrderDTO order, ModelAndView view) {
+		// 주문 처리 로직
+		MenuDTO menu = menuList.stream()
+				.filter(m -> m.getId() == order.getMenuId())
+				.findFirst()
+				.orElse(new MenuDTO(0L, "Unknown", "Unknown", 0));
+
+		int totalPrice = menu.getPrice() * order.getQuantity();
+
+		view.addObject("orderForm", order);
+		view.addObject("totalPrice", totalPrice);
+		view.addObject("menu", menu);
+		
+		view.setViewName("/order/result");
 		return view;
 	}
 }
