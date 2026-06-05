@@ -1,0 +1,19 @@
+package com.spring.controller;
+
+import java.util.List;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.spring.dto.MenuDTO;
+
+@Controller
+@RequestMapping("/menus")
+public class MenuController {
+
+	private final List<MenuDTO> menuList = List.of(
+			new MenuDTO(1L, "불고기버거", "버거", 8500),
+			new MenuDTO(2L, "치킨버거", "버거", 9000), 
+			new MenuDTO(3L, "새우버거", "버거", 8000),
+			new MenuDTO(4L, "아이스아메리카노", "음료", 3500));
+}
