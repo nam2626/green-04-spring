@@ -32,20 +32,20 @@
         </thead>
         <tbody>
             <!-- TODO 4: th:each 속성을 이 <tr> 태그에 추가하여 menus를 반복하세요 -->
-            <tr>
+            <tr th:each="menu : ${menus}">
                 <!-- TODO 4: th:text로 menu.id 출력 -->
-                <td>ID</td>
+                <td th:text="${menu.id}">ID</td>
                 <!-- TODO 5: <a> 태그에 th:href와 th:text를 추가하세요 -->
-                <td><a href="#">메뉴명</a></td>
+                <td><a th:text="${menu.name}" th:href="@{/menu/{id}(id=${menu.id})}"></a></td>
                 <!-- TODO 4: th:text로 menu.category 출력 -->
-                <td>카테고리</td>
+                <td th:text="${menu.category}">카테고리</td>
                 <!-- TODO 4: th:text로 menu.price + '원' 출력 -->
-                <td>가격</td>
+                <td th:text="${menu.price + '원'}">가격</td>
             </tr>
         </tbody>
     </table>
 
     <br>
-    <a th:href="@{/}">홈으로</a>
+    <a th:href="@{/menu}">홈으로</a>
 </body>
 </html>

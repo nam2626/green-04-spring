@@ -26,22 +26,25 @@
         <tr>
             <th>메뉴명</th>
             <!-- TODO 6: th:text로 menu.name 출력 -->
-            <td>메뉴명</td>
+            <td th:text="${menu.name}">메뉴명</td>
         </tr>
         <tr>
             <th>카테고리</th>
             <!-- TODO 6: th:text로 menu.category 출력 -->
-            <td>카테고리</td>
+            <td th:text="${menu.category}">카테고리</td>
         </tr>
         <tr>
             <th>가격</th>
             <!-- TODO 6: th:text로 menu.price + '원' 출력 -->
-            <td>가격</td>
+            <td th:text="${menu.price + '원'}">가격</td>
         </tr>
     </table>
 
     <br>
     <!-- TODO 7: th:href="@{/menu}" 속성을 추가하세요 -->
-    <a href="#">목록으로 돌아가기</a>
+    <a th:href="@{/menu}">목록으로 돌아가기</a>
 </body>
 </html>
+
+
+

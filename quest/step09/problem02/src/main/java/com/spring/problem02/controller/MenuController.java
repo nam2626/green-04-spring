@@ -19,7 +19,12 @@ public class MenuController {
     //   - new MenuItem(2L, "치킨버거",  "버거", 9000)
     //   - new MenuItem(3L, "새우버거",  "버거", 8000)
     //   - new MenuItem(4L, "아이스아메리카노", "음료", 3500)
-    private final List<MenuItem> menuList = null; // TODO 1: null을 List.of(...)로 변경
+    private final List<MenuItem> menuList = List.of(
+    		new MenuItem(1L, "불고기버거", "버거", 8500),
+    		new MenuItem(2L, "치킨버거",  "버거", 9000),
+    		new MenuItem(3L, "새우버거",  "버거", 8000),
+    		new MenuItem(4L, "아이스아메리카노", "음료", 3500)
+    		); // TODO 1: null을 List.of(...)로 변경
 
     // TODO 2: GET /menu 요청을 처리하는 메서드를 완성하세요.
     //   - model에 "menus" 키로 menuList를 추가합니다.
@@ -27,6 +32,7 @@ public class MenuController {
     @GetMapping
     public String list(Model model) {
         // TODO 2
+    	model.addAttribute("menus", menuList);
         return "menu/list";
     }
 
@@ -38,6 +44,17 @@ public class MenuController {
     @GetMapping("/{id}")
     public String detail(@PathVariable Long id, Model model) {
         // TODO 3
+    	model.addAttribute("menu", menuList.stream().filter(item-> 
+    		item.getId() == id).findFirst().orElse(
+    				new MenuItem(0L, "잘못된 메뉴", null, 0)));
         return "menu/detail";
     }
 }
+
+
+
+
+
+
+
+
