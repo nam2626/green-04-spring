@@ -26,10 +26,10 @@ public class OrderController {
     public String orderForm(Model model) {
         // TODO 4: model에 "menus" 키로 priceMap.keySet()을 추가하세요.
         //         (템플릿의 <select> 태그에서 th:each로 사용됩니다)
-
+    	model.addAttribute("menus", priceMap.keySet());
         // TODO 5: model에 "orderForm" 키로 new OrderForm()을 추가하세요.
         //         (템플릿의 th:object="${orderForm}"과 연결됩니다)
-
+    	model.addAttribute("orderForm", new OrderForm());
         return "order/form";
     }
 
@@ -38,14 +38,19 @@ public class OrderController {
     public String order(@ModelAttribute OrderForm form, Model model) {
         // TODO 6: priceMap에서 form.getMenuName()에 해당하는 단가(unitPrice)를 조회하세요.
         //         메뉴가 없을 경우 기본값 0을 사용해도 됩니다.
-
+    	int unitPrice = 
+    			priceMap.get(form.getMenuName()) == null ? 
+    					0 : priceMap.get(form.getMenuName());
+    	
         // TODO 7: totalPrice = unitPrice * form.getQuantity() 로 계산하세요.
-
+    	int totalPrice = unitPrice * form.getQuantity();
         // TODO 8: model에 다음을 추가하세요.
         //   - "orderForm"  → form (입력된 주문 정보)
         //   - "unitPrice"  → 단가
         //   - "totalPrice" → 총 금액
-
+    	model.addAttribute("orderForm", form);
+    	model.addAttribute("unitPrice", unitPrice);
+    	model.addAttribute("totalPrice", totalPrice);
         return "order/result";
     }
 }

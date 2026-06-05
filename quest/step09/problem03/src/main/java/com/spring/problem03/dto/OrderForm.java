@@ -1,5 +1,8 @@
 package com.spring.problem03.dto;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 /*
  * [문제 3] OrderForm.java
  * =====================================================================
@@ -16,10 +19,15 @@ package com.spring.problem03.dto;
  *         Thymeleaf의 th:field는 getter/setter를 통해 값을 바인딩합니다.
  * =====================================================================
  */
+@Data
+@NoArgsConstructor
 public class OrderForm {
 
     // TODO 1: 필드 선언
-
+	private String customerName;
+	private String menuName;
+	private int quantity ;
+	private String requestMessage;
     // TODO 2: 기본 생성자 선언
 
     // TODO 3: getter/setter 구현
