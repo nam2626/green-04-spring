@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -23,6 +24,18 @@ public class MenuController {
 	public ModelAndView list(ModelAndView view) {
 		view.addObject("menus", menuList);
 		view.setViewName("menu/list");
+		return view;
+	}
+	
+	@GetMapping("/{menuId}")
+	public ModelAndView detail(@PathVariable("menuId") long menuId, ModelAndView view) {
+		for(MenuDTO dto : menuList) {
+			if(dto.getId() == menuId) {
+				view.addObject("menu", dto);
+				break;
+			}
+		}
+		view.setViewName("menu/detail");
 		return view;
 	}
 	
