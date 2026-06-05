@@ -10,7 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.spring.dto.MenuDTO;
 
 @Controller
-@RequestMapping("/menus")
+@RequestMapping("/menu")
 public class MenuController {
 
 	private final List<MenuDTO> menuList = List.of(
@@ -19,7 +19,7 @@ public class MenuController {
 			new MenuDTO(3L, "새우버거", "버거", 8000),
 			new MenuDTO(4L, "아이스아메리카노", "음료", 3500));
 	
-	@GetMapping
+	@GetMapping("/list")
 	public ModelAndView list(ModelAndView view) {
 		view.addObject("menus", menuList);
 		view.setViewName("menu/list");
