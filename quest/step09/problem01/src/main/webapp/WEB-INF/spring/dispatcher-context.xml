@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  [문제 1] dispatcher-context.xml
+  =====================================================================
+  TODO 1, 2, 3을 완성하여 Thymeleaf ViewResolver가 동작하도록 설정하세요.
+
+  힌트:
+  - templateResolver: SpringResourceTemplateResolver 사용
+      prefix = "classpath:/templates/"
+      suffix = ".html"
+      characterEncoding = "UTF-8"
+  - templateEngine: SpringTemplateEngine 사용
+      templateResolver 프로퍼티에 위에서 만든 templateResolver를 주입
+  - viewResolver: ThymeleafViewResolver 사용
+      templateEngine 프로퍼티에 위에서 만든 templateEngine을 주입
+      characterEncoding = "UTF-8"
+  =====================================================================
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+           http://www.springframework.org/schema/beans
+           https://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/mvc
+           https://www.springframework.org/schema/mvc/spring-mvc.xsd
+           http://www.springframework.org/schema/context
+           https://www.springframework.org/schema/context/spring-context.xsd">
+
+    <mvc:annotation-driven/>
+    <context:component-scan base-package="com.spring.problem01.controller"/>
+
+    <!-- TODO 1: templateResolver Bean 등록 (SpringResourceTemplateResolver) -->
+    <!--
+    <bean id="templateResolver" class="???">
+        <property name="prefix" value="???"/>
+        <property name="suffix" value="???"/>
+        <property name="characterEncoding" value="UTF-8"/>
+    </bean>
+    -->
+
+    <!-- TODO 2: templateEngine Bean 등록 (SpringTemplateEngine) -->
+    <!--
+    <bean id="templateEngine" class="???">
+        <property name="templateResolver" ref="???"/>
+    </bean>
+    -->
+
+    <!-- TODO 3: ThymeleafViewResolver Bean 등록 -->
+    <!--
+    <bean id="viewResolver" class="???">
+        <property name="templateEngine" ref="???"/>
+        <property name="characterEncoding" value="UTF-8"/>
+    </bean>
+    -->
+
+</beans>
