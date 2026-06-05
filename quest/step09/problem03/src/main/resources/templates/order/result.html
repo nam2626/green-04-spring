@@ -27,32 +27,32 @@
         <tr>
             <th>고객명</th>
             <!-- TODO 14: th:text로 orderForm.customerName 출력 -->
-            <td>고객명</td>
+            <td th:text="${orderForm.customerName}">고객명</td>
         </tr>
         <tr>
             <th>메뉴명</th>
             <!-- TODO 14: th:text로 orderForm.menuName 출력 -->
-            <td>메뉴명</td>
+            <td th:text="${orderForm.menuName}">메뉴명</td>
         </tr>
         <tr>
             <th>수량</th>
             <!-- TODO 14: th:text로 orderForm.quantity 출력 -->
-            <td>수량</td>
+            <td th:text="${orderForm.quantity}">수량</td>
         </tr>
         <tr>
             <th>요청사항</th>
             <!-- TODO 14: th:text로 orderForm.requestMessage 출력 -->
-            <td>요청사항</td>
+            <td th:text="${orderForm.requestMessage}">요청사항</td>
         </tr>
         <tr>
             <th>단가</th>
             <!-- TODO 14: th:text로 unitPrice + '원' 출력 -->
-            <td>단가</td>
+            <td th:text="${unitPrice + '원'}">단가</td>
         </tr>
         <tr>
             <th>총 금액</th>
             <!-- TODO 14: th:text로 totalPrice + '원' 출력 -->
-            <td>총 금액</td>
+            <td th:text="${totalPrice + '원'}">총 금액</td>
         </tr>
     </table>
 
