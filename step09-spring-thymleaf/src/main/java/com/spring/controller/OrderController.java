@@ -27,7 +27,7 @@ public class OrderController {
 		
 		view.addObject("orderForm", order);
 		view.addObject("menus", menuList);
-		
+		view.setViewName("order/form");
 		return view;
 	}
 }
