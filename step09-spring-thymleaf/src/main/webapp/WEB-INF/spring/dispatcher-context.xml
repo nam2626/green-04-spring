@@ -12,15 +12,13 @@
            https://www.springframework.org/schema/context/spring-context.xsd">
 
 	<!-- @Controller 등 어노테이션 스캔 -->
-	<context:component-scan
-		base-package="com.spring" />
+	<context:component-scan	base-package="com.spring" />
 
 	<!-- MVC 어노테이션(@RequestMapping 등) 활성화 -->
 	<mvc:annotation-driven />
 
 	<!-- 정적 자원(CSS, JS 등) 처리 -->
-	<mvc:resources location="/resources"
-		mapping="/resources/**" />
+	<mvc:resources location="/resources" mapping="/resources/**" />
 
 	<!-- Thymeleaf 설정: 3개 Bean (JSP의 InternalResourceViewResolver 1개를 대체) -->
 	<!-- Bean 1: TemplateResolver — 템플릿 파일 위치와 형식 지정 -->
