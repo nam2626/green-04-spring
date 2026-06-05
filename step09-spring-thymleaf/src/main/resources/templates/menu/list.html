@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+    <h1>메뉴 목록</h1>
+    
+    <form th:action="@{/menu/search}" method="get">
+        <input type="text" name="keyword" th:value="${keyword}" placeholder="메뉴 이름으로 검색">
+        <button type="submit">검색</button>
+    </form>
+
+    <p th:if="${#lists.isEmpty(menuList)}">검색 결과가 없습니다.</p>
+
+    <table th:unless="${#lists.isEmpty(menuList)}">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>메뉴명</th>
+          <th>카테고리</th>
+          <th>가격</th>
+          <th>주문</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="menu : ${menuList}">
+          <td th:text="${menu.id}"></td>
+          <td th:text="${menu.name}"></td>
+          <td th:text="${menu.category}"></td>
+          <td th:text="${menu.price}"></td>
+          <td><a href="#">주문</a></td>
+        </tr>
+      </tbody>
+    </table>
+</body>
+</html>
