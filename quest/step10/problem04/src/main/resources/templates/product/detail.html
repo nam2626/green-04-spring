@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <!-- TODO 23: title을 product.name으로 동적 설정 -->
-    <title>상품 상세</title>
+    <title th:text="${product.name} + ' - 상품 상세'">상품 상세</title>
     <style>
         body{font-family:sans-serif;max-width:500px;margin:40px auto;}
         h1{color:#e74c3c;}
@@ -17,17 +17,17 @@
 </head>
 <body>
     <!-- TODO 24: product.name을 h1에 출력 -->
-    <h1>상품명</h1>
+    <h1 th:text="${product.name}">상품명</h1>
 
     <div class="row">
         <span class="label">가격</span>
         <!-- TODO 25: product.price를 #numbers.formatInteger로 포맷해 출력 -->
-        <span>0원</span>
+        <span th:text="${#numbers.formatCurrency(product.price)}">0원</span>
     </div>
     <div class="row">
         <span class="label">설명</span>
         <!-- TODO 26: product.description이 null이면 '-' 출력 (엘비스 연산자 ?:) -->
-        <span>-</span>
+        <span th:text="${product.description ?: '-'}">-</span>
     </div>
 
     <!-- TODO 27: 수정/삭제/목록으로 버튼 링크 설정 -->

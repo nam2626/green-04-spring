@@ -22,13 +22,17 @@
     <h1>상품 목록</h1>
 
     <!-- TODO 19: successMessage가 있을 때만 알림 박스 출력 (th:if) -->
+    <div th:if="${successMessage}" class="alert">
+        <span th:text="${successMessage}"></span>
+    </div>
 
     <div style="margin-bottom:16px;">
         <!-- TODO 20: th:href로 /products/new 링크 설정 -->
-        <a href="#" class="btn btn-primary">+ 상품 등록</a>
+        <a href="/products/new" class="btn btn-primary">+ 상품 등록</a>
     </div>
 
     <!-- TODO 21: products 리스트가 비었을 때 "등록된 상품이 없습니다." 출력 -->
+    <div th:if="${#lists.isEmpty(products)}" class="empty">등록된 상품이 없습니다.</div>
 
     <!-- TODO 22: th:each로 products 반복 출력
                  순번(stat.count), name, price(숫자 포맷), 상세/수정/삭제 링크 포함 -->
@@ -37,10 +41,10 @@
             <tr><th>#</th><th>상품명</th><th>가격</th><th>관리</th></tr>
         </thead>
         <tbody>
-            <tr>
-                <td>1</td>
-                <td><a href="#">상품명</a></td>
-                <td>0원</td>
+            <tr th:each="product, stat : ${products}">
+                <td th:text="${stat.count}"></td>
+                <td><a href="#" th:text="${product.name}"></a></td>
+                <td th:text="${#numbers.formatCurrency(product.price)}"></td>
                 <td>
                     <a href="#" class="btn btn-warning">수정</a>
                     <form style="display:inline;" onsubmit="return confirm('삭제?')">

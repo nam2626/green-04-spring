@@ -20,6 +20,8 @@ public class MenuController {
     //         model에 "categories" 이름으로 List.of("버거","사이드","음료","디저트")를 추가하세요.
     @GetMapping("/menus/new")
     public String newForm(Model model) {
+        model.addAttribute("form", new MenuForm());
+        model.addAttribute("categories", List.of("버거","사이드","음료","디저트"));
         return "menu/form";
     }
 
@@ -31,6 +33,13 @@ public class MenuController {
                          BindingResult bindingResult,
                          Model model,
                          RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("categories", List.of("버거","사이드","음료","디저트"));
+            model.addAttribute("form", form);
+            return "menu/form";
+        }
+        redirectAttributes.addFlashAttribute("successMessage",
+                                     "메뉴가 성공적으로 등록되었습니다.");
         return "redirect:/menus/result";
     }
 

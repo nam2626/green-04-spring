@@ -23,7 +23,7 @@
                 th:object="${form}"
                 method="post" 을 설정하세요.
     -->
-    <form>
+    <form method="post" th:action="@{/menus}" th:object="${form}">
 
         <!-- 메뉴명 -->
         <div class="form-group">
@@ -32,8 +32,8 @@
                 TODO 4: th:field="*{name}"을 추가하고
                         th:if="${#fields.hasErrors('name')}"로 오류 메시지를 표시하세요.
             -->
-            <input type="text" id="name" placeholder="메뉴명">
-            <div class="error">오류 메시지</div>
+            <input type="text" id="name" placeholder="메뉴명" th:field="*{name}">
+            <div class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">오류 메시지</div>
         </div>
 
         <!-- 카테고리 -->
@@ -43,8 +43,8 @@
                 TODO 5: th:field="*{category}"를 추가하고
                         th:each로 categories 목록을 option으로 출력하세요.
             -->
-            <select id="category">
-                <option value="">-- 선택 --</option>
+            <select id="category" th:field="*{category}">
+                <option th:each="category : ${categories}" th:value="${category}" th:text="${category}"></option>
             </select>
         </div>
 
@@ -55,8 +55,8 @@
                 TODO 6: th:field="*{price}"를 추가하고
                         오류 메시지도 표시하세요.
             -->
-            <input type="number" id="price" placeholder="0" min="0">
-            <div class="error">오류 메시지</div>
+            <input type="number" id="price" placeholder="0" th:field="*{price}">
+            <div class="error" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></div>
         </div>
 
         <button type="submit" class="btn btn-primary">등록</button>
