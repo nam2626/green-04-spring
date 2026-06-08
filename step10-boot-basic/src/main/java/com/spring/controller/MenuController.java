@@ -2,7 +2,10 @@ package com.spring.controller;
 
 import com.spring.dto.MenuDTO;
 import com.spring.service.MenuService;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -47,9 +50,15 @@ public class MenuController {
         return view;
     }
     @PostMapping("/{id}/edit")
-    public String update(@PathVariable Long id, @ModelAttribute MenuDTO menu,
-                         RedirectAttributes redirectAttributes) {
-
+    public String update(@PathVariable Long id, @Valid @ModelAttribute MenuDTO menu,
+                         BindingResult bindingResult,
+                         RedirectAttributes redirectAttributes, Model model) {
+        System.out.println("bindingResult = " + bindingResult);
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("menu", menu);
+            model.addAttribute("categories", List.of("커피", "음료", "디저트"));
+            return "menu/form";
+        }
         redirectAttributes.addFlashAttribute(
                 "successMessage", "메뉴가 수정되었습니다.");
         menuService.update(id, menu);
