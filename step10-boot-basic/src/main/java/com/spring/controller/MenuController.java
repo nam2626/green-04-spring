@@ -85,6 +85,7 @@ public class MenuController {
         }
         redirectAttributes.addFlashAttribute(
                 "successMessage", "메뉴가 등록되었습니다.");
+
         menuService.save(menu);
         return "redirect:/menus";
     }

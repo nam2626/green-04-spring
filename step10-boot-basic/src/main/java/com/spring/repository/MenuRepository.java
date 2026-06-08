@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 public class MenuRepository {
 
     private final Map<Long, MenuDTO> store = new LinkedHashMap<>();
-    private final AtomicLong sequence = new AtomicLong(1);
+    private final AtomicLong sequence = new AtomicLong(6);
 
     public MenuRepository() {
         save(new MenuDTO(1L, "아메리카노", 3000, "커피", "", true));
