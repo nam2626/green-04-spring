@@ -18,6 +18,23 @@
         <a th:href="@{/menus}">전체보기</a>
     </form>
     <hr>
+        <!--
+            경고창 한번 띄우고 종료하는 형식으로 처리
+            해당 영역을 5초동안 보여주고 해당 영역을 삭제
+        -->
+        <div th:if="${successMessage}" th:text="${successMessage}"
+             id="success-alert-box"
+            style="padding:15px; background-color: #d4edda; color: #155724; border :1px solid #c3e6cd; border-radius: 5px; maring:10px; opacity: 1;transition: opacity 2s ease-in-out"></div>
+        <script th:inline="javascript" th:if="${successMessage}">
+            const message = [[${successMessage}]];
+            console.log(message);
+            setTimeout(function() {
+                document.querySelector('#success-alert-box').style.opacity = '0';
+            }, 5000);
+            setTimeout(function() {
+                document.querySelector('#success-alert-box').style.display = 'none';
+            }, 7500);
+        </script>
         <p th:if="${#lists.isEmpty(menus)}">등록 메뉴가 없습니다</p>
         <table th:if="${!#lists.isEmpty(menus)}">
             <thead>
