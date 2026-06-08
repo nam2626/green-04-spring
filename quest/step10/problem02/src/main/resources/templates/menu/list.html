@@ -32,17 +32,17 @@
             <tr th:each="menu, stat : ${menus}">
 
                 <!-- TODO 1: 순번을 stat.count로 출력하세요. -->
-                <td>?</td>
+                <td th:text="${stat.count}">?</td>
 
                 <!-- TODO 2: menu.name을 출력하세요. -->
-                <td>메뉴명</td>
+                <td th:text="${menu.name}">메뉴명</td>
 
                 <!--
                     TODO 3: menu.price를 출력하되
                             #numbers.formatInteger(menu.price, 1, 'COMMA') + '원' 형식으로 출력하세요.
                             힌트: |${...}원| 리터럴 치환 사용
                 -->
-                <td>가격</td>
+                <td th:text="${#numbers.formatInteger(menu.price, 1, 'COMMA')} + '원'"  >가격</td>
 
                 <!--
                     TODO 4: th:if / th:unless를 사용해
@@ -51,7 +51,8 @@
                             을 출력하세요.
                 -->
                 <td>
-                    <span class="badge">?</span>
+                    <span class="badge" th:if="${menu.available}" th:classappend="'badge-success'" th:text="'판매중'"></span>
+                    <span class="badge" th:unless="${menu.available}" th:classappend="'badge-danger'" th:text="'품절'"></span>
                 </td>
 
                 <!--
@@ -62,7 +63,10 @@
                             을 출력하세요.
                 -->
                 <td>
-                    <span>?</span>
+                    <span th:switch="${menu.grade}">
+                        <span th:case="'BEST'" class="badge badge-best">BEST</span>
+                        <span th:case="'NEW'" class="badge badge-new">NEW</span>
+                        <span th:case="*">-</span>
                 </td>
 
             </tr>
