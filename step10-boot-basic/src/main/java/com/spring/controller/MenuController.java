@@ -23,8 +23,14 @@ public class MenuController {
     }
 
     @GetMapping
-    public ModelAndView list(ModelAndView view){
-        List<MenuDTO> list = menuService.findAll();
+    public ModelAndView list(ModelAndView view, String keyword){
+        List<MenuDTO> list = null;
+        if  (keyword != null && !keyword.isEmpty()) {
+            list = menuService.search(keyword);
+            view.addObject("keyword", keyword);
+        } else {
+            list = menuService.findAll();
+        }
 
         view.addObject("menus",list);
         view.setViewName("menu/list");
@@ -89,6 +95,8 @@ public class MenuController {
         menuService.save(menu);
         return "redirect:/menus";
     }
+
+
 }
 
 

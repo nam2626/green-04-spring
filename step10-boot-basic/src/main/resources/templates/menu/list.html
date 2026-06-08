@@ -13,7 +13,7 @@
     <div class="container">
     <!-- 메뉴명으로 검색 폼 -->
     <form th:action="@{/menus}" method="get">
-        <input type="text" name="keyword" placeholder="메뉴명으로 검색">
+        <input type="text" name="keyword" th:value="${keyword}" placeholder="메뉴명으로 검색">
         <button>검색</button>
         <a th:href="@{/menus}">전체보기</a>
     </form>
