@@ -8,10 +8,10 @@
 <h1>키오스크 관리 페이지</h1>
 <nav>
     <a href="">메뉴목록</a>
-    <a href="">메뉴 등록</a>
+    <a th:href="@{/menus/new}">메뉴 등록</a>
 </nav>
 <div class="container">
-    <form th:action="@{/menus/{id}/edit(id=${menu.id})}" th:object="${menu}" method="post">
+    <form th:action="${menu.id == null} ? @{/menus} : @{/menus/{id}/edit(id=${menu.id})}" th:object="${menu}" method="post">
         <label for="name">메뉴명</label>
         <input type="text" id="name" name="name" th:field="*{name}"
                th:value="${menu.name}"><br>

@@ -64,6 +64,14 @@ public class MenuController {
         menuService.update(id, menu);
         return "redirect:/menus";
     }
+
+    @GetMapping("/new")
+    public ModelAndView newForm(ModelAndView view){
+        view.addObject("menu", new MenuDTO());
+        view.addObject("categories", List.of("커피", "음료", "디저트"));
+        view.setViewName("menu/form");
+        return view;
+    }
 }
 
 
