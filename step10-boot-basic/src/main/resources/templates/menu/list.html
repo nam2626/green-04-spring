@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h1>키오스크 관리 페이지</h1>
+    <nav>
+        <a href="">메뉴목록</a>
+        <a href="">메뉴 등록</a>
+    </nav>
+    <div class="container">
+    <!-- 검색 폼 -->
+    <form th:action="@{/menus}" method="post">
+        <input type="text" name="keyword" placeholder="검색어">
+        <button>검색</button>
+        <a th:href="@{/menus}">전체보기</a>
+    </form>
+    <hr>
+        <p th:unless="${#lists.isEmpty(menus)}">등록 메뉴가 없습니다</p>
+        <table th:if="${!#lists.isEmpty(menus)}">
+            <thead>
+                <tr>
+                    <th>메뉴번호</th>
+                    <th>메뉴명</th>
+                    <th>카테고리</th>
+                    <th>가격</th>
+                    <th>판매여부</th>
+                    <th>관리</th>
+                </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+
+    </div>
+
+</body>
+</html>
