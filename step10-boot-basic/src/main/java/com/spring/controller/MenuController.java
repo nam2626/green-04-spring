@@ -38,4 +38,18 @@ public class MenuController {
         menuService.delete(id);
         return "redirect:/menus";
     }
+
+    @GetMapping("/{id}/update")
+    public ModelAndView updateForm(@PathVariable Long id, ModelAndView view){
+        MenuDTO menu = menuService.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("메뉴를 찾을 수 없습니다. id=" + id));
+        view.addObject("menu", menu);
+        view.addObject("categories", List.of("커피", "음료", "디저트"));
+        view.setViewName("menu/form");
+        return view;
+    }
 }
+
+
+
+
