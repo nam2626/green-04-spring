@@ -18,7 +18,7 @@
         <a th:href="@{/menus}">전체보기</a>
     </form>
     <hr>
-        <p th:unless="${#lists.isEmpty(menus)}">등록 메뉴가 없습니다</p>
+        <p th:if="${#lists.isEmpty(menus)}">등록 메뉴가 없습니다</p>
         <table th:if="${!#lists.isEmpty(menus)}">
             <thead>
                 <tr>
@@ -31,7 +31,21 @@
                 </tr>
             </thead>
             <tbody>
-
+                <!-- menus 내용 출력 -->
+                <tr th:each="menu : ${menus}">
+                    <td th:text="${menu.id}"></td>
+                    <td th:text="${menu.name}"></td>
+                    <td th:text="${menu.category}"></td>
+                    <td th:text="${menu.price}"></td>
+                    <td>
+                        <span th:if="${menu.available}">판매중</span>
+                        <span th:if="${!menu.available}">품절</span>
+                    </td>
+                    <td>
+                        <a th:href="@{/menus/{id}/edit(id=${menu.id})}">수정</a>
+                        <a th:href="@{/menus/{id}/delete(id=${menu.id})}">삭제</a>
+                    </td>
+                </tr>
             </tbody>
         </table>
 

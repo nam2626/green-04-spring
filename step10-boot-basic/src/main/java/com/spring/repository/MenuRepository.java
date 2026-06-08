@@ -14,6 +14,14 @@ public class MenuRepository {
     private final Map<Long, MenuDTO> store = new LinkedHashMap<>();
     private final AtomicLong sequence = new AtomicLong(1);
 
+    public MenuRepository() {
+        save(new MenuDTO(1L, "아메리카노", 3000, "커피", "", true));
+        save(new MenuDTO(2L, "카페라떼", 4000, "커피", "", true));
+        save(new MenuDTO(3L, "카페모카", 5000, "커피", "", true));
+        save(new MenuDTO(4L, "카페라떼", 4000, "커피", "", true));
+        save(new MenuDTO(5L, "카페모카", 5000, "커피", "", true));
+    }
+
     /** 저장 (신규: id 자동 부여, 수정: 덮어쓰기) */
     public MenuDTO save(MenuDTO item) {
         if (item.getId() == null) {
