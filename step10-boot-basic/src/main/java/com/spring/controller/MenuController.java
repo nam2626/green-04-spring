@@ -49,7 +49,7 @@ public class MenuController {
     @PostMapping("/{id}/edit")
     public String update(@PathVariable Long id, @ModelAttribute MenuDTO menu,
                          RedirectAttributes redirectAttributes) {
-        
+
         redirectAttributes.addFlashAttribute(
                 "successMessage", "메뉴가 수정되었습니다.");
         menuService.update(id, menu);
