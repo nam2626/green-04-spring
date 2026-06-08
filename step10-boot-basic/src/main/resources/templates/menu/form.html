@@ -31,7 +31,7 @@
                th:checked="${menu.available}">
         <label for="available">판매 가능</label>
         <br>
-        <button>수정</button>
+        <button th:text="${menu.id == null} ? '등록' : '수정'"></button>
     </form>
 </div>
 </body>

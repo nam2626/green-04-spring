@@ -7,13 +7,13 @@
 <body>
     <h1>키오스크 관리 페이지</h1>
     <nav>
-        <a href="">메뉴목록</a>
+        <a th:href="@{/menus}">메뉴목록</a>
         <a th:href="@{/menus/new}">메뉴 등록</a>
     </nav>
     <div class="container">
-    <!-- 검색 폼 -->
-    <form th:action="@{/menus}" method="post">
-        <input type="text" name="keyword" placeholder="검색어">
+    <!-- 메뉴명으로 검색 폼 -->
+    <form th:action="@{/menus}" method="get">
+        <input type="text" name="keyword" placeholder="메뉴명으로 검색">
         <button>검색</button>
         <a th:href="@{/menus}">전체보기</a>
     </form>
