@@ -72,6 +72,22 @@ public class MenuController {
         view.setViewName("menu/form");
         return view;
     }
+
+//    데이터 등록
+    @PostMapping
+    public String create(@Valid @ModelAttribute MenuDTO menu, BindingResult bindingResult,
+                         RedirectAttributes redirectAttributes, Model model) {
+        System.out.println("bindingResult = " + bindingResult);
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("menu", menu);
+            model.addAttribute("categories", List.of("커피", "음료", "디저트"));
+            return "menu/form";
+        }
+        redirectAttributes.addFlashAttribute(
+                "successMessage", "메뉴가 등록되었습니다.");
+        menuService.save(menu);
+        return "redirect:/menus";
+    }
 }
 
 
