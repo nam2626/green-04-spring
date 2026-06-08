@@ -39,7 +39,7 @@ public class MenuController {
         return "redirect:/menus";
     }
 
-    @GetMapping("/{id}/update")
+    @GetMapping("/{id}/edit")
     public ModelAndView updateForm(@PathVariable Long id, ModelAndView view){
         MenuDTO menu = menuService.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("메뉴를 찾을 수 없습니다. id=" + id));

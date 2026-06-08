@@ -18,6 +18,7 @@
         <label for="">카테고리</label>
         <select th:field="*{category}">
             <option th:each="category : ${categories}" th:text="${category}"
+                    th:value="${category}"
                     th:selected="${menu.category == category}"></option>
         </select><br>
         <label for="price">금액 </label>
