@@ -96,4 +96,23 @@ public class MenuController {
         return "redirect:/menus";
     }
 
+    @PostMapping("/{id}/edit")
+    public ModelAndView edit(ModelAndView view, @PathVariable Long id,
+         @Valid MenuDTO menu, BindingResult bindingResult) {
+            try{
+                if (bindingResult.hasErrors()) throw new Exception("메뉴 수정에 실패했습니다. 입력값을 다시 확인해주세요.");
+
+                menu.setId(id);
+                int result = menuService.update(menu);
+                if (result == 0) throw new Exception("메뉴 수정에 실패했습니다. 메뉴를 다시 확인해주세요.");
+                view.setViewName("redirect:/menus");   
+            } catch (Exception e) {
+                    view.addObject("menu", menu);
+                    view.addObject("categories", List.of("버거", "사이드", "음료", "디저트"));
+                    view.setViewName("menu/form");
+            }
+            return view;
+    }
+
+
 }

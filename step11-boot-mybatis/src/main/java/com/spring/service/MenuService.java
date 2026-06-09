@@ -36,5 +36,9 @@ public class MenuService {
     public void save(MenuDTO menu) {
         menuMapper.save(menu);
     }
+
+    public int update(MenuDTO menu) {
+        return menuMapper.update(menu);
+    }
     
 }

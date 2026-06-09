@@ -47,4 +47,19 @@
         INSERT INTO menu_item (name, price, category, description, available)
         VALUES (#{name}, #{price}, #{category}, #{description}, #{available})
     </insert>
+
+    <update id="update">
+        UPDATE menu_item
+        SET name = #{name},
+            price = #{price},
+            category = #{category},
+            description = #{description},
+            available = #{available}
+        WHERE id = #{id}
+    </update>
 </mapper>
+
+
+
+
+
