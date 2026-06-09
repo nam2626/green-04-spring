@@ -20,11 +20,16 @@ public class MenuController {
     }
 
     @GetMapping
-    public ModelAndView list(ModelAndView view){
+    public ModelAndView list(ModelAndView view, String category, String keyword) {
         List<MenuDTO> list = null;
 
         list = menuService.findAll();
+        
+        // 키워드 등록
         view.setViewName("menu/list");
+        view.addObject("keyword", keyword);
+        // 카테고리 등록
+        view.addObject("categories", List.of("버거", "사이드", "음료", "디저트"));
         view.addObject("menus", list);
         return view;
     }
