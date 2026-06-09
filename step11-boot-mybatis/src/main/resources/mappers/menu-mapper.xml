@@ -15,5 +15,20 @@
     </select>
 
     <select id="search" resultType="menu">
+         SELECT 
+        <include refid="columns" />
+        FROM menu_item
+        <where>
+            <if test="keyword != null and keyword != ''">
+                AND name LIKE CONCAT('%', #{keyword}, '%')
+            </if>
+            <if test="category != null and category != ''">
+                AND category = #{category}
+            </if>
+            <if test="available != null">
+                AND available = #{available}
+            </if>
+        </where>
+        order by created_at desc
     </select>
 </mapper>
