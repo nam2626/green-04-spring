@@ -1,11 +1,15 @@
 package com.spring.controller;
 
+import java.lang.ProcessBuilder.Redirect;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.spring.dto.MenuDTO;
 import com.spring.service.MenuService;
@@ -21,7 +25,9 @@ public class MenuController {
 
     @GetMapping
     public ModelAndView list(ModelAndView view,
-             String category, String keyword, Boolean available) {
+            @RequestParam(name = "category", required = false) String category, 
+            @RequestParam(name = "keyword", required = false) String keyword, 
+            @RequestParam(name = "available", required = false) Boolean available) {
         List<MenuDTO> list = null;
         
         if((category != null && !category.isEmpty()) 
@@ -37,5 +43,13 @@ public class MenuController {
         view.addObject("categories", List.of("버거", "사이드", "음료", "디저트"));
         view.addObject("menus", list);
         return view;
+    }
+
+    @GetMapping("/{id}/delete")
+    public String delete(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+        menuService.deleteById(id);
+        redirectAttributes.addFlashAttribute(
+            "message", "메뉴가 성공적으로 삭제되었습니다.");
+        return "redirect:/menus";
     }
 }

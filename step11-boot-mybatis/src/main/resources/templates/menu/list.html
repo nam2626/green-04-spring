@@ -62,7 +62,8 @@
                         <td th:text="${#temporals.format(menu.createdAt, 'yyyy-MM-dd')}"></td>
                         <td>
                             <a href="#" th:href="@{/menus/{id}/edit(id=${menu.id})}">수정</a>
-                            <a href="#" th:href="@{/menus/{id}/delete(id=${menu.id})}" onclick="return confirm('정말로 삭제하시겠습니까?')">삭제</a>
+                            <a href="#" th:href="@{/menus/{id}/delete(id=${menu.id})}" 
+                            onclick="return confirm('정말로 삭제하시겠습니까?')">삭제</a>
                         </td>
                     </tr>
                 </tbody>
