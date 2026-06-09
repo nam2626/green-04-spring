@@ -42,4 +42,9 @@
         FROM menu_item
         WHERE id = #{id}
     </select>
+
+    <insert id="save">
+        INSERT INTO menu_item (name, price, category, description, available)
+        VALUES (#{name}, #{price}, #{category}, #{description}, #{available})
+    </insert>
 </mapper>

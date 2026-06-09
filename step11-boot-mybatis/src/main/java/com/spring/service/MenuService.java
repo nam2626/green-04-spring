@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 import com.spring.dto.MenuDTO;
 import com.spring.mapper.MenuMapper;
 
+import jakarta.validation.Valid;
+
 @Service
 public class MenuService {
     private final MenuMapper menuMapper;
@@ -29,6 +31,10 @@ public class MenuService {
 
     public MenuDTO findById(Long id) {
         return menuMapper.findById(id);
+    }
+
+    public void save(MenuDTO menu) {
+        menuMapper.save(menu);
     }
     
 }

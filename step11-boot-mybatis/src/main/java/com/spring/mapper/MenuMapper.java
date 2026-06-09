@@ -16,6 +16,7 @@ public interface MenuMapper {
                                 @Param("available") Boolean available);
     public int deleteById(Long id);
     public MenuDTO findById(Long id);
+    public void save(MenuDTO menu);
 
 }
 
