@@ -22,7 +22,8 @@ public class MenuController {
     @GetMapping
     public ModelAndView list(ModelAndView view, String category, String keyword) {
         List<MenuDTO> list = null;
-
+        System.out.println("카테고리: " + category);
+        System.out.println("키워드: " + keyword);
         list = menuService.findAll();
         
         // 키워드 등록
