@@ -24,11 +24,20 @@ public class MenuController {
         List<MenuDTO> list = null;
         System.out.println("카테고리: " + category);
         System.out.println("키워드: " + keyword);
-        list = menuService.findAll();
+        if(keyword != null && !keyword.isEmpty()) {
+            // 키워드 검색
+            list = menuService.search(keyword);
+            view.addObject("keyword", keyword);
+        } else if(category != null && !category.isEmpty()) {
+            // 카테고리 검색
+            view.addObject("category", category);
+            list = menuService.findByCategory(category);
+        } else {
+            // 전체 조회
+            list = menuService.findAll();
+        }
         
-        // 키워드 등록
         view.setViewName("menu/list");
-        view.addObject("keyword", keyword);
         // 카테고리 등록
         view.addObject("categories", List.of("버거", "사이드", "음료", "디저트"));
         view.addObject("menus", list);
