@@ -35,4 +35,11 @@
     <delete id="deleteById">
         DELETE FROM menu_item WHERE id = #{id}
     </delete>
+
+    <select id="findById" resultType="menu">
+        SELECT 
+        <include refid="columns" />
+        FROM menu_item
+        WHERE id = #{id}
+    </select>
 </mapper>

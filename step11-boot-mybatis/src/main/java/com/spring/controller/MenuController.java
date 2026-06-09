@@ -56,4 +56,20 @@ public class MenuController {
                 "successMessage", "메뉴가 성공적으로 삭제되었습니다.");
         return "redirect:/menus";
     }
+
+    @GetMapping("/new")
+    public ModelAndView createView(ModelAndView view) {
+        view.addObject("menu", new MenuDTO());
+        view.addObject("categories", List.of("버거", "사이드", "음료", "디저트"));
+        view.setViewName("menu/form");
+        return view;
+    }
+    @GetMapping("/{id}/edit")
+    public ModelAndView editView(ModelAndView view, @PathVariable Long id) {
+        view.addObject("menu", menuService.findById(id));
+        view.addObject("categories", List.of("버거", "사이드", "음료", "디저트"));
+        view.setViewName("menu/form");
+        return view;
+    }
+    
 }

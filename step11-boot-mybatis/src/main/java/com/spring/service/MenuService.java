@@ -26,5 +26,9 @@ public class MenuService {
     public int deleteById(Long id) {
         return menuMapper.deleteById(id);
     }
+
+    public MenuDTO findById(Long id) {
+        return menuMapper.findById(id);
+    }
     
 }
