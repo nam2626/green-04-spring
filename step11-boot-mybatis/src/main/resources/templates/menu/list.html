@@ -15,6 +15,7 @@
     <div class="container">
         <!-- 추가, 삭제, 수정 성공 메세지 출력 영역 -->
         <div class="alert-box" th:if="${successMessage}" th:text="${successMessage}"></div>
+        <div class="alert-box" th:if="${failMessage}" th:text="${failMessage}"></div>
         <!-- 페이지 헤더 -->
         <div class="page-header">
             <h2>메뉴 목록 <span th:text="|전체 ${#lists.size(menus)}건|"></span></h2>

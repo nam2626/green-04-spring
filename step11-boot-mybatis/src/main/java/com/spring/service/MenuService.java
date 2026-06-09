@@ -22,5 +22,9 @@ public class MenuService {
     public List<MenuDTO> search(String keyword, String category, Boolean available) {
         return menuMapper.search(keyword, category, available);
     }
+
+    public int deleteById(Long id) {
+        return menuMapper.deleteById(id);
+    }
     
 }

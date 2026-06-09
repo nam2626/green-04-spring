@@ -47,9 +47,13 @@ public class MenuController {
 
     @GetMapping("/{id}/delete")
     public String delete(@PathVariable Long id, RedirectAttributes redirectAttributes) {
-        menuService.deleteById(id);
-        redirectAttributes.addFlashAttribute(
-            "message", "메뉴가 성공적으로 삭제되었습니다.");
+        int result = menuService.deleteById(id);
+        if(result == 0) 
+            redirectAttributes.addFlashAttribute(
+                "failMessage", "메뉴 삭제에 실패했습니다. 메뉴를 다시 확인해주세요.");
+        else
+            redirectAttributes.addFlashAttribute(
+                "successMessage", "메뉴가 성공적으로 삭제되었습니다.");
         return "redirect:/menus";
     }
 }

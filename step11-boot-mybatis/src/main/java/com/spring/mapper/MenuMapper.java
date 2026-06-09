@@ -14,6 +14,7 @@ public interface MenuMapper {
     public List<MenuDTO> search(@Param("keyword") String keyword, 
                                 @Param("category") String category,
                                 @Param("available") Boolean available);
+    public int deleteById(Long id);
 
 }
 
