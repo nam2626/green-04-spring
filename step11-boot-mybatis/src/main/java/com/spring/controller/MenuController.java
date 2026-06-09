@@ -20,20 +20,15 @@ public class MenuController {
     }
 
     @GetMapping
-    public ModelAndView list(ModelAndView view, String category, String keyword) {
+    public ModelAndView list(ModelAndView view,
+             String category, String keyword, Boolean available) {
         List<MenuDTO> list = null;
-        System.out.println("카테고리: " + category);
-        System.out.println("키워드: " + keyword);
-        if(keyword != null && !keyword.isEmpty()) {
-            // 키워드 검색
-            list = menuService.search(keyword);
-            view.addObject("keyword", keyword);
-        } else if(category != null && !category.isEmpty()) {
-            // 카테고리 검색
-            view.addObject("category", category);
-            list = menuService.findByCategory(category);
+        
+        if((category != null && !category.isEmpty()) 
+            || (keyword != null && !keyword.isEmpty()) 
+            || available != null) {
+            list = menuService.search(keyword, category, available);
         } else {
-            // 전체 조회
             list = menuService.findAll();
         }
         

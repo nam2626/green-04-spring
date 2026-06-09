@@ -13,4 +13,7 @@
         <include refid="columns" />
         FROM menu_item
     </select>
+
+    <select id="search" resultType="menu">
+    </select>
 </mapper>

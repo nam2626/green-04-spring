@@ -18,5 +18,9 @@ public class MenuService {
     public List<MenuDTO> findAll() {
         return menuMapper.findAll();
     }
+
+    public List<MenuDTO> search(String keyword, String category, Boolean available) {
+        return menuMapper.search(keyword, category, available);
+    }
     
 }
