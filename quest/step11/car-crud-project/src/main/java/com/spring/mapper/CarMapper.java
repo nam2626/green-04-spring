@@ -10,4 +10,5 @@ import java.util.List;
 public interface CarMapper {
     List<CarDTO> findAll();
     void save(CarDTO car);
+    CarDTO findById(Integer id);
 }

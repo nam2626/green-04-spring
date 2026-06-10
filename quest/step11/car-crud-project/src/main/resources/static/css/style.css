@@ -174,3 +174,74 @@ tbody td a:hover {
 .btn-secondary:hover {
     background-color: #dce1e7;
 }
+
+.error-msg {
+    font-size: 0.82rem;
+    color: #e74c3c;
+    margin-top: 4px;
+}
+
+/* ── Detail ── */
+.detail-card {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    padding: 36px 40px;
+    max-width: 520px;
+    margin: 0 auto;
+}
+
+.detail-card h2 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid #ecf0f1;
+}
+
+.detail-card table {
+    width: 100%;
+    box-shadow: none;
+    border-radius: 0;
+}
+
+.detail-card tbody tr {
+    border-bottom: 1px solid #ecf0f1;
+}
+
+.detail-card tbody tr:last-child {
+    border-bottom: none;
+}
+
+.detail-card tbody th {
+    width: 35%;
+    padding: 12px 4px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: #555;
+    text-align: left;
+    vertical-align: middle;
+}
+
+.detail-card tbody td {
+    padding: 12px 4px;
+    font-size: 0.95rem;
+    color: #333;
+    vertical-align: middle;
+}
+
+.detail-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 26px;
+}
+
+.btn-danger {
+    background-color: #e74c3c;
+    color: white;
+}
+
+.btn-danger:hover {
+    background-color: #c0392b;
+}

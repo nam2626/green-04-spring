@@ -16,4 +16,8 @@
         INSERT INTO cars (brand, model, year, mileage, price)
         VALUES (#{brand}, #{model}, #{year}, #{mileage}, #{price})
     </insert>
+
+    <select id="findById" resultType="car">
+        SELECT <include refid="carColumns" /> FROM cars WHERE car_id = #{id}
+    </select>
 </mapper>

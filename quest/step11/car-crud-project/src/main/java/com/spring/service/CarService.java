@@ -23,6 +23,10 @@ public class CarService {
     public void save(CarDTO car) {
         mapper.save(car);
     }
+
+    public CarDTO findById(Integer id) {
+        return mapper.findById(id);
+    }
 }
 
 
