@@ -21,10 +21,12 @@
             <div class="form-group">
                 <label for="model">모델명</label>
                 <input type="text" id="model" th:field="*{model}" placeholder="예: Avante" required>
+                <p class="error-msg" th:if="${#fields.hasErrors('model')}" th:errors="*{model}"></p>
             </div>
             <div class="form-group">
                 <label for="year">연식</label>
                 <input type="number" min="1900" id="year" th:field="*{year}" placeholder="예: 2023" required>
+                <p class="error-msg" th:if="${#fields.hasErrors('year')}" th:errors="*{year}"></p>
             </div>
             <div class="form-group">
                 <label for="mileage">주행거리 (km)</label>
@@ -33,6 +35,7 @@
             <div class="form-group">
                 <label for="price">가격 (원)</label>
                 <input type="number" id="price" th:field="*{price}" placeholder="예: 25000000" required>
+                <p class="error-msg" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></p>
             </div>
             <div class="form-actions">
                 <button type="submit" class="btn btn-primary">등록</button>
