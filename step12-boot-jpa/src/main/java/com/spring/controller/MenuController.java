@@ -58,6 +58,17 @@ public class MenuController {
 		
 		return "redirect:/menus";
 	}
+	@GetMapping("/{id}/delete")
+	public String delete(@PathVariable Long id,
+			 RedirectAttributes redirectAttributes) {
+		try {
+			menuService.delete(id);
+			redirectAttributes.addFlashAttribute("successMessage", "데이터 삭제 성공");
+		}catch (Exception e) {
+			redirectAttributes.addFlashAttribute("failMessage", "데이터 삭제 실패");
+		}
+		return "redirect:/menus";
+	}
 }
 
 

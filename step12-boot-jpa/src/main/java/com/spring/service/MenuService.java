@@ -29,7 +29,12 @@ public class MenuService {
 		return menuRepository.findById(id).orElseThrow(() -> 
 				new IllegalArgumentException("해당 메뉴를 찾을 수 없습니다."));
 	}
-
+	
+	/**
+     * 수정 — Dirty Checking 활용
+     * findById()로 영속 상태 엔티티를 가져와 필드를 변경하면
+     * 트랜잭션 종료 시 UPDATE SQL이 자동 실행됨 (save() 불필요)
+     */
 	@Transactional
 	public MenuDTO update(MenuDTO menu) {
 		MenuDTO raw = findById(menu.getId());
@@ -38,7 +43,13 @@ public class MenuService {
 		raw.setPrice(menu.getPrice());
 		raw.setDescription(menu.getDescription());
 		raw.setAvailable(menu.isAvailable());
+		// save() 호출 없이도 트랜잭션 종료 시 UPDATE 자동 실행!
 		return raw;
+	}
+
+	@Transactional
+	public void delete(Long id) {
+		menuRepository.deleteById(id);
 	}
 
 }
