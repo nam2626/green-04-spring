@@ -8,6 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.spring.dto.MenuDTO;
 import com.spring.repository.MenuRepository;
 
+import jakarta.validation.Valid;
+
 
 
 @Service
@@ -26,6 +28,17 @@ public class MenuService {
 	public MenuDTO findById(Long id) {
 		return menuRepository.findById(id).orElseThrow(() -> 
 				new IllegalArgumentException("해당 메뉴를 찾을 수 없습니다."));
+	}
+
+	@Transactional
+	public MenuDTO update(MenuDTO menu) {
+		MenuDTO raw = findById(menu.getId());
+		raw.setName(menu.getName());
+		raw.setCategory(menu.getCategory());
+		raw.setPrice(menu.getPrice());
+		raw.setDescription(menu.getDescription());
+		raw.setAvailable(menu.isAvailable());
+		return raw;
 	}
 
 }

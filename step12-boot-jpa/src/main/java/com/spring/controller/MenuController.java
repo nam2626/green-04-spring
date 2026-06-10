@@ -4,12 +4,19 @@ import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.spring.dto.MenuDTO;
 import com.spring.service.MenuService;
+
+import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping("/menus")
@@ -38,6 +45,19 @@ public class MenuController {
 		return view;
 	}
 	
+	@PostMapping("/{id}/edit")
+	public String edit(Model model, @PathVariable Long id,
+				@ModelAttribute("menu") @Valid MenuDTO menu, 
+				BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+		if(bindingResult.hasErrors()) {
+			return "menu/form";
+		}
+		menu.setId(id);
+		menuService.update(menu);
+		redirectAttributes.addFlashAttribute("successMessage", "데이터 수정 성공");
+		
+		return "redirect:/menus";
+	}
 }
 
 
