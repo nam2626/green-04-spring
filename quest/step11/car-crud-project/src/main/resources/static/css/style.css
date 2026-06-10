@@ -181,6 +181,30 @@ tbody td a:hover {
     margin-top: 4px;
 }
 
+/* ── Flash Messages ── */
+#sucess-message-box,
+#error-message-box {
+    padding: 14px 20px;
+    border-radius: 6px;
+    font-size: 0.92rem;
+    font-weight: 500;
+    margin-bottom: 20px;
+    opacity: 1;
+    transition: opacity 1s ease;
+}
+
+#sucess-message-box {
+    background-color: #eafaf1;
+    color: #1e8449;
+    border: 1px solid #a9dfbf;
+}
+
+#error-message-box {
+    background-color: #fdedec;
+    color: #c0392b;
+    border: 1px solid #f5b7b1;
+}
+
 /* ── Detail ── */
 .detail-card {
     background-color: white;

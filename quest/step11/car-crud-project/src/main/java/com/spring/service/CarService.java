@@ -27,6 +27,10 @@ public class CarService {
     public CarDTO findById(Integer id) {
         return mapper.findById(id);
     }
+
+    public int deleteById(Integer id) {
+        return mapper.deleteById(id);
+    }
 }
 
 

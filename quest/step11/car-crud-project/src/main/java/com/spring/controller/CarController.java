@@ -57,7 +57,19 @@ public class CarController {
         return view;
     }
 
-    
+    @GetMapping("/{id}/delete")
+    public String delete(@PathVariable Integer id,
+                         RedirectAttributes redirectAttributes) {
+        int result = carService.deleteById(id);
+        if (result == 1) {
+            redirectAttributes.addFlashAttribute(
+                    "successMessage", "차량이 성공적으로 삭제되었습니다.");
+        } else {
+            redirectAttributes.addFlashAttribute(
+                    "errorMessage", "차량 삭제에 실패했습니다.");
+        }
+        return "redirect:/cars";
+    }
 }
 
 

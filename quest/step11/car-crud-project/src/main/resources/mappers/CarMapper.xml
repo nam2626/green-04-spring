@@ -20,4 +20,8 @@
     <select id="findById" resultType="car">
         SELECT <include refid="carColumns" /> FROM cars WHERE car_id = #{id}
     </select>
+
+    <delete id="deleteById">
+        DELETE FROM cars WHERE car_id = #{id}
+    </delete>
 </mapper>
