@@ -68,6 +68,17 @@ public class MenuDTO {
 		this.createdAt = LocalDateTime.now();
 	}
 
+	public MenuDTO(String name, Integer price, 
+			String category, String description, boolean available) {
+		this.name = name;
+		this.price = price;
+		this.category = category;
+		this.description = description;
+		this.available = available;
+	}
+	
+	
+
 }
 
 
