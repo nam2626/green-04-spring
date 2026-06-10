@@ -1,5 +1,7 @@
 package com.spring.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.spring.dto.MenuDTO;
@@ -18,5 +20,8 @@ import com.spring.dto.MenuDTO;
  * @Query: JPQL로 복잡한 쿼리 직접 작성
  */
 public interface MenuRepository extends JpaRepository<MenuDTO, Long> {
+
+	List<MenuDTO> findByNameContaining(String keyword);
+	List<MenuDTO> findByCategoryContaining(String category);
 
 }

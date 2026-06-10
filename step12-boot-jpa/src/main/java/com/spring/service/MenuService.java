@@ -1,6 +1,6 @@
 package com.spring.service;
 
-import java.util.List;
+import java.util.List;import javax.swing.event.MenuListener;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,6 +50,14 @@ public class MenuService {
 	@Transactional
 	public void delete(Long id) {
 		menuRepository.deleteById(id);
+	}
+
+	public List<MenuDTO> findByNameContaining(String keyword) {
+		return menuRepository.findByNameContaining(keyword);
+	}
+
+	public List<MenuDTO>  findByCategoryContaining(String category) {
+		return menuRepository.findByCategoryContaining(category);
 	}
 
 }

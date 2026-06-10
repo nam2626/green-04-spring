@@ -29,10 +29,16 @@ public class MenuController {
 	}
 	
 	@GetMapping
-	public String list(Model model, String keyword, String category) {
+	public String list(Model model, String keyword, String category, Boolean available) {
 		model.addAttribute("keyword", keyword);
 		model.addAttribute("category", category);
-		model.addAttribute("menus", menuService.findAll());
+		model.addAttribute("categories", List.of("버거","사이드","음료"));
+		if((keyword != null && !keyword.isEmpty()))
+			model.addAttribute("menus", menuService.findByNameContaining(keyword));
+		else if (category != null && !category.isEmpty())
+			model.addAttribute("menus", menuService.findByCategoryContaining(category));
+		else 
+			model.addAttribute("menus", menuService.findAll());
 		return "menu/list";
 	}
 	
