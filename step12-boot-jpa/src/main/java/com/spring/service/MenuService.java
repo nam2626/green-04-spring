@@ -23,4 +23,14 @@ public class MenuService {
 		return menuRepository.findAll();
 	}
 
+	public MenuDTO findById(Long id) {
+		return menuRepository.findById(id).orElseThrow(() -> 
+				new IllegalArgumentException("해당 메뉴를 찾을 수 없습니다."));
+	}
+
 }
+
+
+
+
+
