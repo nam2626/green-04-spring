@@ -11,4 +11,9 @@
     <select id="findAll" resultType="car">
         SELECT <include refid="carColumns" /> FROM cars
     </select>
+
+    <insert id="save" parameterType="car">
+        INSERT INTO cars (brand, model, year, mileage, price)
+        VALUES (#{brand}, #{model}, #{year}, #{mileage}, #{price})
+    </insert>
 </mapper>
