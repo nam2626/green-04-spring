@@ -70,6 +70,13 @@ public class CarController {
         }
         return "redirect:/cars";
     }
+
+    @GetMapping("/{id}/edit")
+    public ModelAndView edit(@PathVariable Integer id, ModelAndView view) {
+        view.addObject("car", carService.findById(id));
+        view.setViewName("edit");
+        return view;
+    }
 }
 
 
