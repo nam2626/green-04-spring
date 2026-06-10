@@ -2,10 +2,15 @@ package com.spring.controller;
 
 import com.spring.dto.CarDTO;
 import com.spring.service.CarService;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @RequestMapping("/cars")
 @Controller
@@ -28,6 +33,23 @@ public class CarController {
         view.addObject("car", new CarDTO());
         view.setViewName("form");
         return view;
+    }
+
+    @PostMapping
+    public String save(@Valid CarDTO car, RedirectAttributes redirectAttributes,
+                       BindingResult bindingResult, Model model){
+        try{
+            if(bindingResult.hasErrors()){
+                throw new Exception("입력값이 잘못되었습니다. 다시 확인하여 입력해 주세요.");
+            }
+            // carService.save(car);
+        }catch (Exception e){
+            model.addAttribute("car",car);
+            e.printStackTrace();
+            return "form";
+        }
+
+        return "redirect:/cars";
     }
 }
 
