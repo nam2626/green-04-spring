@@ -24,4 +24,17 @@
     <delete id="deleteById">
         DELETE FROM cars WHERE car_id = #{id}
     </delete>
+
+    <update id="edit">
+        UPDATE
+            cars
+        SET
+            brand = #{brand},
+            model = #{model},
+            year = #{year},
+            mileage = #{mileage},
+            price = #{price}
+        WHERE
+            car_id = #{carId}
+    </update>
 </mapper>

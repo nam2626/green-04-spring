@@ -31,6 +31,10 @@ public class CarService {
     public int deleteById(Integer id) {
         return mapper.deleteById(id);
     }
+
+    public int edit(CarDTO car) {
+        return mapper.edit(car);
+    }
 }
 
 

@@ -12,4 +12,5 @@ public interface CarMapper {
     void save(CarDTO car);
     CarDTO findById(Integer id);
     int deleteById(Integer id);
+    int edit(CarDTO car);
 }

@@ -77,6 +77,24 @@ public class CarController {
         view.setViewName("edit");
         return view;
     }
+    @PostMapping("/{id}/edit")
+    public String edit(@Valid @ModelAttribute("car") CarDTO car,
+                       BindingResult bindingResult,
+                       @PathVariable Integer id,
+                       RedirectAttributes redirectAttributes, Model model){
+        try{
+            if(bindingResult.hasErrors()){
+                throw new Exception("입력값이 잘못되었습니다. 다시 확인하여 입력해 주세요.");
+            }
+            car.setCarId(id);
+            carService.edit(car);
+        }catch (Exception e){
+            e.printStackTrace();
+            return "edit";
+        }
+
+        return "redirect:/cars";
+    }
 }
 
 
