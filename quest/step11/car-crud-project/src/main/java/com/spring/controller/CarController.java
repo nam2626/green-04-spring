@@ -34,7 +34,8 @@ public class CarController {
     }
 
     @PostMapping
-    public String save(@Valid @ModelAttribute("car") CarDTO car, BindingResult bindingResult,
+    public String save(@Valid @ModelAttribute("car") CarDTO car,
+                       BindingResult bindingResult,
                        RedirectAttributes redirectAttributes, Model model){
         try{
             if(bindingResult.hasErrors()){
@@ -42,7 +43,6 @@ public class CarController {
             }
              carService.save(car);
         }catch (Exception e){
-//            model.addAttribute("car",car);
             e.printStackTrace();
             return "form";
         }
@@ -56,6 +56,8 @@ public class CarController {
         view.setViewName("detail");
         return view;
     }
+
+    
 }
 
 

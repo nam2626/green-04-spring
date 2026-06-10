@@ -1,15 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>차량 상세</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
 <nav>
     <h1>차량 관리</h1>
     <a href="/cars/new">차량 등록</a>
-    </nav>
-    <div class="container">
+</nav>
+<div class="container">
+    <div class="detail-card">
         <h2>차량 정보</h2>
         <table>
             <tbody>
@@ -37,15 +39,13 @@
                     <th>등록일</th>
                     <td th:text="${car.registeredAt}"></td>
                 </tr>
-                <tr>
-                    <td colspan="2">
-                        <a th:href="@{/menus/{id}/edit(id=${car.carId})}">수정</a>
-                        <a th:href="@{/menus/{id}/delete(id=${car.carId})}">삭제</a>
-                    </td>
-                </tr>
             </tbody>
-
         </table>
+        <div class="detail-actions">
+            <a th:href="@{/cars/{id}/edit(id=${car.carId})}" class="btn btn-primary">수정</a>
+            <a th:href="@{/cars/{id}/delete(id=${car.carId})}" class="btn btn-danger">삭제</a>
+        </div>
     </div>
+</div>
 </body>
 </html>
