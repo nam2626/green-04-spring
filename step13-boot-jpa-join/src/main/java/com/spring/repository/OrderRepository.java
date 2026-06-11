@@ -30,7 +30,8 @@ public interface OrderRepository extends JpaRepository<Order, Long>{
 			+ "where o.id = :id")
 	Optional<Order> findByIdWithDetails(@Param("id") Long id);
 	
-	// 상태별 조회
+	// 상태별 조회 - 상태값이 일치하는 주문 항목만 회원과 같이 로딩, 정렬은 최근 주문일 부터
+	
 	
 	// 회원별 주문 조회
 	
