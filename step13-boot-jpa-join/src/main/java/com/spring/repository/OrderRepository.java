@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.spring.entity.Order;
+import com.spring.entity.OrderStatus;
 
 public interface OrderRepository extends JpaRepository<Order, Long>{
 	 // ★ JOIN FETCH — 주문 목록 + 회원 (N+1 방지)
@@ -31,11 +32,23 @@ public interface OrderRepository extends JpaRepository<Order, Long>{
 	Optional<Order> findByIdWithDetails(@Param("id") Long id);
 	
 	// 상태별 조회 - 상태값이 일치하는 주문 항목만 회원과 같이 로딩, 정렬은 최근 주문일 부터
-	
+	@Query("select distinct o from Order o "
+			+ "join fetch o.member "
+			+ "where o.status = :status order by o.orderDate desc")
+	List<Order> findByStatusWithMember(@Param("status") OrderStatus status);
 	
 	// 회원별 주문 조회
-	
+	@Query("select o from Order o join fetch o.member m "
+			+ "where m.id = :memberId order by o.orderDate desc")
+	List<Order> findByMemberIdWithMember(@Param("memberId") Long memberId);
+
 	// 검색 (회원 + 상태 필터)
+	@Query("select o from Order o join fetch o.member m "
+			+ "where (:memberId IS NULL or m.id = :memberId) "
+			+ "and (:status is null or o.status = :status) "
+			+ "order by o.orderDate desc")
+	List<Order> search(@Param("memberId") Long memberId, 
+			@Param("status") OrderStatus status);
 }
 
 
