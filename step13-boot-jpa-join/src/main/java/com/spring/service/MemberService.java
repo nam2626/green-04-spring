@@ -1,8 +1,11 @@
 package com.spring.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.spring.entity.Member;
 import com.spring.repository.MemberRepository;
 
 @Transactional(readOnly = true)
@@ -13,6 +16,10 @@ public class MemberService {
 
 	public MemberService(MemberRepository memberRepository) {
 		this.memberRepository = memberRepository;
+	}
+
+	public List<Member> findAll() {
+		return memberRepository.findAll();
 	}
 	
 	
