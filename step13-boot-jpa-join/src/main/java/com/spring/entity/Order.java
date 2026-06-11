@@ -25,7 +25,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 @Entity
-@Table(name="order")
+@Table(name="orders")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -56,6 +56,19 @@ public class Order {
 		this.orderDate = LocalDateTime.now();
 	}
 
+	// 총 금액 계산 (DB 컬럼 아님 — 비즈니스 로직)
+    public int getTotalPrice() {
+        return orderItems.stream()
+                .mapToInt(item -> item.getUnitPrice() * item.getQuantity())
+                .sum();
+    }
+
+    // 연관관계 편의 메서드
+    public void addOrderItem(OrderItem item) {
+        orderItems.add(item);
+        item.setOrder(this);
+    }
+	
 	
 }
 

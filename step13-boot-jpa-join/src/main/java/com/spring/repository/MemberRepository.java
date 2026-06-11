@@ -13,7 +13,7 @@ public interface MemberRepository extends JpaRepository<Member, Long>{
 	
 	List<Member> findAllByOrderByCreatedAtDesc();
 	
-	@Query("select distinct m from memeber m left join fetch m.orders order by m.createdAt desc")
+	@Query("select distinct m from Member m left join fetch m.orders order by m.createdAt desc")
 	List<Member> findAllWithOrders();
 }
 
