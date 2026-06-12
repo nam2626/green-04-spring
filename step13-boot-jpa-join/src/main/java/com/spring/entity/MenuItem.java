@@ -11,8 +11,6 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 
 @Entity
 @Table(name="menu_item")
@@ -39,9 +37,7 @@ public class MenuItem {
 	@Column(nullable = false)
 	private boolean available = true;
 
-	public MenuItem(String name,
-			@NotNull(message = "가격을 입력하세요") @Min(value = 100, message = "가격은 100원 이상이어야 합니다.") Integer price,
-			String category) {
+	public MenuItem(String name, Integer price, String category) {
 		super();
 		this.name = name;
 		this.price = price;

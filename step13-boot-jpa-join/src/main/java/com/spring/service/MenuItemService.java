@@ -28,6 +28,21 @@ public class MenuItemService {
 	public void save(MenuItem menuItem) {
 		menuItemRepository.save(menuItem);
 	}
+
+	public MenuItem findById(Long id) {
+		return menuItemRepository.findById(id).orElseThrow(
+				() -> new IllegalArgumentException("찾으시는 메뉴 정보가 없습니다."));
+	}
+
+	@Transactional
+	public void update(MenuItem menu) {
+		MenuItem raw = findById(menu.getId());
+		raw.setName(menu.getName());
+		raw.setCategory(menu.getCategory());
+		raw.setAvailable(menu.isAvailable());
+		raw.setPrice(menu.getPrice());
+		
+	}
 	
 	
 
