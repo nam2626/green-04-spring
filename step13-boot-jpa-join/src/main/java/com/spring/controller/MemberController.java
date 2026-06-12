@@ -14,6 +14,8 @@ import com.spring.entity.Member;
 import com.spring.service.MemberService;
 
 import jakarta.validation.Valid;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @Controller
 @RequestMapping("/members")
@@ -73,6 +75,15 @@ public class MemberController {
 		ra.addFlashAttribute("message", "회원정보 수정 완료");
 		return "redirect:/members/"+id;
 	}
+	
+	@GetMapping("/{id}")
+	public ModelAndView detail(@PathVariable Long id, ModelAndView view) {
+		Member member = memberService.findById(id);
+		view.setViewName("member/detail");
+		view.addObject("member", member);
+		return view;
+	}
+	
 }
 
 
