@@ -64,6 +64,12 @@ public class OrderService {
 		return orderRepository.findById(id)
 				.orElseThrow(() -> new IllegalArgumentException("해당 주문 정보가 없습니다."));
 	}
+
+	@Transactional
+	public void changeStatus(Long id, OrderStatus status) {
+		Order order = findById(id);
+		order.setStatus(status);
+	}
 	
 	
 	

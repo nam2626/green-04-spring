@@ -87,6 +87,15 @@ public class OrderController {
 		return view;
 	}
 	
+	@PostMapping("/{id}/status")
+	public String updateStatus(@PathVariable Long id, OrderStatus status,
+			RedirectAttributes attributes) {
+		orderService.changeStatus(id,status);
+		attributes.addFlashAttribute("message", "주문 상태가 변경되었습니다.");
+		
+		return "redirect:/orders/"+id;
+	}
+	
 }
 
 
