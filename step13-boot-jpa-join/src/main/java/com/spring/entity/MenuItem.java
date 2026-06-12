@@ -19,7 +19,6 @@ import lombok.RequiredArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@RequiredArgsConstructor
 public class MenuItem {
 	//MenuItem -> OrderItem 역방향 참조
 	@Id
@@ -27,21 +26,29 @@ public class MenuItem {
 	private Long id;
 	
 	@Column(nullable = false, length = 100)
-	@NonNull
 	private String name;
 	
 	@Column(nullable = false)
 	@NotNull(message = "가격을 입력하세요")
 	@Min(value = 100, message = "가격은 100원 이상이어야 합니다.")
-	@NonNull
 	private Integer price;
-	
+
 	@Column(length = 50)
-	@NonNull
 	private String category;
 	
 	@Column(nullable = false)
 	private boolean available = true;
+
+	public MenuItem(String name,
+			@NotNull(message = "가격을 입력하세요") @Min(value = 100, message = "가격은 100원 이상이어야 합니다.") Integer price,
+			String category) {
+		super();
+		this.name = name;
+		this.price = price;
+		this.category = category;
+	}
+	
+	
 	
 }
 

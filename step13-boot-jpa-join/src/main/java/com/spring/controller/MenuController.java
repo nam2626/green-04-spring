@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.spring.entity.Member;
 import com.spring.entity.MenuItem;
 import com.spring.service.MenuItemService;
 
@@ -39,7 +38,8 @@ public class MenuController {
 	}
 	
 	@PostMapping
-	public String save(@Valid @ModelAttribute("menu") MenuItem menuItem, BindingResult br, RedirectAttributes ra) {
+	public String save(@Valid @ModelAttribute("menu") MenuItem menuItem,
+			BindingResult br, RedirectAttributes ra) {
 		if(br.hasErrors()) {
 			return "menu/form";
 		}
