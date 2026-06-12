@@ -70,6 +70,11 @@ public class OrderService {
 		Order order = findById(id);
 		order.setStatus(status);
 	}
+
+	@Transactional
+	public void delete(Long id) {
+		orderRepository.deleteById(id);
+	}
 	
 	
 	

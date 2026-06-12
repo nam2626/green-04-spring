@@ -96,6 +96,13 @@ public class OrderController {
 		return "redirect:/orders/"+id;
 	}
 	
+	@PostMapping("/{id}/delete")
+	public String delete(@PathVariable Long id, RedirectAttributes ra) {
+		orderService.delete(id);
+		ra.addFlashAttribute("message", "주문 내역이 삭제되었습니다.");
+		return "redirect:/orders";
+	}
+	
 }
 
 
