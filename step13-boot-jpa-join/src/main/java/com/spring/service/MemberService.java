@@ -8,6 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.spring.entity.Member;
 import com.spring.repository.MemberRepository;
 
+import jakarta.validation.Valid;
+
 @Transactional(readOnly = true)
 @Service
 public class MemberService {
@@ -25,6 +27,11 @@ public class MemberService {
 	@Transactional
 	public void delete(Long id) {
 		memberRepository.deleteById(id);
+	}
+
+	@Transactional
+	public void save(Member member) {
+		memberRepository.save(member);
 	}
 	
 	

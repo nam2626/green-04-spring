@@ -1,6 +1,7 @@
 package com.spring.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -8,7 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.spring.entity.Member;
 import com.spring.service.MemberService;
+
+import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping("/members")
@@ -32,7 +36,39 @@ public class MemberController {
 		ra.addFlashAttribute("message", "회원이 삭제되었습니다.");
 		return "redirect:/members";
 	}
+	
+	@GetMapping("/new")
+	public ModelAndView form(ModelAndView view) {
+		view.addObject("member", new Member());
+		view.setViewName("member/form");
+		return view;
+	}
+	
+	@PostMapping
+	public String save(@Valid Member member, BindingResult br, RedirectAttributes ra) {
+		if(br.hasErrors()) {
+			return "member/form";
+		}
+		memberService.save(member);
+		ra.addFlashAttribute("message", "회원정보 추가 완료");
+		return "redirect:/members";
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
