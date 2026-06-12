@@ -8,6 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.spring.entity.MenuItem;
 import com.spring.repository.MenuItemRepository;
 
+import jakarta.validation.Valid;
+
 @Service
 @Transactional(readOnly =  true)
 public class MenuItemService {
@@ -20,6 +22,11 @@ public class MenuItemService {
 
 	public List<MenuItem> findAll() {
 		return menuItemRepository.findAll();
+	}
+
+	@Transactional
+	public void save(MenuItem menuItem) {
+		menuItemRepository.save(menuItem);
 	}
 	
 	
