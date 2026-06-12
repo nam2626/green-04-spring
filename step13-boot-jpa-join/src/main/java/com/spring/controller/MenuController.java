@@ -69,4 +69,10 @@ public class MenuController {
 		return "redirect:/menus";
 	}
 	
+	@PostMapping("/{id}/delete")
+	public String delete(@PathVariable Long id, RedirectAttributes ra) {
+		menuItemService.delete(id);
+		ra.addFlashAttribute("message", "메뉴가 삭제되었습니다.");
+		return "redirect:/menus";
+	}
 }

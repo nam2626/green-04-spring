@@ -43,6 +43,11 @@ public class MenuItemService {
 		raw.setPrice(menu.getPrice());
 		
 	}
+
+	@Transactional
+	public void delete(Long id) {
+		menuItemRepository.deleteById(id);
+	}
 	
 	
 
