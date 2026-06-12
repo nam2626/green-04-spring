@@ -33,6 +33,11 @@ public class MemberService {
 	public void save(Member member) {
 		memberRepository.save(member);
 	}
+
+	public Member findById(Long id) {
+		return memberRepository.findById(id)
+				.orElseThrow(() -> new IllegalArgumentException("해당 회원이 없습니다."));
+	}
 	
 	
 }

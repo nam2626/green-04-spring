@@ -53,6 +53,13 @@ public class MemberController {
 		ra.addFlashAttribute("message", "회원정보 추가 완료");
 		return "redirect:/members";
 	}
+	
+	@GetMapping("/{id}/edit")
+	public ModelAndView edit(ModelAndView view, @PathVariable Long id) {
+		view.addObject("member", memberService.findById(id));
+		view.setViewName("member/form");
+		return view;
+	}
 }
 
 
