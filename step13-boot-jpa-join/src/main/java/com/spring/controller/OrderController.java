@@ -1,12 +1,15 @@
 package com.spring.controller;
 
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.spring.entity.Member;
 import com.spring.entity.Order;
 import com.spring.entity.OrderStatus;
 import com.spring.service.MemberService;
@@ -54,6 +57,20 @@ public class OrderController {
 		view.addObject("menuItems", menuItemService.findAll());
 		view.setViewName("order/form");
 		return view;
+	}
+	
+	@PostMapping
+	public String save(Long memberId, List<Long> menuItemIds, List<Integer> quantities,
+			RedirectAttributes ra) {
+		try {
+			Order order = orderService.save(memberId, menuItemIds, quantities);
+			ra.addFlashAttribute("message", "주문이 완료 되었습니다.");
+			return "redirect:/orders/"+order.getId();
+		}catch (IllegalArgumentException e) {
+			ra.addFlashAttribute("error", e.getMessage());
+			return "redirect:/orders/new";
+		}
+		
 	}
 	
 }
