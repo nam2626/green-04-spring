@@ -17,43 +17,43 @@ import com.spring.service.MemberService;
 import com.spring.service.MenuItemService;
 import com.spring.service.OrderService;
 
-
+/**
+ * 주문 관리 컨트롤러
+ */
 @RequestMapping("/orders")
 @Controller
 public class OrderController {
-	private final HomeController homeController;
+	
 	private final MemberService memberService;
 	private final MenuItemService menuItemService;
 	private final OrderService orderService;
 	
-	public OrderController(MemberService memberService, MenuItemService menuItemService, OrderService orderService, HomeController homeController) {
+	public OrderController(MemberService memberService, MenuItemService menuItemService, OrderService orderService) {
 		this.memberService = memberService;
 		this.menuItemService = menuItemService;
 		this.orderService = orderService;
-		this.homeController = homeController;
 	}
 
-//	@GetMapping
-//	public String list(Long memberId, OrderStatus status, Model model) {
-//		model.addAttribute("members", memberService.findAll());
-//		model.addAttribute("statuses", OrderStatus.values());
-//		model.addAttribute("orders", orderService.search(memberId,status));
-//		model.addAttribute("selectedMemberId", memberId);
-//		model.addAttribute("selectedStatus", status);
-//		
-//		return "order/list";
-//	}
+	/**
+	 * 주문 목록 및 검색 페이지
+	 */
 	@GetMapping
-	public ModelAndView orderList(ModelAndView view ,@RequestParam(required = false) Long memberId, @RequestParam(required = false) OrderStatus orderStatus ){
+	public ModelAndView orderList(ModelAndView view, 
+			@RequestParam(required = false) Long memberId, 
+			@RequestParam(required = false) OrderStatus orderStatus) {
+		
 		view.addObject("members", memberService.findAll());
-        view.addObject("statuses", OrderStatus.values());
-        view.addObject("orders" ,orderService.search(memberId,orderStatus));
+        view.addObject("statuses", OrderStatus.values()); // Enum 전체 목록 전달
+        view.addObject("orders", orderService.search(memberId, orderStatus));
         view.addObject("selectedMemberId", memberId);
         view.addObject("selectedStatus", orderStatus);
         view.setViewName("order/list");
         return view;
 	}
 	
+	/**
+	 * 새 주문 작성 페이지 (회원 목록과 메뉴 목록을 함께 전달)
+	 */
 	@GetMapping("/new")
 	public ModelAndView form(ModelAndView view) {
 		view.addObject("members", memberService.findAll());
@@ -62,23 +62,28 @@ public class OrderController {
 		return view;
 	}
 	
+	/**
+	 * 주문 실행
+	 */
 	@PostMapping
-	public String save(@RequestParam Long memberId,@RequestParam List<Long> menuItemIds,@RequestParam List<Integer> quantities,
+	public String save(@RequestParam Long memberId, 
+			@RequestParam List<Long> menuItemIds, 
+			@RequestParam List<Integer> quantities,
 			RedirectAttributes ra) {
-		System.out.println(memberId);
-		System.out.println(menuItemIds);
-		System.out.println(quantities);
+		
 		try {
 			Order order = orderService.save(memberId, menuItemIds, quantities);
-			ra.addFlashAttribute("message", "주문이 완료 되었습니다.");
-			return "redirect:/orders/"+order.getId();
-		}catch (IllegalArgumentException e) {
+			ra.addFlashAttribute("message", "주문이 정상적으로 완료되었습니다.");
+			return "redirect:/orders/" + order.getId();
+		} catch (IllegalArgumentException e) {
 			ra.addFlashAttribute("error", e.getMessage());
 			return "redirect:/orders/new";
 		}
-		
 	}
 	
+	/**
+	 * 주문 상세 내역 조회
+	 */
 	@GetMapping("/{id}")
 	public ModelAndView detail(@PathVariable Long id, ModelAndView view) {
 		view.addObject("order", orderService.findById(id));
@@ -87,15 +92,19 @@ public class OrderController {
 		return view;
 	}
 	
+	/**
+	 * 주문 상태 업데이트 (대기중 -> 완료 등)
+	 */
 	@PostMapping("/{id}/status")
-	public String updateStatus(@PathVariable Long id, OrderStatus status,
-			RedirectAttributes attributes) {
-		orderService.changeStatus(id,status);
-		attributes.addFlashAttribute("message", "주문 상태가 변경되었습니다.");
-		
-		return "redirect:/orders/"+id;
+	public String updateStatus(@PathVariable Long id, OrderStatus status, RedirectAttributes ra) {
+		orderService.changeStatus(id, status);
+		ra.addFlashAttribute("message", "주문 상태가 변경되었습니다.");
+		return "redirect:/orders/" + id;
 	}
 	
+	/**
+	 * 주문 취소 및 내역 삭제
+	 */
 	@PostMapping("/{id}/delete")
 	public String delete(@PathVariable Long id, RedirectAttributes ra) {
 		orderService.delete(id);
@@ -104,11 +113,3 @@ public class OrderController {
 	}
 	
 }
-
-
-
-
-
-
-
-

@@ -10,21 +10,27 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.spring.entity.Member;
 import com.spring.entity.MenuItem;
 import com.spring.service.MenuItemService;
 
 import jakarta.validation.Valid;
 
+/**
+ * 메뉴 관리 컨트롤러
+ */
 @RequestMapping("/menus")
 @Controller
 public class MenuController {
+	
 	private final MenuItemService menuItemService;
 
 	public MenuController(MenuItemService menuItemService) {
 		this.menuItemService = menuItemService;
 	}
 	
+	/**
+	 * 메뉴 목록 조회
+	 */
 	@GetMapping
 	public ModelAndView list(ModelAndView view) {
 		view.addObject("menus", menuItemService.findAll());
@@ -32,6 +38,9 @@ public class MenuController {
 		return view;
 	}
 	
+	/**
+	 * 메뉴 등록 폼 요청
+	 */
 	@GetMapping("/new")
 	public ModelAndView form(ModelAndView view) {
 		view.addObject("menu", new MenuItem());
@@ -39,6 +48,9 @@ public class MenuController {
 		return view;
 	}
 	
+	/**
+	 * 메뉴 등록 실행
+	 */
 	@PostMapping
 	public String save(@Valid @ModelAttribute("menu") MenuItem menuItem,
 			BindingResult br, RedirectAttributes ra) {
@@ -46,10 +58,13 @@ public class MenuController {
 			return "menu/form";
 		}
 		menuItemService.save(menuItem);
-		ra.addFlashAttribute("message", "메뉴 정보 추가 완료");
+		ra.addFlashAttribute("message", "메뉴가 성공적으로 추가되었습니다.");
 		return "redirect:/menus";
 	}
 	
+	/**
+	 * 메뉴 수정 폼 요청
+	 */
 	@GetMapping("/{id}/edit")
 	public ModelAndView edit(ModelAndView view, @PathVariable Long id) {
 		view.addObject("menu", menuItemService.findById(id));
@@ -57,6 +72,9 @@ public class MenuController {
 		return view;
 	}
 	
+	/**
+	 * 메뉴 수정 실행
+	 */
 	@PostMapping("/{id}/edit")
 	public String update(@Valid @ModelAttribute("menu") MenuItem menu, 
 				BindingResult br, RedirectAttributes ra, @PathVariable Long id) {
@@ -65,10 +83,13 @@ public class MenuController {
 		}
 		menu.setId(id);
 		menuItemService.update(menu);
-		ra.addFlashAttribute("message", "메뉴 정보 수정 완료");
+		ra.addFlashAttribute("message", "메뉴 정보가 수정되었습니다.");
 		return "redirect:/menus";
 	}
 	
+	/**
+	 * 메뉴 삭제 실행
+	 */
 	@PostMapping("/{id}/delete")
 	public String delete(@PathVariable Long id, RedirectAttributes ra) {
 		menuItemService.delete(id);
