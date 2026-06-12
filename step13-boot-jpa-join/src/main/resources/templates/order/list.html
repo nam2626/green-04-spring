@@ -42,7 +42,7 @@
             <label class="col-form-label">상태</label>
         </div>
         <div class="col-auto">
-            <select name="status" class="form-select">
+            <select name="orderStatus" class="form-select">
                 <option value="">전체</option>
                 <option th:each="s : ${statuses}"
                         th:value="${s}"
