@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -78,7 +79,19 @@ public class OrderController {
 		
 	}
 	
+	@GetMapping("/{id}")
+	public ModelAndView detail(@PathVariable Long id, ModelAndView view) {
+		view.addObject("order", orderService.findById(id));
+		view.addObject("statuses", OrderStatus.values());
+		view.setViewName("order/detail");
+		return view;
+	}
+	
 }
+
+
+
+
 
 
 

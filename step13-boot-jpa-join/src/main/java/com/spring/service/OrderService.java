@@ -59,6 +59,11 @@ public class OrderService {
 		
 		return orderRepository.save(order);
 	}
+
+	public Order findById(Long id) {
+		return orderRepository.findById(id)
+				.orElseThrow(() -> new IllegalArgumentException("해당 주문 정보가 없습니다."));
+	}
 	
 	
 	
