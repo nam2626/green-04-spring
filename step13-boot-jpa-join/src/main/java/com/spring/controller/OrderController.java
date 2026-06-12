@@ -20,14 +20,16 @@ import com.spring.service.OrderService;
 @RequestMapping("/orders")
 @Controller
 public class OrderController {
+	private final HomeController homeController;
 	private final MemberService memberService;
 	private final MenuItemService menuItemService;
 	private final OrderService orderService;
 	
-	public OrderController(MemberService memberService, MenuItemService menuItemService, OrderService orderService) {
+	public OrderController(MemberService memberService, MenuItemService menuItemService, OrderService orderService, HomeController homeController) {
 		this.memberService = memberService;
 		this.menuItemService = menuItemService;
 		this.orderService = orderService;
+		this.homeController = homeController;
 	}
 
 //	@GetMapping
@@ -60,8 +62,11 @@ public class OrderController {
 	}
 	
 	@PostMapping
-	public String save(Long memberId, List<Long> menuItemIds, List<Integer> quantities,
+	public String save(@RequestParam Long memberId,@RequestParam List<Long> menuItemIds,@RequestParam List<Integer> quantities,
 			RedirectAttributes ra) {
+		System.out.println(memberId);
+		System.out.println(menuItemIds);
+		System.out.println(quantities);
 		try {
 			Order order = orderService.save(memberId, menuItemIds, quantities);
 			ra.addFlashAttribute("message", "주문이 완료 되었습니다.");

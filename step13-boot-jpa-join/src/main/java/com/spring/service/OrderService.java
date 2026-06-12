@@ -32,6 +32,7 @@ public class OrderService {
 		return orderRepository.search(memberId,status);
 	}
 
+	@Transactional
 	public Order save(Long memberId, List<Long> menuItemIds, List<Integer> quantities) {
 		Order order = new Order();
 		
