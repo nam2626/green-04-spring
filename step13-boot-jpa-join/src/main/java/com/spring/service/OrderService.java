@@ -65,7 +65,7 @@ public class OrderService {
 		}
 		
 		// 최소 1개 이상의 메뉴가 있어야 함
-		if(order.orderItems.isEmpty()) {
+		if(order.getOrderItems().isEmpty()) {
 			throw new IllegalArgumentException("메뉴를 1개 이상 선택하세요.");
 		}
 		
