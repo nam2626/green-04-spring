@@ -38,6 +38,14 @@ public class MemberService {
 		return memberRepository.findById(id)
 				.orElseThrow(() -> new IllegalArgumentException("해당 회원이 없습니다."));
 	}
+
+	@Transactional
+	public void update(Member member) {
+		Member raw = findById(member.getId());
+		raw.setName(member.getName());
+		raw.setEmail(member.getEmail());
+		raw.setPhone(member.getPhone());
+	}
 	
 	
 }

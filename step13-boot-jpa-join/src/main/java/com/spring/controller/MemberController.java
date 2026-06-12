@@ -3,6 +3,7 @@ package com.spring.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -59,6 +60,18 @@ public class MemberController {
 		view.addObject("member", memberService.findById(id));
 		view.setViewName("member/form");
 		return view;
+	}
+	
+	@PostMapping("/{id}/edit")
+	public String update(@Valid @ModelAttribute("member") Member member, 
+				BindingResult br, RedirectAttributes ra, @PathVariable Long id) {
+		if(br.hasErrors()) {
+			return "member/form";
+		}
+		member.setId(id);
+		memberService.update(member);
+		ra.addFlashAttribute("message", "회원정보 수정 완료");
+		return "redirect:/members/"+id;
 	}
 }
 
