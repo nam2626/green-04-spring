@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -12,13 +13,13 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import net.bytebuddy.dynamic.TypeResolutionStrategy.Lazy;
 
 /**
  * 게시글번호(Long, PK)
@@ -59,10 +60,14 @@ public class Post {
 
   @Column(nullable = false)
   private LocalDateTime updatedAt;
+
   // 댓글 목록
-  // private List<Comment> comments = new ArrayList<>();
+  @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+  private List<Comment> comments = new ArrayList<>();
+
   // 첨부파일 목록
-  // private List<Attachement> attachements = new ArrayList<>();
+  @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+  private List<Attachment> attachements = new ArrayList<>();
 
   @PrePersist
   public void onCreate() {
