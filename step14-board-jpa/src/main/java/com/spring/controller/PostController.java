@@ -42,7 +42,12 @@ public class PostController {
 
     // 전체 게시글 읽어와서 board/list.html로 이동
     Page<Post> list = postService.getPostList(keyword, pageable);
-
+    System.out.println(list.isFirst());
+    System.out.println(list.isLast());
+    System.out.println(list.getNumber());
+    System.out.println(list.getSize());
+    System.out.println(list.getTotalPages());
+    view.addObject("currentPage", page);
     view.addObject("postPage", list);
     view.setViewName("board/list");
     return view;

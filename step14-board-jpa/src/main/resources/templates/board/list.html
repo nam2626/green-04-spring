@@ -47,7 +47,15 @@
 
     <!-- 페이징처리 -->
     <div th:if="${!postPage.isEmpty()}">
+      <ul>
+        <li th:if="${!postPage.first}"><a th:href="@{/board(keyword=${keyword},page=${currentPage - 1})}">◀</a></li>
 
+        <li th:each="i : ${#numbers.sequence(0, postPage.totalPages - 1)}">
+          <a th:href="@{/board(keyword=${keyword},page=${i})}" th:text="${i + 1}"></a>
+        </li>
+
+        <li th:if="${!postPage.last}"><a th:href="@{/board(keyword=${keyword},page=${currentPage + 1})}">▶</a></li>
+      </ul>
     </div>
 
   </section>
