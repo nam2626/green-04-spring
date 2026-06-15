@@ -1,4 +1,4 @@
-package com.spring.entity;
+package com.spring.repository;
 
 import java.util.List;
 import java.util.Optional;
