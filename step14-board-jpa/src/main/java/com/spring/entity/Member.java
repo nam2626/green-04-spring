@@ -43,7 +43,7 @@ public class Member {
   @Column(nullable = false, length = 10)
   private String role = "USER";
 
-  @Column(nullable = false, updatable = false)
+  @Column(nullable = false, updatable = false, name = "created_at")
   private LocalDateTime createdAt;
 
   @PrePersist
