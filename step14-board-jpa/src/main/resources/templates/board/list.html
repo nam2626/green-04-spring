@@ -19,10 +19,36 @@
     <table>
       <thead>
         <tr>
-
+          <th>번호</th>
+          <th>제목</th>
+          <th>작성자</th>
+          <th>작성일</th>
+          <th>조회수</th>
         </tr>
       </thead>
+      <tbody>
+        <tr th:if="${postPage.isEmpty()}">
+          <td colspan="5">
+            <p>작성된 게시글이 없습니다.</p>
+          </td>
+        </tr>
+        <tr th:each="post : ${postPage}">
+          <td th:text="${post.id}"></td>
+          <td>
+            <a th:href="@{'/board/detail?id=' + ${post.id}}" th:text="${post.title}"></a>
+          </td>
+          <td th:text="${post.member.nickname}"></td>
+          <td th:text="${post.createdAt}"></td>
+          <td th:text="${post.viewCount}"></td>
+        </tr>
+
+      </tbody>
     </table>
+
+    <!-- 페이징처리 -->
+    <div th:if="${!postPage.isEmpty()}">
+
+    </div>
 
   </section>
 </body>
