@@ -2,6 +2,8 @@ package com.spring.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.spring.entity.Post;
@@ -18,6 +20,15 @@ public class PostService {
 
   public List<Post> getPostList() {
     return postRepository.findAll();
+  }
+
+  public Page<Post> getPostList(String keyword, Pageable pageable) {
+    if (keyword == null || keyword.isEmpty()) {
+      return postRepository.findAllWithPost(pageable);
+    } else {
+      // return postRepository.searchWithPost(keyword, pageable);
+      return null;
+    }
   }
 
 }

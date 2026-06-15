@@ -3,8 +3,12 @@ package com.spring.controller;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.spring.entity.Member;
 import com.spring.entity.Post;
@@ -29,15 +33,16 @@ public class PostController {
   }
 
   @GetMapping
-  public ModelAndView list(ModelAndView view) {
+  public ModelAndView list(ModelAndView view,
+      @RequestParam(defaultValue = "") String keyword,
+      @RequestParam(defaultValue = "0") int page,
+      @RequestParam(defaultValue = "10") int size) {
+
+    Pageable pageable = PageRequest.of(page, size);
+
     // 전체 게시글 읽어와서 board/list.html로 이동
-    List<Post> list = postService.getPostList();
-    list.add(new Post(1L, "제목", "내용", new Member(1L, "사용자", "asdasd", "null", "asdasd", LocalDateTime.now()),
-        300L, LocalDateTime.now(), LocalDateTime.now(), null, null));
-    list.add(new Post(2L, "제목", "내용", new Member(1L, "사용자", "asdasd", "null", "asdasd", LocalDateTime.now()),
-        300L, LocalDateTime.now(), LocalDateTime.now(), null, null));
-    list.add(new Post(3L, "제목", "내용", new Member(1L, "사용자", "asdasd", "null", "asdasd", LocalDateTime.now()),
-        300L, LocalDateTime.now(), LocalDateTime.now(), null, null));
+    Page<Post> list = postService.getPostList(keyword, pageable);
+
     view.addObject("postPage", list);
     view.setViewName("board/list");
     return view;
