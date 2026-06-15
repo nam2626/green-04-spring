@@ -2,8 +2,8 @@ package com.spring.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.spring.entity.Comment;
+import com.spring.entity.CommentReaction;
 
-public interface CommentReactionRepository extends JpaRepository<Comment, Long> {
+public interface CommentReactionRepository extends JpaRepository<CommentReaction, Long> {
 
 }
