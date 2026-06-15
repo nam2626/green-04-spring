@@ -1,5 +1,13 @@
 package com.spring.entity;
 
+import java.time.LocalDateTime;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
+
 /**
  * 첨부파일 아이디(Long, PK)
  * 첨부파일 원본 파일명(String)
@@ -8,5 +16,24 @@ package com.spring.entity;
  * 생성일(LocalDateTime)
  */
 public class Attachment {
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
+  @Column(nullable = false, name = "original_name")
+  private String originalName;
+
+  @Column(nullable = false, name = "stored_name")
+  private String storedName;
+
+  @Column(name = "file_size")
+  private Long fileSize;
+
+  @Column(nullable = false, updatable = false)
+  private LocalDateTime createdAt;
+
+  @PrePersist
+  public void onCreate() {
+    createdAt = LocalDateTime.now();
+  }
 }
