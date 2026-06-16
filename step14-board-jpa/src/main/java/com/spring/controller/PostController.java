@@ -1,5 +1,7 @@
 package com.spring.controller;
 
+import java.io.IOException;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -109,7 +111,7 @@ public class PostController {
   public String postNew(@Valid @ModelAttribute("form") PostFormDTO form,
       BindingResult bindingResult,@SessionAttribute(value = "loginMember", required = false) Member loginMember, RedirectAttributes attributes,
       @RequestParam(value = "files", required = false) MultipartFile[] files
-    ){
+    ) throws IOException{
     
     if(loginMember == null) return "redirect:/auth/login";
     if(bindingResult.hasErrors()) return "board/write";
