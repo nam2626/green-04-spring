@@ -97,29 +97,59 @@ public class PostController {
     return view;
   }
 
+  /**
+   * [게시글 작성 화면 반환 API]
+   * 
+   * @SessionAttribute(value = "loginMember", required = false): 
+   *   세션에 저장되어 있는 "loginMember" 속성값(로그인 회원 정보)을 바로 파라미터로 바인딩받습니다.
+   *   - required = false: 비로그인 상태(세션에 해당 속성이 없음)여도 예외를 내지 않고 null로 받아옵니다.
+   * 
+   * @param loginMember 세션에서 꺼내온 현재 로그인 회원 객체 (없다면 null)
+   * @param model 화면에 DTO를 넘겨줄 모델 객체
+   * @return 로그인하지 않았다면 로그인 페이지로 리다이렉트, 로그인 상태라면 글쓰기 화면("templates/board/write.html") 반환
+   */
   @GetMapping("/new")
   public String postForm(@SessionAttribute(value = "loginMember", required = false) Member loginMember, Model model) {
-    System.out.println(loginMember);
+    // 세션 정보가 없으면 글쓰기를 제한하고 로그인 화면으로 리다이렉트 처리합니다.
     if(loginMember == null) return "redirect:/auth/login";
 
+    // 폼 검증과 입력 데이터 보관을 위해 빈 PostFormDTO 객체를 뷰에 전달합니다.
     model.addAttribute("form", new PostFormDTO());
 
-      return "board/write";
+    return "board/write";
   }
   
+  /**
+   * [신규 게시글 등록 및 파일 업로드 처리 API]
+   * 
+   * @Valid @ModelAttribute("form") PostFormDTO form: 
+   *   화면 폼에서 넘어온 제목/본문 텍스트를 DTO에 바인딩하고 유효성 제약조건(@NotBlank 등)을 즉시 검사합니다.
+   * @BindingResult bindingResult: 
+   *   검증 실패 정보가 담기는 객체입니다.
+   * @RequestParam(value = "files", required = false): 
+   *   HTML input[type="file"] 태그의 name="files"로 전송된 업로드 파일 목록을 수신합니다.
+   */
   @PostMapping("/new")
   public String postNew(@Valid @ModelAttribute("form") PostFormDTO form,
-      BindingResult bindingResult,@SessionAttribute(value = "loginMember", required = false) Member loginMember, RedirectAttributes attributes,
+      BindingResult bindingResult,
+      @SessionAttribute(value = "loginMember", required = false) Member loginMember, 
+      RedirectAttributes attributes,
       @RequestParam(value = "files", required = false) MultipartFile[] files
-    ) throws IOException{
+    ) throws IOException {
     
+    // 1. 비로그인 접근 차단
     if(loginMember == null) return "redirect:/auth/login";
+    
+    // 2. 글 제목/내용 입력 오류가 있다면 글 작성 화면으로 백(Back) 처리
     if(bindingResult.hasErrors()) return "board/write";
 
-    Post post = postService.createPost(form,loginMember);
+    // 3. 서비스 레이어를 호출하여 게시글 본문 DB 저장
+    Post post = postService.createPost(form, loginMember);
+    
+    // 4. 서비스 레이어를 호출하여 첨부파일(들) 디스크 복사 및 메타데이터 DB 저장
     attachmentService.saveFiles(files, post);
-    // return "redirect:/board/"+post.getId();
+    
+    // 5. 등록 완료 후 홈 화면("/")으로 이동 (이후 /board로 다시 리다이렉트 됨)
     return "redirect:/";
   }
-
 }
