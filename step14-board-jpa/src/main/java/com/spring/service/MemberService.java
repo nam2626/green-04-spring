@@ -13,7 +13,7 @@ import com.spring.repository.MemberRepository;
 public class MemberService {
 
   private final MemberRepository memberRepository;
-  private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+  private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
 
   public MemberService(MemberRepository memberRepository) {
     this.memberRepository = memberRepository;
