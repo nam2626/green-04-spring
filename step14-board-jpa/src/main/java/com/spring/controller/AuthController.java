@@ -8,8 +8,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.spring.dto.MemberDTO;
+import com.spring.entity.Member;
 import com.spring.service.MemberService;
 
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +20,8 @@ import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 
 
@@ -60,6 +64,19 @@ public class AuthController {
       return "auth/login";
   }
   
+  @PostMapping("/login")
+  public String login(String username, String password, HttpSession session,
+    RedirectAttributes redirectAttributes
+  ) {
+      try {
+        Member member = memberService.login(username, password);
+        session.setAttribute("loginMember", member);
+        return "redirect:/board";
+      } catch (Exception e) {
+        redirectAttributes.addFlashAttribute("errorMessage", "아이디 또는 비밀번호 올바르지 않습니다.");
+        return "redirect:/auth/login";
+      }
+  }
   
 
 }

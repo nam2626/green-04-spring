@@ -8,6 +8,7 @@
 <body>
   <section>
     <h2>로그인</h2>
+    <div th:if="${errorMessage}" th:text="${errorMessage}"></div>
     <form th:action="@{/auth/login}" method="post">
       <input type="text" name="username" placeholder="아이디를 입력하세요" autofocus required>
       <input type="password" name="password" placeholder="암호를 입력하세요." required>
