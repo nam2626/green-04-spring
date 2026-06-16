@@ -1,12 +1,17 @@
 package com.spring.controller;
 
+import java.lang.reflect.Member;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
+import com.spring.dto.PostFormDTO;
 import com.spring.entity.Post;
 import com.spring.service.AttachmentService;
 import com.spring.service.CommentService;
@@ -82,5 +87,15 @@ public class PostController {
     
     return view;
   }
+
+  @GetMapping("/new")
+  public String postForm(@SessionAttribute("loginMember") Member loginMember, Model model) {
+    if(loginMember == null) return "redirect:/auth/login";
+
+    model.addAttribute("form", new PostFormDTO());
+
+      return "board/write";
+  }
+  
 
 }
