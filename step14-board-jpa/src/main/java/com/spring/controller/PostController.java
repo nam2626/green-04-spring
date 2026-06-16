@@ -9,6 +9,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.dto.PostFormDTO;
 import com.spring.entity.Member;
@@ -106,12 +107,15 @@ public class PostController {
   
   @PostMapping("/new")
   public String postNew(@Valid @ModelAttribute("form") PostFormDTO form,
-      BindingResult bindingResult,@SessionAttribute(value = "loginMember", required = false) Member loginMember, RedirectAttributes attributes){
+      BindingResult bindingResult,@SessionAttribute(value = "loginMember", required = false) Member loginMember, RedirectAttributes attributes,
+      @RequestParam(value = "files", required = false) MultipartFile[] files
+    ){
     
     if(loginMember == null) return "redirect:/auth/login";
     if(bindingResult.hasErrors()) return "board/write";
 
     Post post = postService.createPost(form,loginMember);
+    attachmentService.saveFiles(files, post);
     // return "redirect:/board/"+post.getId();
     return "redirect:/";
   }
