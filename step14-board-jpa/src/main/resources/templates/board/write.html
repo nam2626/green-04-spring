@@ -6,37 +6,48 @@
   <title th:text="${postId != null} ? '게시글 수정' : '게시글 작성'">Document</title>
 </head>
 <body>
-  <section>
+  <section class="write-page">
     <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet" />
-<script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
-    <h2 th:text="${postId != null} ? '게시글 수정' : '게시글 작성'"></h2>
-    <form th:action="${postId != null} ? @{/board/{id}/edit(id=${postId})} : @{/board/new}" method="post" enctype="multipart/form-data" th:object="${form}">
+    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+    <div class="write-header">
+      <h2 th:text="${postId != null} ? '게시글 수정' : '게시글 작성'"></h2>
+      <a class="btn btn-ghost" th:href="@{/board}">목록으로</a>
+    </div>
+    <form class="post-form" th:action="${postId != null} ? @{/board/{id}/edit(id=${postId})} : @{/board/new}" method="post" enctype="multipart/form-data" th:object="${form}">
       <!-- 제목 -->
-       <div>
-         <input type="text" placeholder="제목을 입력하세요" th:field="*{title}">      
-         <div th:errors="*{title}"></div>
+       <div class="form-group">
+         <label for="title">제목</label>
+         <input class="form-control post-title-input" type="text" placeholder="제목을 입력하세요" th:field="*{title}">
+         <div class="field-error" th:errors="*{title}"></div>
         </div>
       <!-- Quill 에디터, 내용 -->
-      <div>
+      <div class="form-group">
+        <label for="quill-editor">내용</label>
         <div id="quill-editor"></div>
         <input type="hidden" th:field="*{content}">
+        <div class="field-error" th:errors="*{content}"></div>
       </div>
       <!-- 첨부파일 -->
-       <div>
+       <div class="form-group file-field">
           <label>파일첨부</label>
-          <input type="file" name="files" multiple>
+          <input class="file-input" type="file" name="files" multiple>
        </div>
        <!-- 수정 모드일때 첨부 파일 삭제 -->
-        <div th:if="${postId != null and attachments != null and !attachments.isEmpty() }">
-          <ul>
+        <div class="attachment-panel" th:if="${postId != null and attachments != null and !attachments.isEmpty() }">
+          <h3>첨부파일</h3>
+          <ul class="attachment-list">
             <li th:each="att : ${attachments}">
               <span th:text="${att.originFileName}"></span>
               <form th:action="@{/attachments/{id}/delete(id=${att.id})}" method="post"
               onsubmit="return confirm('정말로 파일을 삭제하시겠습니까?')">
-                <button>삭제</button>
+                <button class="btn btn-danger" type="submit">삭제</button>
               </form>
             </li>
           </ul>
+        </div>
+        <div class="write-actions">
+          <button class="btn btn-primary" type="submit" th:text="${postId != null} ? '수정하기' : '등록하기'"></button>
+          <button class="btn btn-ghost" type="button" onclick="history.back();">취소</button>
         </div>
     </form>
     <script>
@@ -68,7 +79,7 @@
 			  },
 		    theme: 'snow'
 		  });
-		document.querySelector("form").onsubmit = (e) => {
+		document.querySelector(".post-form").onsubmit = (e) => {
 			//e.preventDefault();
 			console.log(quill.getContents());
 			console.log(quill.getText());
@@ -77,11 +88,6 @@
 		}
 	}
 </script>
-<style>
-	#quill-editor {
-	  height: 500px;
-	}
-</style>
   </section>
 </body>
 </html>

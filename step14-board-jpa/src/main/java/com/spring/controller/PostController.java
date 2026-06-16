@@ -5,6 +5,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
@@ -15,8 +16,14 @@ import com.spring.entity.Post;
 import com.spring.service.AttachmentService;
 import com.spring.service.CommentService;
 import com.spring.service.PostService;
+
+import jakarta.validation.Valid;
+
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  * [게시판 컨트롤러 클래스]
@@ -97,5 +104,16 @@ public class PostController {
       return "board/write";
   }
   
+  @PostMapping("/new")
+  public String postNew(@Valid @ModelAttribute("form") PostFormDTO form,
+      BindingResult bindingResult,@SessionAttribute(value = "loginMember", required = false) Member loginMember, RedirectAttributes attributes){
+    
+    if(loginMember == null) return "redirect:/auth/login";
+    if(bindingResult.hasErrors()) return "board/write";
+
+    Post post = postService.createPost(form,loginMember);
+    // return "redirect:/board/"+post.getId();
+    return "redirect:/";
+  }
 
 }

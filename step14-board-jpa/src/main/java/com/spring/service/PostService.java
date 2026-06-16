@@ -6,8 +6,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.spring.dto.PostFormDTO;
+import com.spring.entity.Member;
 import com.spring.entity.Post;
 import com.spring.repository.PostRepository;
+
+import jakarta.validation.Valid;
 
 /**
  * [게시판 서비스 클래스]
@@ -52,6 +56,11 @@ public class PostService {
     } else {
       return postRepository.searchWithPost(keyword, pageable);
     }
+  }
+
+  public Post createPost(PostFormDTO form, Member loginMember) {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'createPost'");
   }
 
 }

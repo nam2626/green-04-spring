@@ -421,6 +421,151 @@ a {
   grid-template-columns: 1fr;
 }
 
+.write-page {
+  display: grid;
+  gap: 20px;
+}
+
+.write-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.write-header h2 {
+  margin: 0;
+  color: var(--ink);
+  font-size: 28px;
+  letter-spacing: 0;
+}
+
+.post-form {
+  display: grid;
+  gap: 20px;
+  padding: 28px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.post-title-input {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+#quill-editor {
+  height: 460px;
+  background: #fff;
+}
+
+.ql-toolbar.ql-snow {
+  border-color: var(--line);
+  border-radius: 8px 8px 0 0;
+  background: #f8fafc;
+}
+
+.ql-container.ql-snow {
+  border-color: var(--line);
+  border-radius: 0 0 8px 8px;
+  color: var(--text);
+  font-family: "Segoe UI", "Malgun Gothic", Arial, sans-serif;
+  font-size: 16px;
+}
+
+.file-field {
+  padding: 18px;
+  border: 1px dashed #cbd5e1;
+  border-radius: 8px;
+  background: #f8fafc;
+}
+
+.file-input {
+  width: 100%;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.file-input::file-selector-button {
+  min-height: 36px;
+  margin-right: 12px;
+  padding: 0 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--ink);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.file-input::file-selector-button:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.attachment-panel {
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #f8fafc;
+}
+
+.attachment-panel h3 {
+  margin: 0 0 12px;
+  color: var(--ink);
+  font-size: 16px;
+}
+
+.attachment-list {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.attachment-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+}
+
+.attachment-list span {
+  min-width: 0;
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.btn-danger {
+  min-height: 34px;
+  border-color: #fecaca;
+  background: #fff;
+  color: #dc2626;
+}
+
+.btn-danger:hover {
+  border-color: #dc2626;
+  background: #fef2f2;
+  color: #b91c1c;
+}
+
+.write-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding-top: 4px;
+}
+
 .site-footer {
   padding: 24px;
   color: var(--muted);
@@ -429,7 +574,8 @@ a {
 
 @media (max-width: 640px) {
   .site-nav,
-  .board-header {
+  .board-header,
+  .write-header {
     align-items: stretch;
     flex-direction: column;
   }
@@ -453,8 +599,16 @@ a {
     padding: 26px 20px;
   }
 
+  .post-form {
+    padding: 20px;
+  }
+
   .auth-actions {
     grid-template-columns: 1fr;
+  }
+
+  .write-actions {
+    flex-direction: column;
   }
 
   .container {
@@ -463,7 +617,12 @@ a {
   }
 
   .board-header h2,
-  .auth-header h2 {
+  .auth-header h2,
+  .write-header h2 {
     font-size: 24px;
+  }
+
+  #quill-editor {
+    height: 360px;
   }
 }
