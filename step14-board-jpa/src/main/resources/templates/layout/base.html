@@ -14,7 +14,10 @@
     <div class="site-nav__actions">
       <!-- 로그인 상태 -->
       <th:block th:if="${session.loginMember != null}">
-        <p class="login-status">OOO님 로그인 하셨습니다.</p>
+        <p class="login-status"><span th:text="${session.loginMember.nickname}"></span>님 로그인 하셨습니다.</p>
+        <p>
+          <a th:href="/auth/logout">로그아웃</a>
+        </p>
       </th:block>
       <!-- 비로그인 상태 -->
       <th:block th:if="${session.loginMember == null}">

@@ -405,6 +405,10 @@ a {
   padding-top: 6px;
 }
 
+.auth-actions--stack {
+  grid-template-columns: 1fr;
+}
+
 .site-footer {
   padding: 24px;
   color: var(--muted);

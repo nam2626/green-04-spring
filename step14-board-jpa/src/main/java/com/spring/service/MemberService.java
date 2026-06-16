@@ -32,4 +32,14 @@ public class MemberService {
     memberRepository.save(member);
   }
 
+  public Member login(String username, String password) {
+    Member member = memberRepository.findByUsername(username).orElseThrow(() -> new IllegalArgumentException("아이디 또는 비밀번호가 올바르지 않습니다."));
+    
+    if(!passwordEncoder.matches(password, member.getPassword())){
+      throw new IllegalArgumentException("아이디 또는 비밀번호가 올바르지 않습니다.");
+    }
+
+    return member;
+  }
+
 }
