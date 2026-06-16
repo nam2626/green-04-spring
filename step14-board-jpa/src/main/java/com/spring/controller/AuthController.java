@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 
@@ -52,6 +54,12 @@ public class AuthController {
         return "auth/register";
       }
   }
+
+  @GetMapping("/login")
+  public String loginForm() {
+      return "auth/login";
+  }
+  
   
 
 }
