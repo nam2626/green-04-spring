@@ -5,13 +5,13 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.spring.dto.PostFormDTO;
 import com.spring.entity.Member;
 import com.spring.entity.Post;
 import com.spring.repository.PostRepository;
 
-import jakarta.validation.Valid;
 
 /**
  * [게시판 서비스 클래스]
@@ -20,6 +20,7 @@ import jakarta.validation.Valid;
  *           컨트롤러와 리포지토리(DB 접근) 사이에서 비즈니스적인 규칙이나 트랜잭션 처리를 관리합니다.
  */
 @Service
+@Transactional(readOnly = true)
 public class PostService {
 
   // 데이터베이스에 접근하기 위한 JPA 리포지토리 의존성 주입 대상 필드입니다.
@@ -58,9 +59,14 @@ public class PostService {
     }
   }
 
+  @Transactional
   public Post createPost(PostFormDTO form, Member loginMember) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'createPost'");
+    Post post = new Post();
+    post.setTitle(form.getTitle());
+    post.setContent(form.getContent());
+    post.setMember(loginMember);
+    postRepository.save(post);
+    return post;
   }
 
 }
