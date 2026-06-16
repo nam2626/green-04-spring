@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ko"  xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/base :: layout(~{::title}, ~{::section})}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>로그인</title>
+</head>
+<body>
+  <section>
+    <h2>로그인</h2>
+    <form th:action="@{/auth/login}" method="post">
+      <input type="text" name="username" placeholder="아이디를 입력하세요" autofocus required>
+      <input type="password" name="password" placeholder="암호를 입력하세요." required>
+      <button>로그인</button>
+      <a th:href="@{/auth/register}">회원가입</a>
+      <a href="javascript:history.back();">뒤로가기</a>
+    </form>
+
+  </section>
+</body>
+</html>
