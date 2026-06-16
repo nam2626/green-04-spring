@@ -15,9 +15,7 @@
       <!-- 로그인 상태 -->
       <th:block th:if="${session.loginMember != null}">
         <p class="login-status"><span th:text="${session.loginMember.nickname}"></span>님 로그인 하셨습니다.</p>
-        <p>
-          <a th:href="/auth/logout">로그아웃</a>
-        </p>
+        <a class="nav-link nav-link--logout" th:href="@{/auth/logout}">로그아웃</a>
       </th:block>
       <!-- 비로그인 상태 -->
       <th:block th:if="${session.loginMember == null}">
