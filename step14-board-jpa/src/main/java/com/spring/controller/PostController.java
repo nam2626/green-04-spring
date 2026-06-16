@@ -75,6 +75,7 @@ public class PostController {
     // Thymeleaf 템플릿 엔진으로 데이터를 넘겨주기 위해 Model 객체에 attribute를 추가합니다.
     view.addObject("currentPage", page);
     view.addObject("postPage", list);
+    view.addObject("keyword", keyword);
     
     // 이동할 뷰 이름을 'templates/board/list.html'로 매핑하기 위해 경로명을 입력합니다.
     view.setViewName("board/list");
