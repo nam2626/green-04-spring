@@ -29,7 +29,7 @@ public class AuthController {
 
   @GetMapping("/register")
   public String registerForm(Model model) {
-      model.addAttribute("member", new MemberDTO());
+      model.addAttribute("form", new MemberDTO());
       return "auth/register";
   }
   
