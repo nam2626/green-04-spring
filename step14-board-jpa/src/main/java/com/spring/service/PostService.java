@@ -50,9 +50,7 @@ public class PostService {
       // PostRepository에 정의한 JPQL 페치 조인 쿼리를 실행하여 N+1 문제를 방지하며 데이터를 가져옵니다.
       return postRepository.findAllWithPost(pageable);
     } else {
-      // TODO: 검색어가 존재하는 경우 검색 결과 목록 페이징 조회를 구현합니다.
-      // return postRepository.searchWithPost(keyword, pageable);
-      return null;
+      return postRepository.searchWithPost(keyword, pageable);
     }
   }
 
