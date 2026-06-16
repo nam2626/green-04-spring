@@ -10,7 +10,7 @@
     <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
     <h2 th:text="${postId != null} ? '게시글 수정' : '게시글 작성'"></h2>
-    <form th:action="${postId != null} ? @{/board/{id}/edit(id=${postId})} : @{/board}" method="post" enctype="multipart/form-data" th:object="${form}">
+    <form th:action="${postId != null} ? @{/board/{id}/edit(id=${postId})} : @{/board/new}" method="post" enctype="multipart/form-data" th:object="${form}">
       <!-- 제목 -->
        <div>
          <input type="text" placeholder="제목을 입력하세요" th:field="*{title}">      
