@@ -1,6 +1,7 @@
 package com.spring.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.dto.PostFormDTO;
+import com.spring.entity.Attachment;
+import com.spring.entity.Comment;
 import com.spring.entity.Member;
 import com.spring.entity.Post;
 import com.spring.service.AttachmentService;
@@ -157,15 +160,14 @@ public class PostController {
   @GetMapping("/{id}")
   public ModelAndView detail(@PathVariable Long id, ModelAndView view) {
       Post post = postService.findById(id);
-      System.out.println(post.getTitle());
-      System.out.println(post.getId());
-      System.out.println(post.getViewCount());
-      System.out.println(post.getContent());
-      System.out.println(post.getComments());
       // 댓글 목록 조회
-      
+      List<Comment> comments = commentService.getCommentByPost(id);
       // 첨부 파일 목록 조회
+      List<Attachment> attachments = attachmentService.getAttachmentByPost(id);
 
+      view.addObject("comments", comments);
+      view.addObject("attachments", attachments);
+      view.addObject("post", post);
       view.setViewName("board/detail");
       return view;
   }

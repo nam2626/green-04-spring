@@ -14,7 +14,9 @@ import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * [댓글 반응(좋아요/싫어요) 엔티티 클래스]
@@ -29,7 +31,8 @@ import lombok.NoArgsConstructor;
  */
 @Entity
 @Table(name = "comment_reaction", uniqueConstraints = @UniqueConstraint(columnNames = { "member_id", "comment_id" }))
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class CommentReaction {

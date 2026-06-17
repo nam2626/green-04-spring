@@ -19,7 +19,9 @@ import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * [게시글 엔티티 클래스]
@@ -28,7 +30,8 @@ import lombok.NoArgsConstructor;
  */
 @Entity
 @Table(name = "post")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Post {
