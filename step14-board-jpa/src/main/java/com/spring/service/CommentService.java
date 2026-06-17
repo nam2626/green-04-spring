@@ -34,4 +34,13 @@ public class CommentService {
     commentRepository.save(comment);
   }
 
+  public Comment findById(Long id) {
+    return commentRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당하는 댓글이 없습니다"));
+  }
+
+  @Transactional
+  public void deleteById(Long id) {
+    commentRepository.deleteById(id);
+  }
+
 }

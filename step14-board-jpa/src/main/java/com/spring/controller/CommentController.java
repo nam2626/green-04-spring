@@ -6,15 +6,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.spring.dto.CommentFormDTO;
+import com.spring.entity.Comment;
 import com.spring.entity.Member;
 import com.spring.entity.Post;
 import com.spring.service.CommentService;
 import com.spring.service.PostService;
 
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 @RequestMapping("/comments")
@@ -38,6 +43,17 @@ public class CommentController {
       return "redirect:/board/"+id +"#comments";
   }
 
+  @GetMapping("/{id}/delete")
+  public String delete(@PathVariable Long id, @SessionAttribute(value = "loginMember", required = false)Member loginMember) {
+      Comment comment = commentService.findById(id);
+      if(loginMember == null || loginMember.getId() != comment.getMember().getId() ){
+        return "redirect:/auth/login";
+      }
+
+      commentService.deleteById(id);
+      return "redirect:/board/"+comment.getPost().getId();
+  }
+  
 
 
   
