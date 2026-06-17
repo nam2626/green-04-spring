@@ -157,7 +157,15 @@ public class PostController {
   @GetMapping("/{id}")
   public ModelAndView detail(@PathVariable Long id, ModelAndView view) {
       Post post = postService.findById(id);
-      System.out.println(post);
+      System.out.println(post.getTitle());
+      System.out.println(post.getId());
+      System.out.println(post.getViewCount());
+      System.out.println(post.getContent());
+      System.out.println(post.getComments());
+      // 댓글 목록 조회
+      
+      // 첨부 파일 목록 조회
+
       view.setViewName("board/detail");
       return view;
   }
