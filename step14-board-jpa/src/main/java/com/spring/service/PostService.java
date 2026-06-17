@@ -92,4 +92,10 @@ public class PostService {
   public Post findById(Long id) {
     return postRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다."));
   }
+
+  @Transactional
+  public void updateCount(Long id) {
+    Post post = findById(id);
+    post.setViewCount(post.getViewCount()+1);
+  }
 }

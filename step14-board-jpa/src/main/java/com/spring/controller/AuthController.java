@@ -132,4 +132,11 @@ public class AuthController {
         return "redirect:/auth/login";
       }
   }
+
+  @GetMapping("/logout")
+  public String logout(HttpSession session) {
+    session.invalidate();
+    return "redirect:/board";
+  }
+  
 }

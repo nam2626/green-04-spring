@@ -1,6 +1,7 @@
 package com.spring.controller;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -24,6 +25,7 @@ import com.spring.service.AttachmentService;
 import com.spring.service.CommentService;
 import com.spring.service.PostService;
 
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -159,7 +161,7 @@ public class PostController {
   }
 
   @GetMapping("/{id}")
-  public ModelAndView detail(@PathVariable Long id, ModelAndView view) {
+  public ModelAndView detail(@PathVariable Long id, ModelAndView view, HttpSession session) {
       Post post = postService.findById(id);
       // post.getComments().forEach(comment ->{
       //   System.out.println(comment.getId() + " / " + comment.getContent());
@@ -174,6 +176,19 @@ public class PostController {
       for (Attachment attachment : attachments) {
         System.out.println(attachment.getOriginalName());
       }
+      //조회수 증가
+      HashSet<Long> pageList = (HashSet<Long>) session.getAttribute("pageList"); 
+
+      if(pageList == null){
+        pageList = new HashSet<Long>();
+        session.setAttribute("pageList", pageList);
+      }
+
+      if(pageList.add(id)){
+        postService.updateCount(id);
+      }
+
+
       view.addObject("comments", comments);
       view.addObject("attachments", attachments);
       view.addObject("post", post);
