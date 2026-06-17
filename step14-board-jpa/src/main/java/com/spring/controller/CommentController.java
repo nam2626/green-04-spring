@@ -35,7 +35,7 @@ public class CommentController {
     Post post = postService.findById(id);
     commentService.addComment(form, post, member);
 
-      return "redirect:/board/"+id;
+      return "redirect:/board/"+id +"#comments";
   }
 
 
