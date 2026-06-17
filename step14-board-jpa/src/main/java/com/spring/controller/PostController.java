@@ -24,6 +24,7 @@ import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -152,4 +153,13 @@ public class PostController {
     // 5. 등록 완료 후 홈 화면("/")으로 이동 (이후 /board로 다시 리다이렉트 됨)
     return "redirect:/";
   }
+
+  @GetMapping("/{id}")
+  public ModelAndView detail(@PathVariable Long id, ModelAndView view) {
+      Post post = postService.findById(id);
+      System.out.println(post);
+      view.setViewName("board/detail");
+      return view;
+  }
+  
 }
