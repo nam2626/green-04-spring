@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -90,5 +91,9 @@ public class AttachmentService {
       
       attachmentRepository.save(attachment);
     }
+  }
+
+  public List<Attachment> getAttachmentByPost(Long id) {
+    return attachmentRepository.findByPostId(id);
   }
 }

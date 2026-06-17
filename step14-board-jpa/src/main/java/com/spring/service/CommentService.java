@@ -1,8 +1,24 @@
 package com.spring.service;
 
-import org.springframework.stereotype.Service;
+import java.util.List;
 
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.spring.entity.Comment;
+import com.spring.repository.CommentRepository;
+
+@Transactional(readOnly = true)
 @Service
 public class CommentService {
+  private final CommentRepository commentRepository;
+
+  public CommentService(CommentRepository commentRepository) {
+    this.commentRepository = commentRepository;
+  }
+
+  public List<Comment> getCommentByPost(Long id) {
+    return commentRepository.getCommentByPost(id);
+  }
 
 }
