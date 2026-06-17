@@ -99,6 +99,7 @@ public class PostService {
     post.setViewCount(post.getViewCount()+1);
   }
 
+  @Transactional
   public void deleteById(Long id) {
     postRepository.deleteById(id);
   }

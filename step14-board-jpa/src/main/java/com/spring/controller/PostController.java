@@ -199,7 +199,7 @@ public class PostController {
       return view;
   }
 
-  @PostMapping("/{id}/delete")
+  @GetMapping("/{id}/delete")
   public String delete(@PathVariable Long id,@SessionAttribute(value = "loginMember", required = false)Member loginMember) {
       Post post = postService.findById(id);
       if(loginMember == null || loginMember.getId() != post.getMember().getId() ){
