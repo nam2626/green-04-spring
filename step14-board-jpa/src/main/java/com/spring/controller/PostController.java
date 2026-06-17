@@ -160,12 +160,19 @@ public class PostController {
   @GetMapping("/{id}")
   public ModelAndView detail(@PathVariable Long id, ModelAndView view) {
       Post post = postService.findById(id);
+      // post.getComments().forEach(comment ->{
+      //   System.out.println(comment.getId() + " / " + comment.getContent());
+      // });
       // 댓글 목록 조회
       List<Comment> comments = commentService.getCommentByPost(id);
-     
+      for (Comment comment : comments) {
+        System.out.println(comment.getId() + " / " + comment.getContent());
+      }
       // 첨부 파일 목록 조회
       List<Attachment> attachments = attachmentService.getAttachmentByPost(id);
-      
+      for (Attachment attachment : attachments) {
+        System.out.println(attachment.getOriginalName());
+      }
       view.addObject("comments", comments);
       view.addObject("attachments", attachments);
       view.addObject("post", post);

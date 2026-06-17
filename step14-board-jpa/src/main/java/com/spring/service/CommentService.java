@@ -18,7 +18,8 @@ public class CommentService {
   }
 
   public List<Comment> getCommentByPost(Long id) {
-    return commentRepository.getCommentByPost(id);
+    // return commentRepository.getCommentByPost(id);
+    return commentRepository.findByPostIdOrderByCreatedAtAsc(id);
   }
 
 }
