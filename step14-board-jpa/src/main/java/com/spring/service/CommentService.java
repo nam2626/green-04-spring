@@ -5,7 +5,10 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.spring.dto.CommentFormDTO;
 import com.spring.entity.Comment;
+import com.spring.entity.Member;
+import com.spring.entity.Post;
 import com.spring.repository.CommentRepository;
 
 @Transactional(readOnly = true)
@@ -20,6 +23,14 @@ public class CommentService {
   public List<Comment> getCommentByPost(Long id) {
     // return commentRepository.getCommentByPost(id);
     return commentRepository.findByPostIdOrderByCreatedAtAsc(id);
+  }
+
+  public void addComment(CommentFormDTO form, Post post, Member member) {
+    Comment comment = new Comment();
+    comment.setContent(form.getContent());
+    comment.setMember(member);
+    comment.setPost(post);
+    commentRepository.save(comment);
   }
 
 }
