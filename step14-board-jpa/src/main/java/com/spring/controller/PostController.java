@@ -1,9 +1,12 @@
 package com.spring.controller;
 
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashSet;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -200,12 +203,19 @@ public class PostController {
   }
 
   @GetMapping("/{id}/delete")
-  public String delete(@PathVariable Long id,@SessionAttribute(value = "loginMember", required = false)Member loginMember) {
+  public String delete(@PathVariable Long id,@SessionAttribute(value = "loginMember", required = false)Member loginMember, @Value("${app.upload.dir}") String uploadDir) {
       Post post = postService.findById(id);
       if(loginMember == null || loginMember.getId() != post.getMember().getId() ){
         return "redirect:/auth/login";
       }
+      //첨부파일 목록 조회 후 해당 파일들을 삭제
+      List<Attachment> fileList = attachmentService.getAttachmentByPost(id);
+      Path rootPath = Paths.get(uploadDir).toAbsolutePath();
+      for (Attachment att : fileList) {
+        rootPath.resolve(att.getStoredName()).toFile().delete();
+      }
 
+      //게시글 삭제
       postService.deleteById(id);
     
       return "redirect:/board";
