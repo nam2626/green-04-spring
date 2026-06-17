@@ -25,6 +25,7 @@ public class CommentService {
     return commentRepository.findByPostIdOrderByCreatedAtAsc(id);
   }
 
+  @Transactional
   public void addComment(CommentFormDTO form, Post post, Member member) {
     Comment comment = new Comment();
     comment.setContent(form.getContent());
