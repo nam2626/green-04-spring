@@ -34,6 +34,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 /**
  * [게시판 컨트롤러 클래스]
@@ -196,5 +198,18 @@ public class PostController {
       view.setViewName("board/detail");
       return view;
   }
+
+  @PostMapping("/{id}/delete")
+  public String delete(@PathVariable Long id,@SessionAttribute(value = "loginMember", required = false)Member loginMember) {
+      Post post = postService.findById(id);
+      if(loginMember == null || loginMember.getId() != post.getMember().getId() ){
+        return "redirect:/auth/login";
+      }
+
+      postService.deleteById(id);
+    
+      return "redirect:/board";
+  }
+  
   
 }
