@@ -19,7 +19,7 @@
       <!-- 첨부 파일 목록 출력 -->
       <div class="file-list" th:if="${!attachments.isEmpty()}">
         <p th:each="file : ${attachments}">
-          <a th:href="@{/attachments/download/{id}(id=${file.id})}"></a>
+          <a th:href="@{/attachments/download/{id}(id=${file.id})}" th:text="${file.originalName}"></a>
           <span th:text="${file.fileSize}"></span>
         </p>
       </div>
@@ -57,7 +57,7 @@
             <ul class="comment-info">
               <li>작성자 : <span th:text="${comment.member.nickname}"></span></li>
               <li>작성일 : <span th:text="${#temporals.format(comment.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></span></li>
-              <li th:if="${session.loginMember != null and session.loginMember.id == ${comment.member.id}}">
+              <li th:if="${session.loginMember != null and session.loginMember.id == comment.member.id}">
                 <a th:href="@{/comments/{id}/delete(id=${comment.id})}" onclick="return confirm('정말로 삭제하시겠습니까?')">삭제</a>
               </li>
               <li>

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.spring.dto.CommentFormDTO;
 import com.spring.dto.PostFormDTO;
 import com.spring.entity.Attachment;
 import com.spring.entity.Comment;
@@ -176,6 +177,7 @@ public class PostController {
       view.addObject("comments", comments);
       view.addObject("attachments", attachments);
       view.addObject("post", post);
+      view.addObject("commentForm", new CommentFormDTO());
       view.setViewName("board/detail");
       return view;
   }
