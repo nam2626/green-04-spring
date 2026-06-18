@@ -12,6 +12,8 @@ import com.spring.entity.Member;
 import com.spring.entity.Post;
 import com.spring.repository.PostRepository;
 
+import jakarta.validation.Valid;
+
 
 /**
  * [게시판 비즈니스 로직 서비스 클래스]
@@ -102,5 +104,15 @@ public class PostService {
   @Transactional
   public void deleteById(Long id) {
     postRepository.deleteById(id);
+  }
+
+  @Transactional
+  public boolean updatePost(Long id, PostFormDTO form, Member loginMember) {
+    Post post = findById(id);
+    if(loginMember.getId() != post.getMember().getId())
+      return false;
+    post.setTitle(form.getTitle());
+    post.setContent(form.getContent());
+    return true;
   }
 }
