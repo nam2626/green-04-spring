@@ -36,10 +36,11 @@ public class PostReactionService {
 
   @Transactional
   public void addReaction(Long postId, ReactionType reactionType, Long memberId) {
-   Optional<PostReaction> opt = postReactionRepository.findByMemberIdAndPostId(postId,memberId);
-
-   if(opt.isPresent()){
-      PostReaction reaction = opt.get();
+   Optional<PostReaction> opt = postReactionRepository.findByPostIdAndMemberId(postId,memberId);
+    System.out.println(postId + " / " + memberId + " / " + opt.isEmpty());
+    
+   if(!opt.isEmpty()){
+      PostReaction reaction = opt.orElseThrow(() -> new IllegalArgumentException("해당 좋아요 싫어요 데이터가 없습니다."));
       if(reaction.getType() == reactionType){
         postReactionRepository.delete(reaction);// 같은 타입이면 취소
       }else{

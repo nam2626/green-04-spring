@@ -11,6 +11,6 @@ public interface PostReactionRepository extends JpaRepository<PostReaction, Long
 
   long countByPostIdAndType(Long postId, ReactionType type);
 
-  Optional<PostReaction> findByMemberIdAndPostId(Long postId, Long memberId);
+  Optional<PostReaction> findByPostIdAndMemberId(Long postId, Long memberId);
 
 }
