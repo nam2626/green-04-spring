@@ -82,7 +82,7 @@
       const POST_ID = [[${post.id}]];
 
       function contentReactionClick(e){
-        console.log(e.target.className);
+        // console.log(e.target.className);
         let url = `/reaction/post/${POST_ID}`;
         if(e.target.className.indexOf('content-like') != -1)
           url += '/like';
@@ -90,8 +90,12 @@
           url += '/dislike';
 
           fetch(url).
-          then(res => res.text())
-          .then(data => console.log(data));
+          then(res => res.json())
+          .then(data => {
+            // console.log(data)
+            document.querySelector(".content-like > span").innerHTML = data.likes;
+            document.querySelector(".content-dislike > span").innerHTML = data.dislikes;
+          });
 
       }
 
