@@ -11,7 +11,8 @@
     <article class="post-detail-card">
       <div class="detail-header">
         <h2 th:text="${post.title}"></h2>
-        <a class="btn btn-ghost" href="javascript:history.back();">목록으로</a>
+        <!-- 현재 게시글이 있는 페이지로 이동 -->
+        <a class="btn btn-ghost" th:href="@{/board(page=${page})}">목록으로</a>
       </div>
       <div class="post-info">
         <p>작성자 : <span th:text="${post.member.nickname}"></span></p>
@@ -34,7 +35,7 @@
       </div>
       <div class="detail-actions" th:if="${session.loginMember != null and session.loginMember.id == post.member.id}">
         <div class="owner-actions">
-          <a class="btn btn-ghost" th:href="@{/board/{id}/edit(id=${post.id})}">수정</a>
+          <a class="btn btn-ghost" th:href="@{/board/{id}/edit(id=${post.id},page=${page})}">수정</a>
           <a class="btn btn-danger" th:href="@{/board/{id}/delete(id=${post.id})}">삭제</a>
         </div>
       </div>

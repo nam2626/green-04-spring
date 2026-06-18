@@ -166,7 +166,8 @@ public class PostController {
   }
 
   @GetMapping("/{id}")
-  public ModelAndView detail(@PathVariable Long id, ModelAndView view, HttpSession session) {
+  public ModelAndView detail(@PathVariable Long id, @ModelAttribute("page")  Integer page,
+     ModelAndView view, HttpSession session) {
       Post post = postService.findById(id);
       // post.getComments().forEach(comment ->{
       //   System.out.println(comment.getId() + " / " + comment.getContent());
@@ -222,11 +223,11 @@ public class PostController {
   }
  
   @GetMapping("/{id}/edit")
-  public String editForm(@PathVariable Long id, Model model) {
+  public String editForm(@PathVariable Long id, @ModelAttribute("page")  Integer page, Model model) {
       Post post = postService.findById(id);
       model.addAttribute("form", post);
       model.addAttribute("postId", id);
-      
+      System.out.println(page);
       return "board/write";
   }
 

@@ -11,7 +11,7 @@
     <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
     <div class="write-header">
       <h2 th:text="${postId != null} ? '게시글 수정' : '게시글 작성'"></h2>
-      <a class="btn btn-ghost" th:href="@{/board}">목록으로</a>
+      <a class="btn btn-ghost" th:href="@{/board(page=${page == null ? 0 : page})}">목록으로</a>
     </div>
     <form class="post-form" th:action="${postId != null} ? @{/board/{id}/edit(id=${postId})} : @{/board/new}" method="post" enctype="multipart/form-data" th:object="${form}">
       <!-- 제목 -->
