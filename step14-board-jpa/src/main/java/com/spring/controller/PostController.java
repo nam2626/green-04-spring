@@ -177,89 +177,142 @@ public class PostController {
     return "redirect:/";
   }
 
+  /**
+   * [게시글 상세 정보 조회 화면 API]
+   * 
+   * @PathVariable Long id: URL 상에서 넘어오는 게시글의 고유 PK 값을 바인딩받습니다.
+   * @ModelAttribute("page") Integer page: 
+   *   목록에서 상호작용한 이전 페이지 번호를 보관하여, 수정이나 취소 클릭 시 목록의 해당 페이지로 
+   *   안전하게 돌아갈 수 있도록 컨트롤러 모델 데이터로 바인딩해둡니다.
+   * @param session: 동일 사용자의 중복 조회수 증가 방지를 위해 서블릿 세션(Session) 객체를 획득합니다.
+   */
   @GetMapping("/{id}")
   public ModelAndView detail(@PathVariable Long id, @ModelAttribute("page")  Integer page,
      ModelAndView view, HttpSession session) {
+      
+      // 1. 게시글 정보를 ID로 조회합니다. 존재하지 않는다면 내부적으로 예외 처리가 발생합니다.
       Post post = postService.findById(id);
-      // post.getComments().forEach(comment ->{
-      //   System.out.println(comment.getId() + " / " + comment.getContent());
-      // });
-      // 댓글 목록 조회
+
+      // 2. 해당 게시글에 소속된 댓글 리스트 전체를 DB에서 조회합니다.
       List<Comment> comments = commentService.getCommentByPost(id);
       for (Comment comment : comments) {
         System.out.println(comment.getId() + " / " + comment.getContent());
       }
-      // 첨부 파일 목록 조회
+      
+      // 3. 해당 게시글에 연결된 첨부파일 리스트 전체를 DB에서 조회합니다.
       List<Attachment> attachments = attachmentService.getAttachmentByPost(id);
       for (Attachment attachment : attachments) {
         System.out.println(attachment.getOriginalName());
       }
-      //조회수 증가
+      
+      // 4. [조회수 중복 증가 방지 로직]
+      // 사용자가 본 글의 ID 목록을 보관할 Set 컬렉션을 세션에서 가져옵니다.
       HashSet<Long> pageList = (HashSet<Long>) session.getAttribute("pageList"); 
 
+      // 세션에 방문 기록 집합(pageList)이 아직 존재하지 않는 경우 (첫 상세페이지 방문 시)
       if(pageList == null){
         pageList = new HashSet<Long>();
         session.setAttribute("pageList", pageList);
       }
 
+      // HashSet의 add() 메서드는 중복되지 않은 값을 추가할 때만 true를 반환합니다.
+      // 즉, 처음 방문한 글 번호인 경우 true가 되어 조회수 카운트가 1 증가하고, 새로고침 시에는 false가 되어 증가하지 않습니다.
       if(pageList.add(id)){
         postService.updateCount(id);
       }
 
-      // 해당 게시글 좋아요 싫어요 개수
+      // 5. [게시글 좋아요/싫어요 개수 계산]
+      // 서비스 레이어의 count 쿼리를 호출해 좋아요와 싫어요 총합을 개별적으로 가져옵니다.
       long postLikes = postReactionService.getReactionCount(id,ReactionType.LIKE);
       long postDislikes = postReactionService.getReactionCount(id,ReactionType.DISLIKE);
       System.out.println(postLikes + " / " + postDislikes);
+      
+      // 화면에 데이터를 보내기 위해 DTO 객체에 조회한 좋아요/싫어요 개수를 세팅합니다.
       ReactionDTO postReaction = new ReactionDTO();
       postReaction.setLikes(postLikes);
       postReaction.setDislikes(postDislikes);
+      
+      // 6. Thymeleaf 템플릿 뷰 엔진에서 활용할 변수들을 ModelAndView 객체에 저장합니다.
       view.addObject("comments", comments);
       view.addObject("attachments", attachments);
       view.addObject("post", post);
+      // 신규 댓글 작성을 위한 검증 폼 바인딩 객체를 빈 DTO로 제공합니다.
       view.addObject("commentForm", new CommentFormDTO());
       view.addObject("postReaction", postReaction);
+      
+      // 렌더링할 화면 이름('templates/board/detail.html')을 설정합니다.
       view.setViewName("board/detail");
       return view;
   }
 
+  /**
+   * [게시글 및 관련 첨부파일 완전 삭제 API]
+   * 
+   * @Value("${app.upload.dir}"): application.properties 설정에 정의된 업로드 폴더의 로컬 물리 경로를 주입받습니다.
+   */
   @GetMapping("/{id}/delete")
   public String delete(@PathVariable Long id,@SessionAttribute(value = "loginMember", required = false)Member loginMember, @Value("${app.upload.dir}") String uploadDir) {
       Post post = postService.findById(id);
+      
+      // 1. 보안 검증: 로그인 상태가 아니거나, 현재 로그인한 사용자가 게시글 작성자가 아니라면 차단합니다.
       if(loginMember == null || loginMember.getId() != post.getMember().getId() ){
         return "redirect:/auth/login";
       }
-      //첨부파일 목록 조회 후 해당 파일들을 삭제
+      
+      // 2. 물리적 첨부파일 삭제
+      // 데이터베이스에 등록된 파일 정보를 읽어온 다음, 업로드 디렉토리 내의 실제 파일을 하드디스크에서 영구 삭제합니다.
       List<Attachment> fileList = attachmentService.getAttachmentByPost(id);
       Path rootPath = Paths.get(uploadDir).toAbsolutePath();
       for (Attachment att : fileList) {
+        // resolve()를 통해 '업로드디렉토리경로/서버보관용파일명' 경로를 조립한 뒤, 파일 객체로 만들어 delete()합니다.
         rootPath.resolve(att.getStoredName()).toFile().delete();
       }
 
-      //게시글 삭제
+      // 3. 데이터베이스에서 게시글 삭제 (JPA에서 cascade 처리에 의해 관련 데이터도 연쇄적으로 삭제되거나 고아가 됨)
       postService.deleteById(id);
     
+      // 삭제 후 게시판 메인 목록 화면으로 리다이렉트합니다.
       return "redirect:/board";
   }
  
+  /**
+   * [게시글 수정 폼 화면 이동 API]
+   */
   @GetMapping("/{id}/edit")
   public String editForm(@PathVariable Long id, @ModelAttribute("page")  Integer page, Model model) {
+      // 해당 게시글의 기존 작성 정보 데이터를 DB에서 찾아 꺼내옵니다.
       Post post = postService.findById(id);
+      
+      // write.html 폼과 똑같은 th:object 구조로 데이터를 바인딩하기 위해 form에 담아 넘깁니다.
       model.addAttribute("form", post);
       model.addAttribute("postId", id);
       System.out.println(page);
+      
+      // 글쓰기 화면인 write.html 템플릿을 재사용합니다. (postId 값 유무에 따라 '등록' 혹은 '수정' 처리로 화면이 다르게 표출됨)
       return "board/write";
   }
 
+  /**
+   * [게시글 수정 처리 API]
+   * 
+   * @Valid @ModelAttribute("form") PostFormDTO form: 사용자가 수정한 제목/내용을 검증하고 바인딩합니다.
+   * @BindingResult bindingResult: 데이터 검증 유효성 에러를 수집합니다.
+   */
   @PostMapping("/{id}/edit")
   public String edit(@Valid @ModelAttribute("form") PostFormDTO form,
       BindingResult bindingResult,@PathVariable Long id,
       @SessionAttribute(value = "loginMember", required = false) Member loginMember, RedirectAttributes attributes) {
 
+      // 제목이나 본문 텍스트 조건 유효성 위반 에러가 있을 시 수정 폼 화면으로 다시 돌려보냅니다.
       if(bindingResult.hasErrors()) return "board/"+id+"/edit";
+      
+      // 권한 검증: 로그인이 만료되었을 경우 차단합니다.
       if(loginMember == null) return "redirect:/auth/login";
         
+      // 서비스 레이어에 게시글 식별 ID와 수정 폼 정보, 작성자 회원 정보를 넘겨주어 변경 감지를 활용한 DB 수정을 진행합니다.
       postService.updatePost(id,form,loginMember);
 
+      // 수정 작업이 성공적으로 종료되면, 수정한 해당 글의 상세페이지로 리다이렉트하여 바뀐 내용을 확인할 수 있게 합니다.
       return "redirect:/board/"+id;
   }
   

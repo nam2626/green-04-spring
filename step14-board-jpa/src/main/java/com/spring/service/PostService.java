@@ -91,28 +91,66 @@ public class PostService {
     return post;
   }
 
+  /**
+   * [단일 게시글 식별 ID를 통한 상세 조회]
+   * 
+   * @param id 게시글 PK ID
+   * @return 조회에 성공한 Post 엔티티 객체
+   * @throws IllegalArgumentException 해당 ID의 게시글이 존재하지 않을 시 예외를 발생시킵니다.
+   */
   public Post findById(Long id) {
+    // findById는 Optional 객체를 리턴하므로, 데이터가 비어있을 때의 예외 처리(orElseThrow)를 한 줄로 간결히 처리할 수 있습니다.
     return postRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다."));
   }
 
+  /**
+   * [조회수 1 증가 처리 메서드]
+   * 
+   * @Transactional: 
+   *   조회수 필드를 변경하는 쓰기 트랜잭션을 실행합니다.
+   *   JPA의 **변경 감지(Dirty Checking)** 메커니즘이 동작합니다:
+   *     - 트랜잭션 안에서 DB로부터 엔티티를 조회한 후, 해당 엔티티의 필드 값을 변경(setViewCount)하면
+   *       JPA 영속성 컨텍스트가 트랜잭션이 끝날(커밋) 때 변경을 감지하여 자동으로 DB에 UPDATE 쿼리를 날려줍니다.
+   *       따라서 별도로 postRepository.save(post) 같은 메서드를 수동 호출할 필요가 없습니다.
+   */
   @Transactional
   public void updateCount(Long id) {
     Post post = findById(id);
-    post.setViewCount(post.getViewCount()+1);
+    post.setViewCount(post.getViewCount() + 1);
   }
 
+  /**
+   * [단일 게시글 데이터 완전 삭제]
+   */
   @Transactional
   public void deleteById(Long id) {
+    // JpaRepository 기본 내장 메서드인 deleteById를 호출해 DB 레코드를 제거합니다.
     postRepository.deleteById(id);
   }
 
+  /**
+   * [기존 게시글의 제목 및 내용 수정 비즈니스 로직]
+   * 
+   * @param id 수정할 게시글 ID
+   * @param form 수정 입력 폼 데이터 DTO
+   * @param loginMember 현재 수정 요청한 로그인 유저
+   * @return 수정 권한이 있어 정상 수정된 경우 true, 권한이 없어 실패한 경우 false
+   */
   @Transactional
   public boolean updatePost(Long id, PostFormDTO form, Member loginMember) {
+    // 1. 수정 타겟이 되는 기존 게시글 데이터를 영속성 컨텍스트에 로딩합니다.
     Post post = findById(id);
+    
+    // 2. 권한 검증: 현재 글의 작성자 회원 식별 ID와 로그인한 회원의 식별 ID가 일치하는지 대조합니다.
     if(loginMember.getId() != post.getMember().getId())
       return false;
+      
+    // 3. 엔티티 객체의 정보를 사용자가 폼에 입력한 새 제목/내용으로 교체합니다.
+    // 영속 상태인 post 엔티티의 필드가 변경되었으므로, 트랜잭션이 성공적으로 닫힐 때 Dirty Checking을 통해
+    // 데이터베이스에 UPDATE 쿼리가 전송되어 반영됩니다.
     post.setTitle(form.getTitle());
     post.setContent(form.getContent());
+    
     return true;
   }
 }
