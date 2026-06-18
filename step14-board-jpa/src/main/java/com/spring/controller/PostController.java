@@ -20,12 +20,16 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.dto.CommentFormDTO;
 import com.spring.dto.PostFormDTO;
+import com.spring.dto.ReactionDTO;
 import com.spring.entity.Attachment;
 import com.spring.entity.Comment;
 import com.spring.entity.Member;
 import com.spring.entity.Post;
+import com.spring.entity.ReactionType;
 import com.spring.service.AttachmentService;
+import com.spring.service.CommentReactionService;
 import com.spring.service.CommentService;
+import com.spring.service.PostReactionService;
 import com.spring.service.PostService;
 
 import jakarta.servlet.http.HttpSession;
@@ -55,16 +59,22 @@ public class PostController {
   private final PostService postService;
   private final AttachmentService attachmentService;
   private final CommentService commentService;
+  private final PostReactionService postReactionService;
+  private final CommentReactionService commentReactionService;
+
 
   /**
    * [생성자를 통한 의존성 주입(DI)]
    * Spring 4.3 이후부터는 생성자가 하나만 존재하고 생성자 파라미터가 빈(Bean)으로 등록되어 있다면,
    * 따로 @Autowired 어노테이션을 쓰지 않아도 스프링이 자동으로 주입해 줍니다.
    */
-  public PostController(PostService postService, AttachmentService attachmentService, CommentService commentService) {
+   public PostController(PostService postService, AttachmentService attachmentService, CommentService commentService,
+      PostReactionService postReactionService, CommentReactionService commentReactionService) {
     this.postService = postService;
     this.attachmentService = attachmentService;
     this.commentService = commentService;
+    this.postReactionService = postReactionService;
+    this.commentReactionService = commentReactionService;
   }
 
   /**
@@ -108,6 +118,8 @@ public class PostController {
     
     return view;
   }
+
+ 
 
   /**
    * [게시글 작성 화면 반환 API]
@@ -194,11 +206,18 @@ public class PostController {
         postService.updateCount(id);
       }
 
-
+      // 해당 게시글 좋아요 싫어요 개수
+      long postLikes = postReactionService.getReactionCount(id,ReactionType.LIKE);
+      long postDislikes = postReactionService.getReactionCount(id,ReactionType.DISLIKE);
+      System.out.println(postLikes + " / " + postDislikes);
+      ReactionDTO postReaction = new ReactionDTO();
+      postReaction.setLikes(postLikes);
+      postReaction.setDislikes(postDislikes);
       view.addObject("comments", comments);
       view.addObject("attachments", attachments);
       view.addObject("post", post);
       view.addObject("commentForm", new CommentFormDTO());
+      view.addObject("postReaction", postReaction);
       view.setViewName("board/detail");
       return view;
   }
