@@ -23,7 +23,7 @@
       <!-- Quill 에디터, 내용 -->
       <div class="form-group">
         <label for="quill-editor">내용</label>
-        <div id="quill-editor"></div>
+        <div id="quill-editor" th:utext="*{content}"></div>
         <input type="hidden" th:field="*{content}">
         <div class="field-error" th:errors="*{content}"></div>
       </div>

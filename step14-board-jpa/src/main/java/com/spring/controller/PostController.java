@@ -220,6 +220,29 @@ public class PostController {
     
       return "redirect:/board";
   }
+ 
+  @GetMapping("/{id}/edit")
+  public String editForm(@PathVariable Long id, Model model) {
+      Post post = postService.findById(id);
+      model.addAttribute("form", post);
+      model.addAttribute("postId", id);
+      
+      return "board/write";
+  }
+
+  @PostMapping("/{id}/edit")
+  public String edit(@Valid @ModelAttribute("form") PostFormDTO form,
+      BindingResult bindingResult,@PathVariable Long id,
+      @SessionAttribute(value = "loginMember", required = false) Member loginMember, RedirectAttributes attributes) {
+
+      if(bindingResult.hasErrors()) return "board/"+id+"/edit";
+      if(loginMember == null) return "redirect:/auth/login";
+        
+      postService.updatePost(id,form,loginMember);
+
+      return "redirect:/board/"+id;
+  }
+  
   
   
 }

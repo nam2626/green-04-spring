@@ -7,6 +7,7 @@
 </head>
 <body>
   <section class="detail-page">
+     <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet" />
     <article class="post-detail-card">
       <div class="detail-header">
         <h2 th:text="${post.title}"></h2>
@@ -33,7 +34,7 @@
       </div>
       <div class="detail-actions" th:if="${session.loginMember != null and session.loginMember.id == post.member.id}">
         <div class="owner-actions">
-          <a class="btn btn-ghost" href="">수정</a>
+          <a class="btn btn-ghost" th:href="@{/board/{id}/edit(id=${post.id})}">수정</a>
           <a class="btn btn-danger" th:href="@{/board/{id}/delete(id=${post.id})}">삭제</a>
         </div>
       </div>
