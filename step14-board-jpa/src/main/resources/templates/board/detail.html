@@ -79,10 +79,17 @@
        </div>
     </section>
     <script th:inline="javascript">
-      const POST_ID = ${post.id};
+      const POST_ID = [[${post.id}]];
 
       function contentReactionClick(e){
-        alert(e.target)
+        console.log(e.target.className);
+        let url = `/reaction/post/${POST_ID}`;
+        if(e.target.className.indexOf('content-like') != -1)
+          url += '/like';
+        else
+          url += '/dislike';
+
+          
       }
 
       window.onload = () => {
