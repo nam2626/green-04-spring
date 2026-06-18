@@ -30,8 +30,8 @@
         </p>
       </div>
       <div class="post-footer">
-        <button class="reaction-btn" type="button">👍좋아요 <span th:text="${postReaction.likes}">0</span></button>
-        <button class="reaction-btn" type="button">👎싫어요 <span th:text="${postReaction.dislikes}">0</span></button>
+        <button class="reaction-btn content-like" type="button">👍좋아요 <span th:text="${postReaction.likes}">0</span></button>
+        <button class="reaction-btn content-dislike" type="button">👎싫어요 <span th:text="${postReaction.dislikes}">0</span></button>
       </div>
       <div class="detail-actions" th:if="${session.loginMember != null and session.loginMember.id == post.member.id}">
         <div class="owner-actions">
@@ -78,6 +78,19 @@
           </div>
        </div>
     </section>
+    <script th:inline="javascript">
+      const POST_ID = ${post.id};
+
+      function contentReactionClick(e){
+        alert(e.target)
+      }
+
+      window.onload = () => {
+        document.querySelectorAll(".content-like, .content-dislike").forEach(item => {
+          item.addEventListener('click',contentReactionClick);
+        })
+      }
+    </script>
   </section>
 </body>
 </html>
