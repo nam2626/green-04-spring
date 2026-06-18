@@ -26,7 +26,7 @@ public class ReactionController {
   @GetMapping("/post/{postId}/{type}")
   public String postReaction(@PathVariable Long postId, @PathVariable String type, @SessionAttribute("loginMember") Member loginMember) {
       System.out.println(postId + " / " + type);
-      ReactionType reactionType = ReactionType.valueOf(type);
+      ReactionType reactionType = ReactionType.valueOf(type.toUpperCase());
       postReactionService.addReaction(postId, reactionType, loginMember.getId());
       return "안녕하세요";
   }
