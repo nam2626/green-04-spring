@@ -3,12 +3,14 @@ package com.spring.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.spring.entity.Member;
 import com.spring.entity.ReactionType;
 import com.spring.service.PostReactionService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 
 @RequestMapping("/reaction")
@@ -22,8 +24,10 @@ public class ReactionController {
   }
 
   @GetMapping("/post/{postId}/{type}")
-  public String postReaction(@PathVariable Long postId, @PathVariable String type) {
+  public String postReaction(@PathVariable Long postId, @PathVariable String type, @SessionAttribute("loginMember") Member loginMember) {
       System.out.println(postId + " / " + type);
+      ReactionType reactionType = ReactionType.valueOf(type);
+      postReactionService.addReaction(postId, reactionType, loginMember.getId());
       return "안녕하세요";
   }
   
