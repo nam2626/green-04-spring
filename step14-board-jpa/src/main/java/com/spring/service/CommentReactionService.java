@@ -44,8 +44,9 @@ public class CommentReactionService {
       }
     });
 
-    commentIds.forEach(item ->{
-      commentReactions.put(item, new ReactionDTO());
+    commentIds.forEach(commentId ->{
+      commentReactions.put(commentId, 
+        new ReactionDTO(likes.get(commentId),dislikes.get(commentId),null));
     });
 
     return commentReactions;
