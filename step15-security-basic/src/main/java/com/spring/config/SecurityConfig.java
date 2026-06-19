@@ -18,13 +18,17 @@ import com.spring.security.JwtAuthenticationFilter;
 
 import lombok.RequiredArgsConstructor;
 
+// Spring Security의 인증 방식, URL 접근 규칙, 보안 관련 객체를 설정하는 클래스이다.
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
+  // 모든 요청에서 JWT를 먼저 확인하도록 필터 체인에 등록할 필터이다.
   private final JwtAuthenticationFilter jwtAuthenticationFilter;
+  // TODO: 현재 사용되지 않고 생성자에서도 초기화되지 않는 중복 필드이다. 다음 작업에서 정리해야 컴파일된다.
   private final JwtAuthenticationFilter authenticationFilter;
 
+  // JwtAuthenticationFilter를 생성자 방식으로 주입받는다.
   SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter) {
     this.jwtAuthenticationFilter = jwtAuthenticationFilter;
   }
@@ -32,32 +36,33 @@ public class SecurityConfig {
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
     http
-      // CSRF 비활성화(REAT API - Bearer 토큰)
+      // 브라우저 세션/쿠키 대신 Bearer Token을 사용하는 REST API이므로 CSRF 보호를 끈다.
     .csrf(crsf -> crsf.disable())
-    // 세션 미사용
+    // 서버에 로그인 세션을 만들지 않고, 매 요청의 JWT로 인증 상태를 확인한다.
     .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-    // URL별 인증 규칙
+    // 요청 URL과 HTTP 메서드에 따라 공개 범위를 정한다.
     .authorizeHttpRequests(auth -> auth
-      // 인증없이 접근이 가능한 경로 
-      // 로그인, 회원가입      
+      // 로그인과 회원가입은 아직 토큰이 없는 사용자도 접근해야 하므로 공개한다.
       .requestMatchers("/auth/**").permitAll()
-      // 게시글 조회는 공개(게시글 목록, 게시글 한건, 검색)
+      // 게시글의 목록·상세·검색 등 GET 조회 요청은 로그인하지 않아도 볼 수 있다.
       .requestMatchers(HttpMethod.GET,"/api/posts/**").permitAll()
-      // 나머지 경로는 전부 인증 필요
+      // 위에서 공개하지 않은 나머지 요청은 유효한 인증 정보가 있어야 한다.
       .anyRequest().authenticated()
+    // 기본 아이디/비밀번호 인증 필터보다 앞에서 JWT 인증 필터가 실행되도록 한다.
     ).addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
     return http.build();
   }
 
   @Bean
   public PasswordEncoder passwordEncoder(){
+    // 비밀번호를 복호화 가능한 형태로 저장하지 않고 BCrypt 단방향 해시로 변환한다.
     return new BCryptPasswordEncoder();
   }
+
   /**
-     * AuthenticationManager — AuthService.login()에서
-     * authenticationManager.authenticate(token) 호출 시 내부적으로
-     * UserDetailsServiceImpl.loadUserByUsername() + PasswordEncoder.matches() 실행
-     */
+   * AuthService의 로그인 기능에서 아이디와 비밀번호 인증을 시작할 객체를 Bean으로 등록한다.
+   * authenticate()가 호출되면 UserDetailsService로 회원을 찾고 PasswordEncoder로 비밀번호를 비교한다.
+   */
   @Bean
   public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
     return config.getAuthenticationManager();
