@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 /**
  * [리액션(좋아요/싫어요) 데이터 전송용 DTO 클래스]
@@ -21,6 +22,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class ReactionDTO {
 
   // 해당 게시글에 대한 총 '좋아요' 누적 개수
