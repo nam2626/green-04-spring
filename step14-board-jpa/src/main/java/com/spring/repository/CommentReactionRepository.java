@@ -1,9 +1,20 @@
 package com.spring.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.query.Param;
 
 import com.spring.entity.CommentReaction;
+import com.spring.entity.ReactionType;
 
 public interface CommentReactionRepository extends JpaRepository<CommentReaction, Long> {
 
+    List<CommentReactionCount> countByCommentIdsGroupByType(@Param("commentIds") List<Long> commentIds);
+
+    public interface CommentReactionCount {
+      Long getCommentId();
+      ReactionType getType();
+      long getCount();      
+    }    
 }
