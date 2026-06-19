@@ -3,11 +3,11 @@ package com.spring.service;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.spring.repository.RefreshTokenRepository;
 import com.spring.repository.UserRepository;
 
-import jakarta.transaction.Transactional;
 
 @Service
 @Transactional
