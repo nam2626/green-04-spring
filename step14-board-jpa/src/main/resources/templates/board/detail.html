@@ -102,8 +102,8 @@
                 <a class="comment-delete" th:href="@{/comments/{id}/delete(id=${comment.id})}" onclick="return confirm('정말로 삭제하시겠습니까?')">삭제</a>
               </li>
               <li>
-                <button class="reaction-btn reaction-btn--small" type="button" th:onclick="'commentReactionClick(' + ${comment.id} + ', \'like\')'">👍좋아요 <span th:text="${commentReactions[comment.id].likes}">0</span></button>
-                <button class="reaction-btn reaction-btn--small" type="button" th:onclick="'commentReactionClick(' + ${comment.id} + ', \'dislike\')'">👎싫어요 <span th:text="${commentReactions[comment.id].dislikes}">0</span></button>
+                <button th:id="${'btn-comment-like-' + comment.id}" class="reaction-btn reaction-btn--small comment-like" type="button">👍좋아요 <span th:text="${commentReactions[comment.id].likes}">0</span></button>
+                <button th:id="${'btn-comment-dislike-' + comment.id}"  class="reaction-btn reaction-btn--small comment-dislike" type="button" >👎싫어요 <span th:text="${commentReactions[comment.id].dislikes}">0</span></button>
               </li>
             </ul>
             <hr>
@@ -146,12 +146,23 @@
           });
       }
 
+      function commentReactionClick(e){
+        console.log(e.target);
+      }
+
+
       // 페이지 로드가 완전히 완료되었을 때 실행되는 초기화 블록입니다.
       window.onload = () => {
         // 화면의 좋아요(.content-like) 및 싫어요(.content-dislike) 버튼 객체를 모두 찾아 클릭 이벤트 리스너를 바인딩합니다.
         document.querySelectorAll(".content-like, .content-dislike").forEach(item => {
           item.addEventListener('click', contentReactionClick);
         });
+
+        document.querySelectorAll(".comment-like, .comment-dislike").forEach(item => {
+          item.addEventListener('click', commentReactionClick);
+        });
+
+
       }
     </script>
   </section>
