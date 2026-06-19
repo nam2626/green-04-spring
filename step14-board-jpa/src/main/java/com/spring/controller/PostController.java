@@ -203,7 +203,7 @@ public class PostController {
       // 댓글 좋아요/싫어요
       List<Long> commentIds = comments.stream().map(Comment::getId).toList();
       Map<Long, ReactionDTO> commentReactions = commentReactionService.getCommentReactions(commentIds);
-
+      System.out.println(commentReactions);
       
       // 3. 해당 게시글에 연결된 첨부파일 리스트 전체를 DB에서 조회합니다.
       List<Attachment> attachments = attachmentService.getAttachmentByPost(id);
