@@ -246,6 +246,7 @@ public class PostController {
       view.addObject("commentForm", new CommentFormDTO());
       view.addObject("postReaction", postReaction);
       
+      view.addObject("commentReactions",commentReactions);
       // 렌더링할 화면 이름('templates/board/detail.html')을 설정합니다.
       view.setViewName("board/detail");
       return view;
