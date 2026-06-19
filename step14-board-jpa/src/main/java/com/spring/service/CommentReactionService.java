@@ -1,24 +1,34 @@
 package com.spring.service;
 
 import com.spring.repository.CommentReactionRepository;
+import com.spring.repository.CommentRepository;
 import com.spring.repository.CommentReactionRepository.CommentReactionCount;
+import com.spring.repository.MemberRepository;
 
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
 import com.spring.dto.ReactionDTO;
+import com.spring.entity.CommentReaction;
+import com.spring.entity.PostReaction;
 import com.spring.entity.ReactionType;
 
 @Service
 public class CommentReactionService {
 
   private final CommentReactionRepository commentReactionRepository;
+  private final MemberRepository memberRepository;
+  private final CommentRepository commentRepository;
 
-  CommentReactionService(CommentReactionRepository commentReactionRepository) {
+  public CommentReactionService(CommentReactionRepository commentReactionRepository, MemberRepository memberRepository,
+      CommentRepository commentRepository) {
     this.commentReactionRepository = commentReactionRepository;
+    this.memberRepository = memberRepository;
+    this.commentRepository = commentRepository;
   }
 
   public Map<Long, ReactionDTO> getCommentReactions(List<Long> commentIds) {
@@ -50,6 +60,36 @@ public class CommentReactionService {
     });
 
     return commentReactions;
+  }
+
+  public Long getCommentReaction(Long commentId, ReactionType type) {
+    return commentReactionRepository.countByCommentIdAndType(commentId, type);
+  }
+
+  public void addReaction(Long commentId, ReactionType reactionType, Long memberId) {
+   Optional<CommentReaction> opt = commentReactionRepository.findByCommentIdAndMemberId(commentId,memberId);
+
+   if(!opt.isEmpty()){
+      // Optional 내부에서 실제 엔티티 객체를 꺼냅니다. 데이터가 없다면 IllegalArgumentException 예외를 발생시킵니다.
+      CommentReaction reaction = opt.orElseThrow(() -> new IllegalArgumentException("해당 좋아요 싫어요 데이터가 없습니다."));
+      
+      if(reaction.getType() == reactionType){
+        commentReactionRepository.delete(reaction);
+      } else {
+        reaction.setType(reactionType); 
+      }
+    } 
+    else {
+      CommentReaction reaction = new CommentReaction();
+      
+      reaction.setMember(memberRepository.findById(memberId).orElseThrow(() -> new IllegalArgumentException("해당 회원이 없습니다.")));
+      
+      reaction.setComment(commentRepository.findById(commentId).orElseThrow(() -> new IllegalArgumentException("해당 댓글이 없습니다.")));
+      
+      reaction.setType(reactionType);
+      
+      commentReactionRepository.save(reaction);
+    }
   }
 
 }

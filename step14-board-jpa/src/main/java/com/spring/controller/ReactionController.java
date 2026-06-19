@@ -89,13 +89,14 @@ public class ReactionController {
  
   
   @GetMapping("/comment/{id}/{type}")
-  public ReactionDTO commentReact(@PathVariable("id") Long id, @PathVariable("type") String type) {
+  public ReactionDTO commentReact(@PathVariable("id") Long commentId, @PathVariable("type") String type, @SessionAttribute(name="loginMember",required = false) Member member) {
       ReactionDTO reactionDTO = new ReactionDTO();
       ReactionType reactionType = ReactionType.valueOf(type.toUpperCase());
-      commentReactionService.addReaction(id,reactionType);
 
-      reactionDTO.setLikes(commentReactionService.getCommentReaction(id,ReactionType.LIKE));
-      reactionDTO.setDislikes(commentReactionService.getCommentReaction(id,ReactionType.DISLIKE));
+      commentReactionService.addReaction(commentId,reactionType,member.getId());
+
+      reactionDTO.setLikes(commentReactionService.getCommentReaction(commentId,ReactionType.LIKE));
+      reactionDTO.setDislikes(commentReactionService.getCommentReaction(commentId,ReactionType.DISLIKE));
 
       return reactionDTO;
   }

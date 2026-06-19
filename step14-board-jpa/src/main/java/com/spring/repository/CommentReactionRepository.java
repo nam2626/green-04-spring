@@ -1,6 +1,7 @@
 package com.spring.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -21,5 +22,10 @@ public interface CommentReactionRepository extends JpaRepository<CommentReaction
       Long getCommentId();
       ReactionType getType();
       long getCount();      
-    }    
+    }
+
+    Optional<CommentReaction> findByCommentIdAndMemberId(Long commentId, Long memberId);    
+
+    long countByCommentIdAndType(Long CommentId, ReactionType type);
+
 }
