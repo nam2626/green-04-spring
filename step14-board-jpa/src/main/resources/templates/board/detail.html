@@ -157,8 +157,8 @@
             return res.json();
           })
           .then(data => {
-            e.target.querySelector("span").innerHTML = data.likes;
-            e.target.querySelector("span").innerHTML = data.dislikes;
+            document.querySelector('#btn-comment-like-'+arr[3]+'>span').innerHTML = data.likes;
+            document.querySelector('#btn-comment-dislike-'+arr[3]+'>span').innerHTML = data.dislikes;
           })
           .catch(error => {
             console.error("리액션 처리 중 에러 발생:", error);

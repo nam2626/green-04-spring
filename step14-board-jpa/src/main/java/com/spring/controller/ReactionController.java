@@ -83,5 +83,12 @@ public class ReactionController {
       // 세팅이 완료된 DTO 객체를 리턴합니다. @RestController 환경이므로 이 객체는 JSON {"likes": X, "dislikes": Y} 형태로 자동 변환되어 클라이언트에 전송됩니다.
       return reactionDTO;
   }
+ 
+  
+  @GetMapping("/comment/{id}/{type}")
+  public ReactionDTO commentReact(@PathVariable("id") Long id, @PathVariable("type") String type) {
+      ReactionDTO reactionDTO = new ReactionDTO(10L,20L,null);
+      return reactionDTO;
+  }
   
 }
