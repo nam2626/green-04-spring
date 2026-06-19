@@ -5,6 +5,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -198,6 +199,11 @@ public class PostController {
       for (Comment comment : comments) {
         System.out.println(comment.getId() + " / " + comment.getContent());
       }
+
+      // 댓글 좋아요/싫어요
+      List<Long> commentIds = comments.stream().map(Comment::getId).toList();
+      Map<Long, ReactionDTO> commentReactions = commentReactionService.getCommentReactions(commentIds);
+
       
       // 3. 해당 게시글에 연결된 첨부파일 리스트 전체를 DB에서 조회합니다.
       List<Attachment> attachments = attachmentService.getAttachmentByPost(id);
