@@ -1,5 +1,6 @@
 package com.spring.controller;
 
+import com.spring.service.CommentReactionService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -27,6 +28,7 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 @RestController
 public class ReactionController {
 
+  private final CommentReactionService commentReactionService;
   // 리액션 비즈니스 로직을 담당하는 서비스 레이어 객체를 주입받기 위한 필드입니다.
   // final 선언을 통해 한번 초기화된 이후 변경할 수 없도록 보장합니다.
   private final PostReactionService postReactionService;
@@ -36,8 +38,9 @@ public class ReactionController {
    * 스프링 컨테이너가 이 컨트롤러 객체를 만들 때, 이미 스프링 빈으로 등록된 PostReactionService 객체를 
    * 파라미터로 넘겨주어 의존성을 주입해 줍니다. 생성자 주입은 불변성과 테스트 편리성을 제공하여 권장됩니다.
    */
-  public ReactionController(PostReactionService postReactionService) {
+  public ReactionController(PostReactionService postReactionService, CommentReactionService commentReactionService) {
     this.postReactionService = postReactionService;
+    this.commentReactionService = commentReactionService;
   }
 
   /**
@@ -87,7 +90,13 @@ public class ReactionController {
   
   @GetMapping("/comment/{id}/{type}")
   public ReactionDTO commentReact(@PathVariable("id") Long id, @PathVariable("type") String type) {
-      ReactionDTO reactionDTO = new ReactionDTO(10L,20L,null);
+      ReactionDTO reactionDTO = new ReactionDTO();
+      ReactionType reactionType = ReactionType.valueOf(type.toUpperCase());
+      commentReactionService.addReaction(id,reactionType);
+
+      reactionDTO.setLikes(commentReactionService.getCommentReaction(id,ReactionType.LIKE));
+      reactionDTO.setDislikes(commentReactionService.getCommentReaction(id,ReactionType.DISLIKE));
+
       return reactionDTO;
   }
   
