@@ -147,7 +147,22 @@
       }
 
       function commentReactionClick(e){
-        console.log(e.target);
+        // console.log(e.target.id.split('-'));
+        const arr = e.target.id.split('-');
+        console.log(arr[2],arr[3]);
+        let url = `/reaction/comment/${arr[3]}/${arr[2]}`;
+        
+        fetch(url)
+          .then(res => {
+            return res.json();
+          })
+          .then(data => {
+            e.target.querySelector("span").innerHTML = data.likes;
+            e.target.querySelector("span").innerHTML = data.dislikes;
+          })
+          .catch(error => {
+            console.error("리액션 처리 중 에러 발생:", error);
+          });
       }
 
 
