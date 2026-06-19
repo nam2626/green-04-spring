@@ -1,6 +1,8 @@
 package com.spring.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
@@ -17,6 +19,8 @@ import lombok.Setter;
  */
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class ReactionDTO {
 
   // 해당 게시글에 대한 총 '좋아요' 누적 개수
