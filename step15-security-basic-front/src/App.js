@@ -2,13 +2,25 @@ import logo from './logo.svg';
 import './App.css';
 import { useRef } from 'react';
 import axios from 'axios';
+
+// 백엔드 서버의 공통 주소입니다.
+// 회원가입·로그인처럼 여러 API를 호출할 때 이 값을 앞에 붙이면,
+// 서버 주소가 바뀌더라도 이 한 곳만 수정하면 됩니다.
 const BASE_URL = "http://localhost:8888";
 
+// JWT(JSON Web Token)를 브라우저의 localStorage에 저장하고 꺼내는 기능을
+// 한 객체에 모아 둔 작은 저장소입니다. 컴포넌트가 저장 방식의 세부 내용을
+// 직접 알지 않아도 되므로, 토큰 관련 코드가 여러 곳에 흩어지는 것을 줄여 줍니다.
 const tokenStore = {
+  // access token은 보호된 API를 호출할 때 인증 정보로 사용하는 짧은 수명의 토큰입니다.
   getAccessToken : ()=> localStorage.getItem("accessToken"),
   setAccessToken : (token)=> localStorage.setItem("accessToken",token),
+
+  // refresh token은 access token이 만료되었을 때 새 access token을 발급받는 데 사용합니다.
   getRefreshToken : ()=> localStorage.getItem("refreshToken"),
   setRefreshToken : (token)=> localStorage.setItem("refreshToken",token),
+
+  // 로그아웃하거나 인증 정보가 더 이상 유효하지 않을 때 두 토큰을 함께 제거합니다.
   clearToken : ()=> {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");
@@ -16,18 +28,24 @@ const tokenStore = {
 }
 
 function App() {
+  // useRef는 입력창 DOM 요소를 기억합니다. 사용자가 버튼을 누른 시점에
+  // ref.current.value를 읽으면 각 입력창에 현재 적힌 값을 가져올 수 있습니다.
+  // 여기서는 입력할 때마다 state를 갱신하지 않는 비제어 컴포넌트 방식을 사용합니다.
   const usernameRef = useRef(null);
   const passwordRef = useRef(null);
   const emailRef = useRef(null);
 
+  // async 함수로 선언하면 axios 요청이 끝날 때까지 await로 기다릴 수 있습니다.
   const handleRegister = async () => {
+    // 버튼을 클릭한 뒤 실행되므로 current에는 화면에 렌더링된 input 요소가 들어 있습니다.
     const username = usernameRef.current.value;
     const password = passwordRef.current.value;
     const email = emailRef.current.value;
 
     console.log(username,password,email);
-    // axios 호출해서 회원가입 처리 /auth/signup
 
+    // 두 번째 인자로 전달한 객체는 JSON 요청 본문으로 변환되어 백엔드로 전송됩니다.
+    // await 뒤의 코드는 서버가 응답한 다음 실행되며, 실제 응답 본문은 response.data에 있습니다.
     const response = await axios.post(BASE_URL+"/auth/signup",{username,password,email});
     
     console.log(response.data);
@@ -35,18 +53,16 @@ function App() {
 
   };
 
+  // 회원가입 입력창과 로그인 입력창은 서로 다른 DOM 요소이므로 별도의 ref를 사용합니다.
   const loginUserName = useRef(null);
   const loginPassword = useRef(null);
 
   const handleLogin = async () => {
-    // 로그인 요청 보내기 
-    // /auth/login - post
-
-    // 요청 성공시 accessToken, refreshToken을 localStorage에 저장
-
-    // 화면에 accessToken 출력 로그인 성공 메세지도 출력
-
-    
+    // TODO: 아직 완성되지 않은 학습용 구간입니다.
+    // 이후 구현할 때는 입력값을 읽어 POST /auth/login으로 전송하고,
+    // 성공 응답의 accessToken과 refreshToken을 tokenStore에 저장한 다음
+    // 화면에 로그인 성공 여부와 access token을 표시해야 합니다.
+    // 현재 단계에서는 요구된 동작을 임의로 정하지 않기 위해 구현하지 않습니다.
 
   }
 
@@ -76,6 +92,7 @@ function App() {
           <input type="text" id="reg-email" ref={emailRef}/>
         </div>
         <div className='btn-group'>
+          {/* onClick에 함수 자체를 전달하면 클릭 시점에 React가 handleRegister를 실행합니다. */}
           <button id="register" onClick={handleRegister}>회원가입</button>
         </div>
       </section>
@@ -90,6 +107,7 @@ function App() {
             <input type="password" id="log-password" ref={loginPassword}/>
           </div>
           <div className='btn-group'>
+            {/* 로그인 버튼도 같은 방식으로 미완성 handleLogin 함수와 연결되어 있습니다. */}
             <button id="login" onClick={handleLogin}>로그인</button>
           </div>
            
