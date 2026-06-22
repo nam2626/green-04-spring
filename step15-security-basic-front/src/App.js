@@ -3,6 +3,18 @@ import './App.css';
 import { useRef } from 'react';
 import axios from 'axios';
 const BASE_URL = "http://localhost:8888";
+
+const tokenStore = {
+  getAccessToken : ()=> localStorage.getItem("accessToken"),
+  setAccessToken : (token)=> localStorage.setItem("accessToken",token),
+  getRefreshToken : ()=> localStorage.getItem("refreshToken"),
+  setRefreshToken : (token)=> localStorage.setItem("refreshToken",token),
+  clearToken : ()=> {
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+  }
+}
+
 function App() {
   const usernameRef = useRef(null);
   const passwordRef = useRef(null);
