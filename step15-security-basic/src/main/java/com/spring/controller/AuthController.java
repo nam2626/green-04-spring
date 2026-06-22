@@ -23,6 +23,9 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
  */
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RestController
 @RequestMapping("/auth")
@@ -52,6 +55,16 @@ public class AuthController {
   public ResponseEntity<Map<String,String>> logout(@AuthenticationPrincipal UserEntity currentUser) {
       authService.logout(currentUser);      
       return ResponseEntity.ok( Map.of("message","로그아웃 완료"));
+  }
+  
+  @GetMapping("/me")
+  public ResponseEntity<Map<String,Object>> me(@AuthenticationPrincipal UserEntity currentUser) {
+      return ResponseEntity.ok(Map.of(
+        "id",  currentUser.getId(),
+        "username", currentUser.getUsername(),
+        "email", currentUser.getEmail(),  
+        "role", currentUser.getRole() 
+      ));
   }
   
 
