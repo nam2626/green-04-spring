@@ -81,6 +81,10 @@ public class AuthService {
     refreshTokenRepository.save(token);
   }
 
+  public void logout(UserEntity currentUser) {
+    userRepository.findByUsername(currentUser.getUsername()).ifPresent(refreshTokenRepository::deleteByUser);
+  }
+
   
 
 }
