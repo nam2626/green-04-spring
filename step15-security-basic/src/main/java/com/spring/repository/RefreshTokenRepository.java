@@ -1,9 +1,18 @@
 package com.spring.repository;
 
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
-// Refresh Token을 DB에 저장하고 조회할 저장소의 뼈대이다.
-// 현재는 엔티티 타입과 기본 키 타입이 지정되지 않은 미완성 상태이며 다음 작업에서 구체화한다.
-public interface RefreshTokenRepository extends JpaRepository{
+import com.spring.entity.RefreshToken;
+import com.spring.entity.UserEntity;
 
+// Refresh Token을 DB에 저장하고 조회할 저장소
+public interface RefreshTokenRepository extends JpaRepository<RefreshToken,Long>{
+
+  // 토큰 값으로 조회
+  Optional<RefreshToken> findByToken(String token);
+
+  // 사용자의 기존 refresh token을 삭제
+  void deleteByUser(UserEntity user);
 }
