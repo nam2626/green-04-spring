@@ -1,7 +1,8 @@
 import logo from './logo.svg';
 import './App.css';
 import { useRef } from 'react';
-
+import axios from 'axios';
+const BASE_URL = "http://localhost:8888";
 function App() {
   const usernameRef = useRef(null);
   const passwordRef = useRef(null);
@@ -12,7 +13,9 @@ function App() {
     const password = passwordRef.current.value;
     const email = emailRef.current.value;
 
-    alert(`${username} ${password} ${email} 회원가입 버튼 클릭됨`);
+    console.log(username,password,email);
+    // axios 호출해서 회원가입 처리 /auth/signup
+
   };
 
   return (<div className="container">
@@ -20,7 +23,10 @@ function App() {
       <h1>JWT API 테스트 패널</h1>
       <div className='head-content'>Access Token 출력 영역</div>
     </header>
-
+    <div className='result-message-box'>
+      <h2>응답결과</h2>
+      <div className='message-content'></div>  
+    </div>
     <main>
       <section className="card">
         <h2>회원가입</h2>
