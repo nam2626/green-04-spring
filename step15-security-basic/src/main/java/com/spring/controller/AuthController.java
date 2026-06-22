@@ -41,7 +41,8 @@ public class AuthController {
   }
   
   @PostMapping("/login")
-  public ResponseEntity<TokenReponse> postMethodName(@RequestBody LoginRequest req) {
+  public ResponseEntity<TokenReponse> login(@RequestBody LoginRequest req) {
+    System.out.println("login");
       return ResponseEntity.ok(authService.login(req));
   }
   
