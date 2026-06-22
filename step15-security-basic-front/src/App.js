@@ -35,6 +35,16 @@ function App() {
 
   };
 
+  const loginUserName = useRef(null);
+  const loginPassword = useRef(null);
+
+  const handleLogin = async () => {
+    // 로그인 요청 보내기 
+    // /auth/login - post
+
+  }
+
+
   return (<div className="container">
     <header>
       <h1>JWT API 테스트 패널</h1>
@@ -63,6 +73,21 @@ function App() {
           <button id="register" onClick={handleRegister}>회원가입</button>
         </div>
       </section>
+       <section className="card">
+          <h2>로그인</h2>
+          <div className='form-group'>
+            <label htmlFor="log-username">아이디</label>
+            <input type="text" id="log-username" ref={loginUserName}/>
+          </div>
+          <div className='form-group'>
+            <label htmlFor="log-password">패스워드</label>
+            <input type="password" id="log-password" ref={loginPassword}/>
+          </div>
+          <div className='btn-group'>
+            <button id="login" onClick={handleLogin}>로그인</button>
+          </div>
+           
+       </section>
     </main>
 
   </div>
