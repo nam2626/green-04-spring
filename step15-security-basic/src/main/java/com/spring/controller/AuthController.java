@@ -26,6 +26,7 @@ public class AuthController {
 
   private final AuthService authService;
 
+  // 아이디, 암호, 이메일
   @PostMapping("/signup")
   public ResponseEntity<Map<String,String>> signup(@RequestBody String entity) {
       
