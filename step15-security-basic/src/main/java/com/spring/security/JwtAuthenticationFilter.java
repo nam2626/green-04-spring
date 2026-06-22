@@ -43,6 +43,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
           authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
            // 5. 현재 요청의 인증 보관소에 저장하면 이후 컨트롤러에서 인증 회원을 사용할 수 있다.
+           // @AuthenticationPrincipal로 꺼낼수 있음
            SecurityContextHolder.getContext().setAuthentication(authenticationToken);
         }
         // 6. 인증 성공 여부와 관계없이 다음 필터로 요청을 넘겨야 전체 필터 체인이 계속 동작한다.

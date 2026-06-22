@@ -51,6 +51,7 @@ public class AuthService {
   }
 
   public TokenReponse login(LoginRequest req) {
+    System.out.println("login");
     // 1. 로그인 인증처리
     Authentication auth = authenticationManager.authenticate(
       new UsernamePasswordAuthenticationToken(req.getUsername(), req.getPassword())
