@@ -3,7 +3,9 @@ package com.spring.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.spring.dto.LoginRequest;
 import com.spring.dto.SignupRequest;
+import com.spring.dto.TokenReponse;
 import com.spring.service.AuthService;
 
 import lombok.RequiredArgsConstructor;
@@ -36,6 +38,11 @@ public class AuthController {
       return ResponseEntity.status(HttpStatus.CREATED).body(
         Map.of("message","회원가입이 완료되었습니다.")
       );
+  }
+  
+  @PostMapping("/login")
+  public ResponseEntity<TokenReponse> postMethodName(@RequestBody LoginRequest req) {
+      return ResponseEntity.ok(authService.login(req));
   }
   
 

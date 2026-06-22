@@ -1,11 +1,18 @@
 package com.spring.service;
 
+import java.time.LocalDateTime;
+
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.spring.dto.LoginRequest;
 import com.spring.dto.SignupRequest;
+import com.spring.dto.TokenReponse;
+import com.spring.entity.RefreshToken;
 import com.spring.entity.UserEntity;
 import com.spring.repository.RefreshTokenRepository;
 import com.spring.repository.UserRepository;
@@ -41,6 +48,36 @@ public class AuthService {
     entity.setPassword(passwordEncoder.encode(signupRequest.getPassword()));
 
     userRepository.save(entity);
+  }
+
+  public TokenReponse login(LoginRequest req) {
+    // 1. 로그인 인증처리
+    Authentication auth = authenticationManager.authenticate(
+      new UsernamePasswordAuthenticationToken(req.getUsername(), req.getPassword())
+    );
+
+    UserEntity user = (UserEntity) auth.getPrincipal();
+
+    // 2. 토큰 생성
+    String accessToken = jwtTokenProvider.generateAccessToken(user);
+    String refreshToken = jwtTokenProvider.generateRefreshToken(user);
+
+    // 3. refresh token 저장
+    saveRefreshToken(user,refreshToken);
+
+    return new TokenReponse(accessToken,refreshToken,"Bearer");
+  }
+
+  private void saveRefreshToken(UserEntity user, String refreshToken) {
+    // 기존 refreshToken 삭제
+    refreshTokenRepository.deleteByUser(user);
+
+    RefreshToken token = new RefreshToken();
+    token.setToken(refreshToken);
+    token.setUser(user);
+    token.setExpiresAt(LocalDateTime.now().plusDays(7));
+
+    refreshTokenRepository.save(token);
   }
 
   
