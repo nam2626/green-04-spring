@@ -25,13 +25,6 @@ import lombok.RequiredArgsConstructor;
 public class SecurityConfig {
   // 모든 요청에서 JWT를 먼저 확인하도록 필터 체인에 등록할 필터이다.
   private final JwtAuthenticationFilter jwtAuthenticationFilter;
-  // TODO: 현재 사용되지 않고 생성자에서도 초기화되지 않는 중복 필드이다. 다음 작업에서 정리해야 컴파일된다.
-  private final JwtAuthenticationFilter authenticationFilter;
-
-  // JwtAuthenticationFilter를 생성자 방식으로 주입받는다.
-  SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter) {
-    this.jwtAuthenticationFilter = jwtAuthenticationFilter;
-  }
   
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
