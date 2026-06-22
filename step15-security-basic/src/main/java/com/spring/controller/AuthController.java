@@ -19,12 +19,15 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 /**
  *  인증 REST API
  *  
- *  POST /auth/signup - 회원가입
+ * POST /auth/signup  — 회원가입
+ * POST /auth/login   — 로그인 → JWT 발급
+ * POST /auth/refresh — Access Token 재발급
+ * POST /auth/logout  — 로그아웃 (Refresh Token 삭제)
+ * GET  /auth/me      — 현재 로그인 사용자 정보
  */
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 @RestController
