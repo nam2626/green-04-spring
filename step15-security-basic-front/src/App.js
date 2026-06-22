@@ -42,6 +42,12 @@ function App() {
     // 로그인 요청 보내기 
     // /auth/login - post
 
+    // 요청 성공시 accessToken, refreshToken을 localStorage에 저장
+
+    // 화면에 accessToken 출력 로그인 성공 메세지도 출력
+
+    
+
   }
 
 
