@@ -44,7 +44,7 @@ public class UserEntity implements UserDetails {
 
   // 사용자의 권한을 나타낸다. 예: ROLE_USER, ROLE_ADMIN
   @Column(nullable = false, length = 20)
-  private String role;
+  private String role = "ROLE_USER";
 
   // 객체가 만들어진 시각을 가입 시각으로 기록하며, 이후 UPDATE 문에서는 변경하지 않는다.
   @Column(updatable = false)
