@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,9 +21,15 @@ public class PostController {
     Map.of("id",3,"title","제목3","author","admin","createdAt","2026-01-03"),
     Map.of("id",4,"title","제목4","author","admin","createdAt","2026-01-04"));
 
-    // 전체 게시글 목록 리턴하는 메서드
+    // 전체 게시글 목록 리턴하는 메서드 - 인증 X
     @GetMapping
     public ResponseEntity<List<Map<String,Object>>> list(){
       return ResponseEntity.ok(postList);
+    }
+
+    // 게시글 단건 조회 - 인증 X
+    @GetMapping("/{id}")
+    public ResponseEntity<Map<String,Object>> post(@PathVariable int id){
+      return ResponseEntity.ok(postList.get(id));
     }
 }
