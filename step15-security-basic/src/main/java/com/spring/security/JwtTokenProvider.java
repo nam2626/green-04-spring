@@ -16,6 +16,16 @@ import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 
+/**
+ * JWT의 생성, 서명 검증, 정보 추출을 담당한다.
+ *
+ * <p>JWT는 header.payload.signature 세 부분으로 이루어진 문자열이다. Payload는 암호화된 영역이
+ * 아니므로 비밀번호 같은 민감 정보는 넣으면 안 된다. Signature는 서버의 비밀 키로 만들어져
+ * Payload가 변경되었는지 확인하는 용도로 사용한다.</p>
+ *
+ * <p>Access Token은 수명이 짧고 API 호출에 사용하며, Refresh Token은 Access Token 재발급을
+ * 위해 더 오래 보관한다. 둘의 역할을 나누면 Access Token 유출 피해 시간을 줄일 수 있다.</p>
+ */
 @Component
 public class JwtTokenProvider {
   // JWT의 서명을 만들고 검증할 때 함께 사용하는 비밀 키이다.
@@ -28,6 +38,7 @@ public class JwtTokenProvider {
   public JwtTokenProvider(@Value("${jwt.secret}") String secretKey, 
     @Value("${jwt.access-expiration}") long accessExpiration, 
     @Value("${jwt.refresh-expiration}") long refreshExpiration) {
+    // 설정의 문자열 키를 HMAC 서명 알고리즘이 사용할 SecretKey 객체로 변환한다.
     this.secretKey = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
     this.accessExpiration = accessExpiration;
     this.refreshExpiration = refreshExpiration;
@@ -58,6 +69,7 @@ public class JwtTokenProvider {
    * 문제가 있는 토큰이면 JJWT 라이브러리가 예외를 발생시킨다.
    */
   public Claims parseClaims(String token){
+    // verifyWith가 signature를 확인하고 parseSignedClaims가 JWT 본문을 Claims 객체로 변환한다.
     return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload();
   }
 

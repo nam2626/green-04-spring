@@ -17,7 +17,11 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
-// 이 클래스의 객체를 데이터베이스의 users 테이블 한 행과 연결한다.
+/**
+ * users 테이블 한 행을 표현하는 JPA 엔티티이자 Spring Security의 사용자 정보이다.
+ * {@link UserDetails}를 구현했기 때문에 AuthenticationManager가 username, password, authorities를
+ * 표준 방식으로 읽을 수 있다. 즉, DB 모델과 인증 사용자 모델을 이 학습 예제에서는 하나로 사용한다.
+ */
 @Entity
 @Table(name = "users")
 // Lombok이 각 필드의 getter와 setter를 자동으로 만들어 준다.
@@ -34,7 +38,7 @@ public class UserEntity implements UserDetails {
   @Column(nullable = false, length = 50)
   private String username;
 
-  // 비밀번호 원문이 아니라 BCrypt로 암호화한 값을 저장할 공간이다.
+  // 비밀번호 원문이 아니라 BCrypt 단방향 해시를 저장한다. 해시는 '복호화'하지 않고 일치 여부만 비교한다.
   @Column(nullable = false, length = 255)
   private String password;
 

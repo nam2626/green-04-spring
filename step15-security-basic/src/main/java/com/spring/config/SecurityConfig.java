@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authorization.AuthorizationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -23,7 +22,15 @@ import com.spring.security.JwtAuthenticationFilter;
 
 import lombok.RequiredArgsConstructor;
 
-// Spring Security의 인증 방식, URL 접근 규칙, 보안 관련 객체를 설정하는 클래스이다.
+/**
+ * Spring Security의 인증 방식, URL 접근 규칙, 보안 관련 객체를 설정한다.
+ *
+ * <p><b>인증(Authentication)</b>은 "누구인지" 확인하는 과정이고,
+ * <b>인가(Authorization)</b>는 인증된 사용자가 해당 기능을 사용할 수 있는지 확인하는 과정이다.
+ * 이 프로젝트는 서버 세션 대신 JWT를 사용하므로 요청마다 토큰을 검증해 인증 정보를 만든다.</p>
+ *
+ * <p>요청 흐름: 클라이언트 요청 → CORS/보안 필터 → JWT 필터 → URL 인가 검사 → Controller</p>
+ */
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -54,11 +61,17 @@ public class SecurityConfig {
 
   @Bean
   public CorsConfigurationSource corsConfigrationSource() {
+    // CORS는 출처(origin)가 다른 프론트엔드가 브라우저를 통해 API를 호출할 수 있게 하는 규칙이다.
+    // localhost라도 포트가 다르면 서로 다른 출처이다(React 3000, Spring Boot 8888).
     CorsConfiguration config = new CorsConfiguration();
+    // 허용할 프론트엔드 주소를 정확히 지정한다. 운영 환경에서는 실제 도메인으로 바꿔야 한다.
     config.setAllowedOrigins(List.of("http://localhost:3000"));
+    // 브라우저가 사용할 수 있는 HTTP 메서드와 요청 헤더를 허용한다.
     config.setAllowedMethods(List.of("GET","POST","PUT","DELETE","OPTIONS"));
     config.setAllowedHeaders(List.of("*"));
+    // 쿠키나 Authorization 같은 인증 정보를 포함한 교차 출처 요청을 허용한다.
     config.setAllowCredentials(true);
+    // OPTIONS 사전 요청(Preflight)의 결과를 브라우저가 1시간 동안 재사용한다.
     config.setMaxAge(3600L);
 
     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

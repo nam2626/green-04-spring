@@ -17,7 +17,13 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 
-// 요청이 컨트롤러에 도착하기 전에 JWT를 검사하는 Spring Bean이다.
+/**
+ * 요청이 Controller에 도착하기 전에 Authorization 헤더의 JWT를 검사한다.
+ *
+ * <p>{@link OncePerRequestFilter}를 상속하면 한 HTTP 요청 안에서 이 필터가 한 번만 실행된다.
+ * 인증에 성공하면 {@link SecurityContextHolder}에 인증 객체를 저장하고, 이후 Spring Security와
+ * {@code @AuthenticationPrincipal}이 이 값을 현재 로그인 사용자로 사용한다.</p>
+ */
 @Component
 // final 필드를 매개변수로 받는 생성자를 Lombok이 자동으로 만들어 준다.
 @RequiredArgsConstructor
@@ -36,7 +42,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
           // 3. 토큰에 적힌 아이디로 DB의 최신 회원 정보와 권한을 조회한다.
           String username = jwtTokenProvider.getUsername(token);
           UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-          // 4. 비밀번호 재검사 없이, JWT 검증을 마친 회원의 인증 객체를 만든다.
+          // 4. 로그인용 생성자와 달리 권한까지 전달하는 생성자는 '이미 인증된 객체'를 만든다.
+          // JWT 서명을 검증했으므로 이 요청에서는 비밀번호를 다시 받을 필요가 없다.
           UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails,null,userDetails.getAuthorities());
 
           // 인증 객체에 현재 요청의 IP 주소, 세션 ID 같은 부가 정보를 담는다.
@@ -50,7 +57,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
         filterChain.doFilter(request, response);
   }
 
-  // "Bearer " 접두어를 제외한 토큰 부분만 반환한다. 조건에 맞지 않으면 토큰이 없다는 뜻으로 null을 반환한다.
+  /**
+   * 표준 Authorization 헤더 형식인 {@code Bearer 토큰값}에서 실제 토큰만 분리한다.
+   * Bearer는 토큰을 가진 사람이 권한을 행사한다는 인증 스킴의 이름이며, 뒤의 공백도 형식에 포함된다.
+   */
   private String extractToken(HttpServletRequest request) {
     String header = request.getHeader("Authorization");
     if(header != null && header.startsWith("Bearer ")){
