@@ -4,12 +4,18 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.spring.entity.UserEntity;
+
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 @RestController
 @RequestMapping("/api/posts")
@@ -32,4 +38,16 @@ public class PostController {
     public ResponseEntity<Map<String,Object>> post(@PathVariable int id){
       return ResponseEntity.ok(postList.get(id));
     }
+
+    // 게시글 추가 - 인증 O
+    // 현재 로그인한 사용자 주입
+    // "게시글 등록 성공", 전체 게시글 정보 클라이언트로 전달
+    @PostMapping
+    public ResponseEntity<Map<String,Object>> addPost(@RequestBody Map<String, String> body,@AuthenticationPrincipal UserEntity user) {
+        postList.add(Map.of("id", postList.size() + 1,"title",body.get("title"),
+      "author",body.get("author"), "createdAt", body.get("createdAt")));
+
+        return ResponseEntity.ok(Map.of("message", "게시글 등록 성공","list", postList));
+    }
+    
 }
