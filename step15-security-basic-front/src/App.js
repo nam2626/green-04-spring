@@ -8,13 +8,18 @@ function App() {
   const passwordRef = useRef(null);
   const emailRef = useRef(null);
 
-  const handleRegister = () => {
+  const handleRegister = async () => {
     const username = usernameRef.current.value;
     const password = passwordRef.current.value;
     const email = emailRef.current.value;
 
     console.log(username,password,email);
     // axios 호출해서 회원가입 처리 /auth/signup
+
+    const response = await axios.post(BASE_URL+"/auth/signup",{username,password,email});
+    
+    console.log(response.data);
+
 
   };
 

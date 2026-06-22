@@ -1,5 +1,7 @@
 package com.spring.config;
 
+import java.util.List;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -13,6 +15,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.spring.security.JwtAuthenticationFilter;
 
@@ -31,6 +36,7 @@ public class SecurityConfig {
     http
       // 브라우저 세션/쿠키 대신 Bearer Token을 사용하는 REST API이므로 CSRF 보호를 끈다.
     .csrf(crsf -> crsf.disable())
+    .cors(cors -> cors.configurationSource(corsConfigrationSource()))
     // 서버에 로그인 세션을 만들지 않고, 매 요청의 JWT로 인증 상태를 확인한다.
     .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
     // 요청 URL과 HTTP 메서드에 따라 공개 범위를 정한다.
@@ -44,6 +50,22 @@ public class SecurityConfig {
     // 기본 아이디/비밀번호 인증 필터보다 앞에서 JWT 인증 필터가 실행되도록 한다.
     ).addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
     return http.build();
+  }
+
+  @Bean
+  public CorsConfigurationSource corsConfigrationSource() {
+    CorsConfiguration config = new CorsConfiguration();
+    config.setAllowedOrigins(List.of("http://localhost:3000"));
+    config.setAllowedMethods(List.of("GET","POST","PUT","DELETE","OPTIONS"));
+    config.setAllowedHeaders(List.of("*"));
+    config.setAllowCredentials(true);
+    config.setMaxAge(3600L);
+
+    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+    // 모든 경로에 적용
+    source.registerCorsConfiguration("/**", config);
+
+    return source;
   }
 
   @Bean
