@@ -102,6 +102,11 @@ function App() {
     })
     setMessageBox(JSON.stringify(response.data));
   }
+
+  const handleAllPost = async () => {
+    const reponse = await axios.get(`${BASE_URL}/api/posts`);
+    setMessageBox(JSON.stringify(reponse.data));
+  }
   return (<div className="container">
     <header>
       <h1>JWT API 테스트 패널</h1>
@@ -155,7 +160,7 @@ function App() {
        </section>
        <section className='card'>
         <h2>게시글</h2>
-        <button>전체 게시글 조회</button>
+        <button onClick={handleAllPost}>전체 게시글 조회</button>
         <button>게시글 등록 테스트</button>
        </section>
     </main>
