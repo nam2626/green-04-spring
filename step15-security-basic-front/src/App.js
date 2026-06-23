@@ -76,6 +76,7 @@ function App() {
   }
   const handleLogout = async () => {
     try{
+      // axios.post는 세번째 인수로 객체를 전달하여 config로 설정할 수 있습니다. 이 객체에 headers를 포함시킵니다.
       const response = await axios.post(BASE_URL+'/auth/logout', null, {
         headers : {
           Authorization : `Bearer ${tokenStore.getAccessToken()}`
