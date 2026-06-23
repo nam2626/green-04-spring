@@ -153,6 +153,11 @@ function App() {
         <h2>로그인한 회원의 정보</h2>
         {accessToken != '' ? <button onClick={handleMe}>내 정보 확인</button> : <div>로그인한 회원의 정보는 로그인한 후 확인할 수 있습니다.</div> }
        </section>
+       <section className='card'>
+        <h2>게시글</h2>
+        <button>전체 게시글 조회</button>
+        <button>게시글 등록 테스트</button>
+       </section>
     </main>
 
   </div>
