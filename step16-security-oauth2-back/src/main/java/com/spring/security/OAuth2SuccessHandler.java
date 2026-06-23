@@ -1,6 +1,7 @@
 package com.spring.security;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
@@ -54,6 +55,7 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler{
         refreshTokenRepository.deleteByUser(userEntity);
         refresh.setToken(refreshToken);
         refresh.setUser(userEntity);
+        refresh.setExpiresAt(LocalDateTime.now().plusDays(7));
         refreshTokenRepository.save(refresh);
         
         // 5. 프론트엔드로 리다이렉트(토큰을 쿼리스트링으로 보냄, 단 실제 운영환경에서는 쿠키로 사용하는것을 권장함)
