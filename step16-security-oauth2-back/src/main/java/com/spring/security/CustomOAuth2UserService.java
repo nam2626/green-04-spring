@@ -1,10 +1,14 @@
 package com.spring.security;
 
+import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.spring.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -39,13 +43,26 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User>{@Override
+public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User>{
   
-  
-  
+  private final UserRepository userRepository;
+
+  // Google API 호출 및 속성을 파싱 처리하는 인스턴스
+  private final DefaultOAuth2UserService delegate = new DefaultOAuth2UserService();
+
+  @Transactional
+  @Override
   public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'loadUser'");
+    // 1. 구글에서 사용자 정보를 가져와야함.
+    OAuth2User oAuth2User = delegate.loadUser(userRequest);
+
+    // 2. 속성 추출
+    String provider = userRequest.getClientRegistration().getRegistrationId();
+    String email = oAuth2User.getAttribute("email");
+    String providerId = oAuth2User.getAttribute("sub");
+    String name = oAuth2User.getAttribute("name");
+
+    System.out.printf("OAuth2 로그인 : provider=%s, email=%s, name=%s",provider,email,name);
   }
 
 }
