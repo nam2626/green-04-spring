@@ -55,9 +55,18 @@ public class UserEntity implements UserDetails {
   @Column(updatable = false)
   private LocalDateTime createdAt = LocalDateTime.now();
 
+  /**
+     * 로그인 제공자: "local" | "google"
+     * OAuth2 사용자 구분에 사용
+     */
   @Column(nullable = false, length = 20)
   private String provider = "local";
 
+  /**
+     * OAuth2 제공자의 사용자 고유 ID
+     * Google: sub 클레임 값 (예: "104716038840...")
+     * 로컬 회원은 null
+     */
   @Column(nullable = true, length=100)
   private String providerId;
 
