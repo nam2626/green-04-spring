@@ -34,7 +34,7 @@ function App() {
   const usernameRef = useRef(null);
   const passwordRef = useRef(null);
   const emailRef = useRef(null);
-  const [accessToken, setAccessToken] = useState('');
+  const [accessToken, setAccessToken] = useState(tokenStore.getAccessToken() || '');
   const [messageBox, setMessageBox] = useState('');
 
   // async 함수로 선언하면 axios 요청이 끝날 때까지 await로 기다릴 수 있습니다.
@@ -75,18 +75,21 @@ function App() {
     setAccessToken(response.data.accessToken);
   }
   const handleLogout = async () => {
-    const response = await axios.post('/auth/logout',{
-      method : 'POST',
-      headers : {
-        Authorization : `Bearer ${tokenStore.getAccessToken()}`
-      }
-    });
+    try{
+      const response = await axios.post(BASE_URL+'/auth/logout', null, {
+        headers : {
+          Authorization : `Bearer ${tokenStore.getAccessToken()}`
+        }
+      });
 
-    console.log(response.data);
-    tokenStore.clearToken();
-    setAccessToken('');
-    setMessageBox(response.data.message);
-
+      console.log(response.data);
+      tokenStore.clearToken();
+      setAccessToken('');
+      setMessageBox(response.data.message);
+    }catch(err){
+      console.log(err);
+      setMessageBox(err.response.data);
+    }
   }
 
   return (<div className="container">
