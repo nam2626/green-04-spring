@@ -51,7 +51,7 @@ function App() {
     const response = await axios.post(BASE_URL+"/auth/signup",{username,password,email});
     
     console.log(response.data);
-    setMessageBox(response.data);
+    setMessageBox(JSON.stringify(response.data));
 
 
   };
@@ -73,6 +73,7 @@ function App() {
     tokenStore.setAccessToken(response.data.accessToken);
     tokenStore.setRefreshToken(response.data.refreshToken);
     setAccessToken(response.data.accessToken);
+    setMessageBox(JSON.stringify(response.data));
   }
   const handleLogout = async () => {
     try{
