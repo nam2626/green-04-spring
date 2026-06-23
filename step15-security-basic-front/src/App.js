@@ -87,10 +87,10 @@ function App() {
       console.log(response.data);
       tokenStore.clearToken();
       setAccessToken('');
-      setMessageBox(response.data.message);
+      setMessageBox(JSON.stringify(response.data.message));
     }catch(err){
       console.log(err);
-      setMessageBox(err.response.data);
+      setMessageBox(JSON.stringify(err.response.data));
     }
   }
 
