@@ -94,7 +94,13 @@ function App() {
     }
   }
   const handleMe = async () => {
-    const url = `${BASE_URL/auth/me}` //get 방식으로 호출
+    const url = `${BASE_URL}/auth/me` //get 방식으로 호출
+    const response = await axios.get(url,{
+      headers:{
+        Authorization : `Bearer ${accessToken}`
+      }
+    })
+    setMessageBox(JSON.stringify(response.data));
   }
   return (<div className="container">
     <header>
@@ -145,8 +151,7 @@ function App() {
        </section>
        <section className="card">
         <h2>로그인한 회원의 정보</h2>
-        {accessToken != '' ? <button>내 정보 확인</button> : <div>로그인한 회원의 정보는 로그인한 후 확인할 수 있습니다.</div> }
-        {accessToken != '' && <div>회원정보 출력</div>}
+        {accessToken != '' ? <button onClick={handleMe}>내 정보 확인</button> : <div>로그인한 회원의 정보는 로그인한 후 확인할 수 있습니다.</div> }
        </section>
     </main>
 
