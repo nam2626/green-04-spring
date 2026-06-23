@@ -39,7 +39,8 @@ public class UserEntity implements UserDetails {
   private String username;
 
   // 비밀번호 원문이 아니라 BCrypt 단방향 해시를 저장한다. 해시는 '복호화'하지 않고 일치 여부만 비교한다.
-  @Column(nullable = false, length = 255)
+  // 소셜로그인 회원은 비밀번호가 없어서 NULL 처리
+  @Column(nullable = true, length = 255)
   private String password;
 
   // unique = true이므로 같은 이메일로 여러 회원을 저장할 수 없다.
@@ -53,6 +54,14 @@ public class UserEntity implements UserDetails {
   // 객체가 만들어진 시각을 가입 시각으로 기록하며, 이후 UPDATE 문에서는 변경하지 않는다.
   @Column(updatable = false)
   private LocalDateTime createdAt = LocalDateTime.now();
+
+  @Column(nullable = false, length = 20)
+  private String provider = "local";
+
+  @Column(nullable = true, length=100)
+  private String providerId;
+
+
 
   // UserDetails 규칙에 맞게 현재 회원이 가진 권한 목록을 Spring Security에 전달한다.
   @Override
