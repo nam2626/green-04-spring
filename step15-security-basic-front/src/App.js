@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import axios from 'axios';
 
 // 백엔드 서버의 공통 주소입니다.
@@ -34,6 +34,8 @@ function App() {
   const usernameRef = useRef(null);
   const passwordRef = useRef(null);
   const emailRef = useRef(null);
+  const [accessToken, setAccessToken] = useState('');
+  const [messageBox, setMessageBox] = useState('');
 
   // async 함수로 선언하면 axios 요청이 끝날 때까지 await로 기다릴 수 있습니다.
   const handleRegister = async () => {
@@ -49,6 +51,7 @@ function App() {
     const response = await axios.post(BASE_URL+"/auth/signup",{username,password,email});
     
     console.log(response.data);
+    setMessageBox(response.data);
 
 
   };
@@ -58,19 +61,39 @@ function App() {
   const loginPassword = useRef(null);
 
   const handleLogin = async () => {
-    // TODO: 아직 완성되지 않은 학습용 구간입니다.
     // 이후 구현할 때는 입력값을 읽어 POST /auth/login으로 전송하고,
     // 성공 응답의 accessToken과 refreshToken을 tokenStore에 저장한 다음
     // 화면에 로그인 성공 여부와 access token을 표시해야 합니다.
     // 현재 단계에서는 요구된 동작을 임의로 정하지 않기 위해 구현하지 않습니다.
+    const username = loginUserName.current.value;
+    const password = loginPassword.current.value;
+    const url = `${BASE_URL}/auth/login`
+    const response = await axios.post(url,{username,password});
+    console.log(response.data);
+    tokenStore.setAccessToken(response.data.accessToken);
+    tokenStore.setRefreshToken(response.data.refreshToken);
+    setAccessToken(response.data.accessToken);
+  }
+  const handleLogout = async () => {
+    const response = await axios.post('/auth/logout',{
+      method : 'POST',
+      headers : {
+        Authorization : `Bearer ${tokenStore.getAccessToken()}`
+      }
+    });
+
+    console.log(response.data);
+    tokenStore.clearToken();
+    setAccessToken('');
+    setMessageBox(response.data.message);
 
   }
-
 
   return (<div className="container">
     <header>
       <h1>JWT API 테스트 패널</h1>
-      <div className='head-content'>Access Token 출력 영역</div>
+      <div className='head-content'>{accessToken == '' ? "Access Token 출력 영역" : accessToken}</div>
+
     </header>
     <div className='result-message-box'>
       <h2>응답결과</h2>
@@ -109,6 +132,7 @@ function App() {
           <div className='btn-group'>
             {/* 로그인 버튼도 같은 방식으로 미완성 handleLogin 함수와 연결되어 있습니다. */}
             <button id="login" onClick={handleLogin}>로그인</button>
+            <button id="logout" onClick={handleLogout}>로그아웃</button>
           </div>
            
        </section>
