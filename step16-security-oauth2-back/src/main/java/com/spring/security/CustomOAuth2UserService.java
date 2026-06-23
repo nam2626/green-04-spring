@@ -8,6 +8,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.spring.entity.UserEntity;
 import com.spring.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -63,6 +64,24 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
     String name = oAuth2User.getAttribute("name");
 
     System.out.printf("OAuth2 로그인 : provider=%s, email=%s, name=%s",provider,email,name);
+
+    // 3. 기존 사용자 조회 또는 신규 등록
+    userRepository.findByEmail(email).orElseGet(() -> {
+      // 최초 소셜 로그인 -> 자동 회원 가입
+      UserEntity newUser = new UserEntity();
+      newUser.setUsername(name);
+      newUser.setEmail(email);
+      newUser.setProvider(provider);
+      newUser.setProviderId(providerId);
+
+      System.out.println("신규 사용자 등록 : " + email);
+
+      return userRepository.save(newUser);
+    });
+
+    // DefaultOAuth2User 반환 (Spring Security에서 처리할 떄 필요)
+    // OAuth2SuccessHandler에서 email로 다시 조회해서 JWT을 발급
+    return oAuth2User;
   }
 
 }
