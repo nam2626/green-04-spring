@@ -113,7 +113,11 @@ function App() {
     const author = "작성자";
     const createdAt = '2026-06-23 11:25:45';
     try {
-      const response = await axios.post(`${BASE_URL}/api/posts`,{title,author,createdAt});
+      const response = await axios.post(`${BASE_URL}/api/posts`,{title,author,createdAt},{
+        headers:{
+          Authorization : `Bearer ${accessToken}`
+        }
+      });
       setMessageBox(JSON.stringify(response.data));      
     } catch (error) {
       console.log(error);
@@ -174,7 +178,7 @@ function App() {
        <section className='card'>
         <h2>게시글</h2>
         <button onClick={handleAllPost}>전체 게시글 조회</button>
-        <button>게시글 등록 테스트</button>
+        <button onClick={handleSendPost}>게시글 등록 테스트</button>
        </section>
     </main>
 
