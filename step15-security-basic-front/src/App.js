@@ -97,7 +97,7 @@ function App() {
     </header>
     <div className='result-message-box'>
       <h2>응답결과</h2>
-      <div className='message-content'></div>  
+      <div className='message-content'>{messageBox}</div>  
     </div>
     <main>
       <section className="card">
