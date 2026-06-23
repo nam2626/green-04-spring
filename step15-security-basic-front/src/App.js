@@ -107,6 +107,19 @@ function App() {
     const reponse = await axios.get(`${BASE_URL}/api/posts`);
     setMessageBox(JSON.stringify(reponse.data));
   }
+
+  const handleSendPost = async () => {
+    const title = "프론트에서 보낸 제목";
+    const author = "작성자";
+    const createdAt = '2026-06-23 11:25:45';
+    try {
+      const response = await axios.post(`${BASE_URL}/api/posts`,{title,author,createdAt});
+      setMessageBox(JSON.stringify(response.data));      
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (<div className="container">
     <header>
       <h1>JWT API 테스트 패널</h1>
