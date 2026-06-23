@@ -15,7 +15,10 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TokenReponse {
+  // 짧은 시간 동안 보호된 API를 호출할 때 사용하는 토큰이다.
   private String accessToken;
+  // accessToken이 만료되었을 때 새 accessToken을 받기 위해 사용하는 토큰이다.
   private String refreshToken;
+  // HTTP Authorization 헤더에 사용할 인증 방식 이름이다. 보통 "Bearer"를 사용한다.
   private String tokenType;
 }

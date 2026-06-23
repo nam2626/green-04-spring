@@ -56,17 +56,17 @@ public class UserEntity implements UserDetails {
   private LocalDateTime createdAt = LocalDateTime.now();
 
   /**
-     * 로그인 제공자: "local" | "google"
-     * OAuth2 사용자 구분에 사용
-     */
+   * 로그인 제공자이다.
+   * local은 아이디/비밀번호로 가입한 회원, google은 OAuth2 소셜 로그인으로 들어온 회원을 뜻한다.
+   * 같은 users 테이블에 두 종류의 사용자를 함께 저장하기 위해 provider 값을 둔다.
+   */
   @Column(nullable = false, length = 20)
   private String provider = "local";
 
   /**
-     * OAuth2 제공자의 사용자 고유 ID
-     * Google: sub 클레임 값 (예: "104716038840...")
-     * 로컬 회원은 null
-     */
+   * OAuth2 제공자의 사용자 고유 ID이다.
+   * Google에서는 sub 값이 여기에 들어간다. 로컬 회원은 외부 제공자 ID가 없으므로 null이다.
+   */
   @Column(nullable = true, length=100)
   private String providerId;
 

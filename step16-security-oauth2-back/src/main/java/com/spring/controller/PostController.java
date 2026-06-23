@@ -52,6 +52,7 @@ public class PostController {
     @PostMapping
     public ResponseEntity<Map<String,Object>> addPost(@RequestBody Map<String, String> body,@AuthenticationPrincipal UserEntity user) {
         // @RequestBody는 JSON 게시글 내용을 Map으로, @AuthenticationPrincipal은 JWT로 인증된 회원을 주입한다.
+        // 현재 예제는 author를 요청 body에서 받지만, 실무에서는 user.getUsername()처럼 인증 사용자 정보로 작성자를 정하는 편이 안전하다.
         postList.add(Map.of("id", postList.size() + 1,"title",body.get("title"),
       "author",body.get("author"), "createdAt", body.get("createdAt")));
         // Map.of()로 메시지와 최신 목록을 하나의 JSON 객체 형태로 묶어 반환한다.

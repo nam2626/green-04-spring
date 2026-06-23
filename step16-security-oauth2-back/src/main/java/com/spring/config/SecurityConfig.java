@@ -60,7 +60,9 @@ public class SecurityConfig {
       .anyRequest().authenticated()
     // 기본 아이디/비밀번호 인증 필터보다 앞에서 JWT 인증 필터가 실행되도록 한다.
     ).
-    // OAuth2 소셜 로그인 설정
+    // OAuth2 소셜 로그인 설정이다.
+    // userService는 Google 사용자 정보를 우리 DB 회원으로 연결하고,
+    // successHandler는 OAuth2 인증 성공 후 우리 서비스용 JWT를 발급한다.
     oauth2Login(oauth2 -> oauth2.userInfoEndpoint(ui -> ui.userService(customOAuth2UserService)).successHandler(oAuth2SuccessHandler))    
     // 필터 추가
     .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

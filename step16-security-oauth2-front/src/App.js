@@ -38,14 +38,20 @@ function App() {
   const [messageBox, setMessageBox] = useState('');
 
   useEffect(() => {
+    // OAuth2 로그인은 일반 로그인처럼 axios 응답으로 바로 토큰을 받지 않습니다.
+    // 사용자가 Google 로그인 화면을 거쳐 오면 백엔드의 OAuth2SuccessHandler가
+    // /oauth2/callback?accessToken=...&refreshToken=... 형태로 프론트에 다시 보내 줍니다.
     const param = new URLSearchParams(window.location.search);
 
     if(window.location.pathname === '/oauth2/callback'){
       const accessToken = param.get('accessToken');
       const refreshToken = param.get('refreshToken');
       if(accessToken && refreshToken){
+        // 쿼리스트링에서 꺼낸 토큰을 localStorage에 저장해 두면 새로고침 후에도 인증 상태를 유지할 수 있습니다.
+        // 운영 환경에서는 토큰이 URL 기록에 남을 수 있으므로 HttpOnly 쿠키 방식도 함께 고려합니다.
         tokenStore.setAccessToken(accessToken);
         tokenStore.setRefreshToken(refreshToken);
+        setAccessToken(accessToken);
         setMessageBox("구글 로그인과 JWT 저장이 완료되었습니다.");
       }
     }
@@ -76,15 +82,17 @@ function App() {
   const loginPassword = useRef(null);
 
   const handleLogin = async () => {
-    // 이후 구현할 때는 입력값을 읽어 POST /auth/login으로 전송하고,
-    // 성공 응답의 accessToken과 refreshToken을 tokenStore에 저장한 다음
-    // 화면에 로그인 성공 여부와 access token을 표시해야 합니다.
-    // 현재 단계에서는 요구된 동작을 임의로 정하지 않기 위해 구현하지 않습니다.
+    // 일반 로그인 흐름입니다.
+    // 1. 사용자가 입력한 아이디/비밀번호를 백엔드에 보냅니다.
+    // 2. 백엔드는 AuthenticationManager로 비밀번호를 검증합니다.
+    // 3. 성공하면 accessToken, refreshToken을 JSON으로 내려 줍니다.
     const username = loginUserName.current.value;
     const password = loginPassword.current.value;
     const url = `${BASE_URL}/auth/login`
     const response = await axios.post(url,{username,password});
     console.log(response.data);
+    // accessToken은 보호된 API 호출마다 Authorization 헤더에 넣어 보냅니다.
+    // refreshToken은 accessToken 재발급에 쓰기 위해 따로 저장합니다.
     tokenStore.setAccessToken(response.data.accessToken);
     tokenStore.setRefreshToken(response.data.refreshToken);
     setAccessToken(response.data.accessToken);
@@ -93,6 +101,7 @@ function App() {
   const handleLogout = async () => {
     try{
       // axios.post는 세번째 인수로 객체를 전달하여 config로 설정할 수 있습니다. 이 객체에 headers를 포함시킵니다.
+      // 로그아웃 API도 "현재 로그인한 사용자"를 알아야 하므로 accessToken을 Bearer 형식으로 보냅니다.
       const response = await axios.post(BASE_URL+'/auth/logout', null, {
         headers : {
           Authorization : `Bearer ${tokenStore.getAccessToken()}`
@@ -112,6 +121,7 @@ function App() {
     const url = `${BASE_URL}/auth/me` //get 방식으로 호출
     const response = await axios.get(url,{
       headers:{
+        // Spring Security의 JwtAuthenticationFilter가 이 헤더를 읽어 현재 사용자를 복원합니다.
         Authorization : `Bearer ${accessToken}`
       }
     })
@@ -119,6 +129,7 @@ function App() {
   }
 
   const handleAllPost = async () => {
+    // SecurityConfig에서 GET /api/posts/**는 permitAll로 열어 두었기 때문에 토큰 없이 호출합니다.
     const reponse = await axios.get(`${BASE_URL}/api/posts`);
     setMessageBox(JSON.stringify(reponse.data));
   }
@@ -130,6 +141,7 @@ function App() {
     try {
       const response = await axios.post(`${BASE_URL}/api/posts`,{title,author,createdAt},{
         headers:{
+          // 게시글 등록은 인증된 사용자만 가능하므로 accessToken을 같이 보냅니다.
           Authorization : `Bearer ${accessToken}`
         }
       });
@@ -184,6 +196,7 @@ function App() {
             <button id="login" onClick={handleLogin}>로그인</button>
             <button id="logout" onClick={handleLogout}>로그아웃</button>
             <button onClick={() => {
+              // 백엔드의 OAuth2 시작 URL입니다. 이 주소로 이동하면 Spring Security가 Google 로그인 페이지로 보냅니다.
               window.location.href=`${BASE_URL}/oauth2/authorization/google`
             }}>구글 로그인</button>
           </div>
