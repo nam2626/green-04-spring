@@ -50,6 +50,21 @@ create table board_comment_reaction(
   PRIMARY KEY (id)
 );
 
+CREATE TABLE refresh_tokens (
+  expires_at datetime(6) NOT NULL,
+  id int NOT NULL AUTO_INCREMENT,
+  user_id int NOT NULL unique,
+  token varchar(600) NOT NULL unique,
+  PRIMARY KEY (id)
+);
+
+ALTER TABLE refresh_tokens
+  ADD CONSTRAINT FK_board_member_TO_refresh
+    FOREIGN KEY (user_id)
+    REFERENCES board_member (id);
+
+
+
 ALTER TABLE board
   ADD CONSTRAINT FK_board_member_TO_board
     FOREIGN KEY (mid)
