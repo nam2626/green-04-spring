@@ -19,4 +19,6 @@ public interface BoardMapper {
 
   int boardCount();
 
+  BoardDTO selectBoard(Long bno);
+
 }

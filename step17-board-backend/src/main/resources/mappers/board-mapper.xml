@@ -18,4 +18,8 @@
   <select id="boardCount" resultType="int">
     select count(*) from board_view
   </select>
+
+  <select id="selectBoard" resultType="board">
+    select * from board_view bv where bv.bno = #{bno}
+  </select>
 </mapper> 

@@ -28,4 +28,8 @@ public class BoardService {
     return boardMapper.boardCount();
   }
 
+  public BoardDTO selectBoard(Long bno) {
+    return boardMapper.selectBoard(bno);
+  }
+
 }

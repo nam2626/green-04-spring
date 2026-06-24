@@ -6,6 +6,7 @@ import java.util.HashMap;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -48,6 +49,17 @@ public class BoardController {
     return ResponseEntity.ok(map);
   }
 
+  @GetMapping("/{bno}")
+  public ResponseEntity<Map<String,Object>> boardContent(@PathVariable Long bno) {
+    Map<String, Object> map = new HashMap<>();
+    
+    BoardDTO board = boardService.selectBoard(bno);
+    
+    map.put("board", board);
+
+    return ResponseEntity.ok(map);
+  }
+  
 
 }
 
