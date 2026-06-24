@@ -51,14 +51,11 @@ CREATE TABLE board_like
 
 CREATE TABLE board_member
 (
-  no       int         NOT NULL AUTO_INCREMENT,
-  id       VARCHAR(20) NOT NULL UNIQUE,
+  id       int         NOT NULL AUTO_INCREMENT,
+  username       VARCHAR(20) NOT NULL UNIQUE,
   password   CHAR(255)   NULL    ,
-  username VARCHAR(10) NULL    ,
   nickname VARCHAR(10) NULL    ,
-  provider varchar(10) NULL,
   role varchar(20) NULL,
-  provider_id varchar(100) NULL,
   PRIMARY KEY (no)
 );
 

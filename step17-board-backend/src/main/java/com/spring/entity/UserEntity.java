@@ -30,12 +30,9 @@ public class UserEntity implements UserDetails {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long no;
+  private Long id;
 
   @Column(nullable = false, length = 20)
-  private String id;
-
-  @Column(nullable = false, length = 10)
   private String username;
 
   @Column(nullable = true, length = 255)
@@ -46,12 +43,6 @@ public class UserEntity implements UserDetails {
 
   @Column(nullable = false, length = 20)
   private String role = "ROLE_USER";
-
-  @Column(nullable = false, length = 20)
-  private String provider = "local";
-
-  @Column(nullable = true, length=100, name = "provider_id")
-  private String providerId;
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
