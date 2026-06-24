@@ -51,7 +51,7 @@ public class AuthService {
 
     UserEntity entity = new UserEntity();
     entity.setUsername(signupRequest.getUsername());
-    entity.setEmail(signupRequest.getEmail());
+    entity.setNickname(signupRequest.getNickname());
     // encode() 결과만 DB에 저장한다. BCrypt는 매번 salt를 사용하므로 같은 비밀번호도 다른 해시가 된다.
     entity.setPassword(passwordEncoder.encode(signupRequest.getPassword()));
 

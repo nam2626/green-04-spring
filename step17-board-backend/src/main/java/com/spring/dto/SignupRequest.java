@@ -15,7 +15,7 @@ public class SignupRequest {
   private String username;
   // 회원가입 요청 시에는 원문으로 들어오지만, 저장 전 PasswordEncoder로 해시 처리된다.
   private String password;
-  // 로컬 로그인 회원과 Google 소셜 로그인 회원을 연결하거나 구분할 때도 활용할 수 있는 이메일이다.
-  private String email;
+
+  private String nickname;
 
 }

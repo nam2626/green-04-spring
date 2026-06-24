@@ -1,6 +1,5 @@
 package com.spring.config;
 
-import com.spring.security.CustomOAuth2UserService;
 import java.util.List;
 
 import org.springframework.context.annotation.Bean;
@@ -20,7 +19,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.spring.security.JwtAuthenticationFilter;
-import com.spring.security.OAuth2SuccessHandler;
+
 
 import lombok.RequiredArgsConstructor;
 
@@ -37,8 +36,7 @@ import lombok.RequiredArgsConstructor;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
-  private final CustomOAuth2UserService customOAuth2UserService;
-  private final OAuth2SuccessHandler oAuth2SuccessHandler;
+
   // 모든 요청에서 JWT를 먼저 확인하도록 필터 체인에 등록할 필터이다.
   private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
@@ -59,11 +57,7 @@ public class SecurityConfig {
       // 위에서 공개하지 않은 나머지 요청은 유효한 인증 정보가 있어야 한다.
       .anyRequest().authenticated()
     // 기본 아이디/비밀번호 인증 필터보다 앞에서 JWT 인증 필터가 실행되도록 한다.
-    ).
-    // OAuth2 소셜 로그인 설정이다.
-    // userService는 Google 사용자 정보를 우리 DB 회원으로 연결하고,
-    // successHandler는 OAuth2 인증 성공 후 우리 서비스용 JWT를 발급한다.
-    oauth2Login(oauth2 -> oauth2.userInfoEndpoint(ui -> ui.userService(customOAuth2UserService)).successHandler(oAuth2SuccessHandler))    
+    ) 
     // 필터 추가
     .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
     return http.build();

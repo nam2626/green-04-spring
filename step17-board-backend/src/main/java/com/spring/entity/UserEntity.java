@@ -32,7 +32,7 @@ public class UserEntity implements UserDetails {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @Column(nullable = false, length = 20)
+  @Column(nullable = false, length = 20, unique = true)
   private String username;
 
   @Column(nullable = true, length = 255)

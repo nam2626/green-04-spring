@@ -13,9 +13,6 @@ public interface UserRepository extends JpaRepository<UserEntity, Long>{
   // 조회 결과가 없을 수도 있으므로 null 대신 Optional로 감싸서 반환한다.
   Optional<UserEntity> findByUsername(String username);
 
-  // 이메일이 일치하는 회원 한 명을 조회한다.
-  Optional<UserEntity> findByEmail(String email);
-
   // 같은 아이디가 이미 있으면 true를 반환한다. 회원가입 전 중복 검사에 사용할 수 있다.
   boolean existsByUsername(String username);
 
