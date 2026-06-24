@@ -204,3 +204,31 @@ from board_view b where b.title like '%84%') bv
 where ceil(bv.rw/30) = 1;
 
 select * from board_view b where b.title like '%84%';
+
+
+select bcr.cno, count(*) as clike from board_comment_reaction bcr where bcr.type = 'LIKE' group by bcr.cno;
+
+select bcr.cno, count(*) as clike from board_comment_reaction bcr where bcr.type = 'DISLIKE' group by bcr.cno;
+
+select * from board_comment bc where bno = 1;
+
+with board_comment_like as (select bcr.cno, count(*) as clike from board_comment_reaction bcr where bcr.type = 'LIKE' group by bcr.cno),
+board_comment_dislike as (select bcr.cno, count(*) as chate from board_comment_reaction bcr where bcr.type = 'DISLIKE' group by bcr.cno)
+select bc.*, bm.nickname, ifnull(bcl.clike,0) as clike, 
+ifnull(bch.chate,0) as chate from board_comment bc 
+  left outer join board_member bm on bm.id = bc.mid 
+  left outer join board_comment_like bcl on bc.cno = bcl.cno
+  left outer join board_comment_dislike bch on bc.cno = bch.cno;
+
+
+create or replace view board_comment_view
+AS
+with board_comment_like as (select bcr.cno, count(*) as clike from board_comment_reaction bcr where bcr.type = 'LIKE' group by bcr.cno),
+board_comment_dislike as (select bcr.cno, count(*) as chate from board_comment_reaction bcr where bcr.type = 'DISLIKE' group by bcr.cno)
+select bc.*, bm.nickname, ifnull(bcl.clike,0) as clike, 
+ifnull(bch.chate,0) as chate from board_comment bc 
+  left outer join board_member bm on bm.id = bc.mid 
+  left outer join board_comment_like bcl on bc.cno = bcl.cno
+  left outer join board_comment_dislike bch on bc.cno = bch.cno;
+
+select * from board_comment_view where bno = 999;
