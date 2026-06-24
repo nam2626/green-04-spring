@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.spring.dto.BoardCommentDTO;
 import com.spring.dto.BoardDTO;
 import com.spring.service.BoardService;
 import com.spring.vo.PaggingVO;
@@ -54,11 +55,13 @@ public class BoardController {
     Map<String, Object> map = new HashMap<>();
     
     BoardDTO board = boardService.selectBoard(bno);
-    
+    List<BoardCommentDTO> commentList = boardService.selectBoardComment(bno);    
     map.put("board", board);
-
+    map.put("commentList", commentList);
     return ResponseEntity.ok(map);
   }
+
+  
   
 
 }

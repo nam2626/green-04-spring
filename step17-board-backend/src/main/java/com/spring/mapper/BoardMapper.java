@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import com.spring.dto.BoardCommentDTO;
 import com.spring.dto.BoardDTO;
 
 @Mapper
@@ -20,5 +21,7 @@ public interface BoardMapper {
   int boardCount();
 
   BoardDTO selectBoard(Long bno);
+
+  List<BoardCommentDTO> selectBoardComment(Long bno);
 
 }

@@ -22,4 +22,8 @@
   <select id="selectBoard" resultType="board">
     select * from board_view bv where bv.bno = #{bno}
   </select>
+
+  <select id="selectBoardComment" resultType="comment">
+    select * from board_comment_view bcv where bcv.bno = #{bno}
+  </select>
 </mapper> 

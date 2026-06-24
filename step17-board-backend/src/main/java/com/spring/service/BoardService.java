@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
+import com.spring.dto.BoardCommentDTO;
 import com.spring.dto.BoardDTO;
 import com.spring.mapper.BoardMapper;
 
@@ -30,6 +31,10 @@ public class BoardService {
 
   public BoardDTO selectBoard(Long bno) {
     return boardMapper.selectBoard(bno);
+  }
+
+  public List<BoardCommentDTO> selectBoardComment(Long bno) {
+    return boardMapper.selectBoardComment(bno);
   }
 
 }
