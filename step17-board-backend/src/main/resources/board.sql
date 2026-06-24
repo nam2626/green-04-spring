@@ -198,3 +198,9 @@ where ceil(bv.rw/30) = 1;
 select * from (select ROW_NUMBER() OVER(ORDER BY b.bno desc) as rw, b.*
 from board_view b) bv
 where ceil(bv.rw/30) = 2;
+
+select * from (select ROW_NUMBER() OVER(ORDER BY b.bno desc) as rw, b.*
+from board_view b where b.title like '%84%') bv
+where ceil(bv.rw/30) = 1;
+
+select * from board_view b where b.title like '%84%';
