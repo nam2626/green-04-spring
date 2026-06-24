@@ -18,12 +18,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 
-/**
- * 공개 조회와 인증 필요 쓰기의 차이를 확인하기 위한 학습용 게시글 API이다.
- * 실제 DB 대신 메모리의 List를 사용하므로 애플리케이션을 재시작하면 추가한 게시글은 사라진다.
- * SecurityConfig에서 GET은 permitAll, 그 밖의 요청은 authenticated로 설정했기 때문에 같은 URL도
- * HTTP 메서드에 따라 필요한 인증 여부가 달라진다.
- */
 @RestController
 @RequestMapping("/api/posts")
 @RequiredArgsConstructor

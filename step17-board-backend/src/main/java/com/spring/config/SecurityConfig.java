@@ -43,20 +43,13 @@ public class SecurityConfig {
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
     http
-      // 브라우저 세션/쿠키 대신 Bearer Token을 사용하는 REST API이므로 CSRF 보호를 끈다.
     .csrf(crsf -> crsf.disable())
     .cors(cors -> cors.configurationSource(corsConfigrationSource()))
-    // 서버에 로그인 세션을 만들지 않고, 매 요청의 JWT로 인증 상태를 확인한다.
     .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-    // 요청 URL과 HTTP 메서드에 따라 공개 범위를 정한다.
     .authorizeHttpRequests(auth -> auth
-      // 로그인과 회원가입은 아직 토큰이 없는 사용자도 접근해야 하므로 공개한다.
       .requestMatchers("/auth/**").permitAll()
-      // 게시글의 목록·상세·검색 등 GET 조회 요청은 로그인하지 않아도 볼 수 있다.
       .requestMatchers(HttpMethod.GET,"/api/posts/**").permitAll()
-      // 위에서 공개하지 않은 나머지 요청은 유효한 인증 정보가 있어야 한다.
       .anyRequest().authenticated()
-    // 기본 아이디/비밀번호 인증 필터보다 앞에서 JWT 인증 필터가 실행되도록 한다.
     ) 
     // 필터 추가
     .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
