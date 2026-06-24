@@ -81,6 +81,7 @@ public class AuthService {
   private void saveRefreshToken(UserEntity user, String refreshToken) {
     // 사용자당 토큰을 하나만 유지한다. 새 로그인 시 이전 Refresh Token은 더 이상 재발급에 쓸 수 없다.
     refreshTokenRepository.deleteByUser(user);
+    refreshTokenRepository.flush();
 
     RefreshToken token = new RefreshToken();
     token.setToken(refreshToken);
