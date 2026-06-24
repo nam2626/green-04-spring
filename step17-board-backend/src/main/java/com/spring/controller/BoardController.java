@@ -33,7 +33,7 @@ public class BoardController {
   ){
     List<BoardDTO> boardList = null;
     System.out.println(keyword.isBlank() + " " + keyword.length());
-    if(!keyword.isBlank() || keyword.length() != 0)
+    if(keyword.isBlank() || keyword.length() == 0)
       boardList = boardService.getBoardList(page,size);
     else
       boardList = boardService.searchBoardList(keyword,page,size);
