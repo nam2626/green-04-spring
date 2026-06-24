@@ -1,4 +1,4 @@
--- Active: 1775701110283@@127.0.0.1@3306@board_db
+-- Active: 1782277767994@@127.0.0.1@3306
 create DATABASE new_board_db;
 USE new_board_db;
 
