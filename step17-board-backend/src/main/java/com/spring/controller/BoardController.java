@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.HashMap;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,10 +14,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.spring.dto.BoardCommentDTO;
 import com.spring.dto.BoardDTO;
+import com.spring.entity.UserEntity;
 import com.spring.service.BoardService;
 import com.spring.vo.PaggingVO;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 @RestController
 @RequestMapping("/api/posts")
@@ -61,6 +66,17 @@ public class BoardController {
     return ResponseEntity.ok(map);
   }
 
+  @PostMapping
+  public ResponseEntity<Map<String,Object>> addBoard(
+    @RequestBody BoardDTO board,
+    @AuthenticationPrincipal UserEntity entity
+  ) {
+      Map<String, Object> map = new HashMap<>();
+      map.put("board", board);
+      map.put("user", entity);
+      return ResponseEntity.ok(map);
+  }
+  
   
   
 
