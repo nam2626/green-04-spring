@@ -32,7 +32,8 @@ public class BoardController {
     @RequestParam(defaultValue = "20") int size
   ){
     List<BoardDTO> boardList = null;
-    if(!keyword.isEmpty())
+    System.out.println(keyword.isBlank() + " " + keyword.length());
+    if(!keyword.isBlank() || keyword.length() != 0)
       boardList = boardService.getBoardList(page,size);
     else
       boardList = boardService.searchBoardList(keyword,page,size);
@@ -44,7 +45,7 @@ public class BoardController {
     map.put("list",boardList);
     map.put("pagging",paggingVO);
 
-    return ResponseEntity.ok(null);
+    return ResponseEntity.ok(map);
   }
 
 

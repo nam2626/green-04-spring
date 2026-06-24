@@ -7,12 +7,12 @@
   <select id="selectBoardList" resultType="board">
     select * from (select ROW_NUMBER() OVER(ORDER BY b.bno desc) as rw, b.*
     from board_view b) bv
-    where ceil(bv.rw/${size}) = ${page}
+    where ceil(bv.rw/#{size}) = #{page}
   </select>
   <select id="searchBoardList" resultType="board">
     select * from (select ROW_NUMBER() OVER(ORDER BY b.bno desc) as rw, b.*
-    from board_view b where b.title concat('%',${keyword},'%') OR b.content concat('%',${keyword},'%')) bv
-    where ceil(bv.rw/${size}) = ${page}
+    from board_view b where b.title like concat('%',#{keyword},'%') OR b.content like concat('%',#{keyword},'%')) bv
+    where ceil(bv.rw/${size}) = #{page}
   </select>
 
   <select id="boardCount" resultType="int">
