@@ -32,7 +32,7 @@ CREATE TABLE board_member
   password   CHAR(255)   NULL    ,
   nickname VARCHAR(10) NULL    ,
   role varchar(20) NULL,
-  PRIMARY KEY (no)
+  PRIMARY KEY (id)
 );
 
 create table board_reaction(
