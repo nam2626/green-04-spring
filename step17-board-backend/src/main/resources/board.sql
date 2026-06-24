@@ -1,6 +1,6 @@
 -- Active: 1775701110283@@127.0.0.1@3306@board_db
-create DATABASE board_db;
-USE board_db;
+create DATABASE new_board_db;
+USE new_board_db;
 
 desc board;
 CREATE TABLE board
@@ -56,9 +56,9 @@ CREATE TABLE board_member
   password   CHAR(255)   NULL    ,
   username VARCHAR(10) NULL    ,
   nickname VARCHAR(10) NULL    ,
-  provider varchar2(10) NULL,
-  role varchar2(20) NULL,
-  provider_id varchar2(100) NULL,
+  provider varchar(10) NULL,
+  role varchar(20) NULL,
+  provider_id varchar(100) NULL,
   PRIMARY KEY (no)
 );
 
