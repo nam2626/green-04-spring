@@ -2,6 +2,7 @@ package com.spring.controller;
 
 import java.util.List;
 import java.util.Map;
+import java.util.HashMap;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,7 +33,7 @@ public class BoardController {
   ){
     List<BoardDTO> boardList = null;
     if(!keyword.isEmpty())
-      boardList = boardService.getBoardList(keyword,page,size);
+      boardList = boardService.getBoardList(page,size);
     else
       boardList = boardService.searchBoardList(keyword,page,size);
 
