@@ -94,71 +94,96 @@ select count(*) from board_member;
 select * from board LIMIT 100;
 
 -- 전체 게시글 조회
---  글번호, 제목, 회원번호, 닉네임, 작성일, 글내용, 조회수
+--  글번호, 제목, 회원번호, 닉네임, 작성일, 수정일, 글내용, 조회수
 SELECT
-    b.bno, b.title, b.write_date,
-    b.content,b.bcount, bm.no, bm.nickname
+    b.bno, b.title, b.write_date, b.write_update_date,
+    b.content, b.bcount, bm.id as mid, bm.nickname
 from board b join board_member bm 
-on b.mno = bm.no order by b.bno desc;
+on b.mid = bm.id order by b.bno desc;
 -- 글번호 별 좋아요 개수를 조회
-select bl.bno, count(*) as blike
-from board_like bl group by bl.bno;
+select br.bno, count(*) as blike
+from board_reaction br
+where br.type = 'LIKE'
+group by br.bno;
 
 -- 글번호 별 싫어요 개수를 조회
-select bh.bno, count(*) as bhate
-from board_hate bh group by bh.bno;
+select br.bno, count(*) as bhate
+from board_reaction br
+where br.type = 'DISLIKE'
+group by br.bno;
 
 -- 전체 게시글 조회
---  글번호, 제목, 회원번호, 닉네임, 작성일, 글내용, 조회수, 게시글 좋아요 개수, 게시글 싫어요 개수
+--  글번호, 제목, 회원번호, 닉네임, 작성일, 수정일, 글내용, 조회수, 게시글 좋아요 개수, 게시글 싫어요 개수
 SELECT
-    b.bno, b.title, b.write_date,
-    b.content,b.bcount, bm.no, bm.nickname, bl.blike, bh.bhate
+    b.bno, b.title, b.write_date, b.write_update_date,
+    b.content, b.bcount, bm.id as mid, bm.nickname,
+    ifnull(bl.blike, 0) as blike, ifnull(bh.bhate, 0) as bhate
 from board b join board_member bm 
-on b.mno = bm.no
-join (select bl.bno, count(*) as blike
-from board_like bl group by bl.bno) bl on bl.bno = b.bno
-join (select bh.bno, count(*) as bhate
-from board_hate bh group by bh.bno) bh on bh.bno = b.bno
+on b.mid = bm.id
+left outer join (
+    select br.bno, count(*) as blike
+    from board_reaction br
+    where br.type = 'like'
+    group by br.bno
+) bl on bl.bno = b.bno
+left outer join (
+    select br.bno, count(*) as bhate
+    from board_reaction br
+    where br.type = 'dislike'
+    group by br.bno
+) bh on bh.bno = b.bno
 order by b.bno desc;
 
 -- WITH 절을 이용한 전체 게시글 조회 : MYSQL 8.0 이상에서 지원
 with board_content_like as 
-(select bl.bno, count(*) as blike from board_like bl group by bl.bno),
+(select br.bno, count(*) as blike
+from board_reaction br
+where br.type = 'like'
+group by br.bno),
 board_content_hate as 
-(select bh.bno, count(*) as bhate from board_hate bh group by bh.bno)
+(select br.bno, count(*) as bhate
+from board_reaction br
+where br.type = 'dislike'
+group by br.bno)
 SELECT
-    b.bno, b.title, b.write_date,
-    b.content,b.bcount, bm.no, bm.nickname, 
-    ifnull(bcl.blike,0) as blike, ifnull(bch.bhate,0) as bhate
-from board b left outer join board_member bm on b.mno = bm.no
-LEFT outer join board_content_like bcl on bcl.bno = b.bno
-LEFT outer join board_content_hate bch on bch.bno = b.bno
-;
-
-CREATE OR REPLACE VIEW board_view
-as
-with board_content_like as 
-(select bl.bno, count(*) as blike from board_like bl group by bl.bno),
-board_content_hate as 
-(select bh.bno, count(*) as bhate from board_hate bh group by bh.bno)
-SELECT
-    b.bno, b.title, b.write_date,
-    b.content,b.bcount, bm.no, bm.nickname, 
-    ifnull(bcl.blike,0) as blike, ifnull(bch.bhate,0) as bhate
-from board b left outer join board_member bm on b.mno = bm.no
+    b.bno, b.title, b.write_date, b.write_update_date,
+    b.content, b.bcount, bm.id as mid, bm.nickname, 
+    ifnull(bcl.blike, 0) as blike, ifnull(bch.bhate, 0) as bhate
+from board b left outer join board_member bm on b.mid = bm.id
 LEFT outer join board_content_like bcl on bcl.bno = b.bno
 LEFT outer join board_content_hate bch on bch.bno = b.bno
 order by b.bno desc
 ;
 
-select * from board_view;
+CREATE OR REPLACE VIEW board_view
+as
+with board_content_like as 
+(select br.bno, count(*) as blike
+from board_reaction br
+where br.type = 'like'
+group by br.bno),
+board_content_hate as 
+(select br.bno, count(*) as bhate
+from board_reaction br
+where br.type = 'dislike'
+group by br.bno)
+SELECT
+    b.bno, b.title, b.write_date, b.write_update_date,
+    b.content, b.bcount, bm.id as mid, bm.nickname, 
+    ifnull(bcl.blike, 0) as blike, ifnull(bch.bhate, 0) as bhate
+from board b left outer join board_member bm on b.mid = bm.id
+LEFT outer join board_content_like bcl on bcl.bno = b.bno
+LEFT outer join board_content_hate bch on bch.bno = b.bno
+;
+
+select * from board_view order by bno desc;
 
 -- 페이징 - 방법1 
 --  board_view에서 최근 글 30건만 조회
-select * from board_view limit 30;
+select * from board_view order by bno desc limit 30;
 -- limit 조회할게시글개수 offset (페이지번호-1)*조회할게시글개수
-select * from board_view limit 30 offset 30;
-select * from board_view limit 30 offset 120;
+select * from board_view order by bno desc limit 30 offset 30;
+select * from board_view order by bno desc limit 30 offset 120;
 
 -- 페이징 - 방법2
 -- board_view 조회시 row_number 적용
