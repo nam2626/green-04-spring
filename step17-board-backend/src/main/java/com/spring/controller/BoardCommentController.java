@@ -6,6 +6,8 @@ import java.util.Map;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,5 +38,26 @@ public class BoardCommentController {
       boardCommentService.addBoardComment(comment);
 
       return ResponseEntity.status(HttpStatus.CREATED).build();
+  }
+
+  // 댓글 삭제
+  @DeleteMapping("/{cno}")
+  public ResponseEntity<Map<String,Object>> deleteBoardComment(@PathVariable int cno,
+    @AuthenticationPrincipal UserEntity userEntity
+  ){
+    Map<String, Object> map = new HashMap<>();
+    //해당 게시글 가져옴
+    BoardCommentDTO comment = boardCommentService.selectBoardComment(cno);
+
+    if(comment == null){
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).body(map);
+    } 
+
+    if(comment.getMid() != userEntity.getId()){
+      return ResponseEntity.status(HttpStatus.FORBIDDEN).body(map);
+    }
+    boardCommentService.deleteBoardComment(cno);
+    // 응답이 필요없을때
+    return  ResponseEntity.status(HttpStatus.NO_CONTENT).build();
   }
 }

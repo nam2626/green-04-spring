@@ -11,4 +11,12 @@
     VALUES (#{bno},#{mid},#{content})
   </insert>
 
+  <select id="selectBoardComment" resultType="comment">
+    SELECT * FROM board_comment_view WHERE cno = #{cno}
+  </select>
+
+  <delete id="deleteBoardComment">
+    DELETE FROM board_comment WHERE cno = #{cno}
+  </delete>
+
 </mapper>

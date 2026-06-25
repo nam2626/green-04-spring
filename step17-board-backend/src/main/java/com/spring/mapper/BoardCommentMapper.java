@@ -9,4 +9,8 @@ public interface BoardCommentMapper {
 
   void insertBoardComment(BoardCommentDTO comment);
 
+  BoardCommentDTO selectBoardComment(int cno);
+
+  void deleteBoardComment(int cno);
+
 }

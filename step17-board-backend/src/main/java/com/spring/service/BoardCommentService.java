@@ -15,4 +15,12 @@ public class BoardCommentService {
   public void addBoardComment(BoardCommentDTO comment) {
     boardCommentMapper.insertBoardComment(comment);
   }
+
+  public BoardCommentDTO selectBoardComment(int cno) {
+    return boardCommentMapper.selectBoardComment(cno);
+  }
+
+  public void deleteBoardComment(int cno) {
+    boardCommentMapper.deleteBoardComment(cno);
+  }
 }
