@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.spring.dto.BoardCommentDTO;
 import com.spring.dto.BoardDTO;
+import com.spring.dto.BoardReactionReq;
 import com.spring.entity.UserEntity;
 import com.spring.service.BoardService;
 import com.spring.vo.PaggingVO;
@@ -127,6 +128,14 @@ public class BoardController {
     return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
   }
 
+  // 게시글 좋아요 싫어요
+  @PostMapping("/reaction")
+  public ResponseEntity<Map<String,Object>> boardReaction(@RequestBody BoardReactionReq reactionReq, @AuthenticationPrincipal UserEntity userEntity) {
+      Map<String, Object> map = new HashMap<>();
+
+      return ResponseEntity.ok(map);
+  }
+  
 }
 
 
