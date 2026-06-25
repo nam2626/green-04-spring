@@ -29,11 +29,11 @@ public class BoardService {
     return boardMapper.boardCount();
   }
 
-  public BoardDTO selectBoard(Long bno) {
+  public BoardDTO selectBoard(int bno) {
     return boardMapper.selectBoard(bno);
   }
 
-  public List<BoardCommentDTO> selectBoardComment(Long bno) {
+  public List<BoardCommentDTO> selectBoardComment(int bno) {
     return boardMapper.selectBoardComment(bno);
   }
 

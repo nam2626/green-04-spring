@@ -20,8 +20,8 @@ public interface BoardMapper {
 
   int boardCount();
 
-  BoardDTO selectBoard(Long bno);
+  BoardDTO selectBoard(int bno);
 
-  List<BoardCommentDTO> selectBoardComment(Long bno);
+  List<BoardCommentDTO> selectBoardComment(int bno);
 
 }

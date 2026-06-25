@@ -4,8 +4,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,8 +31,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RequiredArgsConstructor
 public class BoardController {
 
+  private final AuthController authController;
   private final BoardService boardService;
-  
+
   // 게시글 조회
   // 페이지 번호, 한 페이지당 게시글 개수, 검색어
   @GetMapping
@@ -56,7 +60,7 @@ public class BoardController {
   }
 
   @GetMapping("/{bno}")
-  public ResponseEntity<Map<String,Object>> boardContent(@PathVariable Long bno) {
+  public ResponseEntity<Map<String,Object>> boardContent(@PathVariable int bno) {
     Map<String, Object> map = new HashMap<>();
     
     BoardDTO board = boardService.selectBoard(bno);
@@ -77,8 +81,29 @@ public class BoardController {
       return ResponseEntity.ok(map);
   }
   
-  
-  
+  //게시글 삭제
+  // 게시글 글번호 받아서 삭제
+  // 게시글 작성자 == 로그인한 회원
+  @DeleteMapping("/{bno}")
+  public ResponseEntity<Map<String,Object>> deleteBoard(@PathVariable int bno,
+    @AuthenticationPrincipal UserEntity userEntity
+  ){
+    Map<String, Object> map = new HashMap<>();
+    //해당 게시글 가져옴
+    BoardDTO board = boardService.selectBoard(bno);
+
+    if(board == null){
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).body(map);
+    } 
+
+    if(board.getMid() != userEntity.getId()){
+      return ResponseEntity.status(HttpStatus.FORBIDDEN).body(map);
+    }
+    boardService.deleteBoard(bno);
+    // 응답이 필요없을때
+    // return  ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+      return ResponseEntity.status(HttpStatus.OK).body(map);
+  }
 
 }
 
