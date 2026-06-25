@@ -44,7 +44,7 @@
   </select>
 
   <insert id="insertBoardReaction">
-    insert into(mid,bno,type) values(#{mid},#{bno},#{type});
+    insert into board_reaction(mid,bno,type) values(#{mid},#{bno},#{type});
   </insert>
 
   <delete id="deleteBoardReaction">

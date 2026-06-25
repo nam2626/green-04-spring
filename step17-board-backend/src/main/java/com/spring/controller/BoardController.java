@@ -136,6 +136,7 @@ public class BoardController {
       BoardReactionReq req = boardService.selectBoardReaction(reactionReq.getBno(), userEntity.getId());
 
       if(req == null){
+        reactionReq.setMid(userEntity.getId());
         boardService.addBoardReaction(reactionReq);
       }else{
         if(reactionReq.getType().equals(req.getType())){

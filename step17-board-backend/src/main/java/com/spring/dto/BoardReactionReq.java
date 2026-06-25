@@ -12,6 +12,6 @@ public class BoardReactionReq {
   private int id;
   private int bno;
   private String type;
-  private int mid;
+  private Long mid;
 
 }
