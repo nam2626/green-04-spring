@@ -132,7 +132,21 @@ public class BoardController {
   @PostMapping("/reaction")
   public ResponseEntity<Map<String,Object>> boardReaction(@RequestBody BoardReactionReq reactionReq, @AuthenticationPrincipal UserEntity userEntity) {
       Map<String, Object> map = new HashMap<>();
+      BoardReactionReq req = boardService.selectBoardReaction(reactionReq.getBno(), userEntity.getId());
 
+      if(req == null){
+        boardService.addBoardReaction(reactionReq);
+      }else{
+        if(reactionReq.getType().equals(req.getType())){
+          boardService.deleteBoardReaction(reactionReq);
+        }else{
+          boardService.updateBoardReaction(reactionReq);
+        }
+      }
+
+      BoardReactionCountDTO boardReactionCount = boardService.getBoardReactionCount(reactionReq.getBno());
+
+      map.put("count", boardReactionCount);
       return ResponseEntity.ok(map);
   }
   
