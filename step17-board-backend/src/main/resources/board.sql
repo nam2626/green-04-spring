@@ -240,3 +240,12 @@ FROM
   board b LEFT OUTER JOIN board_reaction br ON b.bno = br.bno
 WHERE 
   b.bno = 1003;
+
+
+SELECT
+      count(case when br.`type` = 'like' then 1 end) as likeCount,
+      count(case when br.`type` = 'dislike' then 1 end) as dislikeCount
+    FROM
+      board_comment b LEFT OUTER JOIN board_comment_reaction br ON b.cno = br.cno
+    WHERE 
+      b.cno = 9848;

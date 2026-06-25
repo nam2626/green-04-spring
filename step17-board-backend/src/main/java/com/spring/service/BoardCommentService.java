@@ -3,6 +3,8 @@ package com.spring.service;
 import org.springframework.stereotype.Service;
 
 import com.spring.dto.BoardCommentDTO;
+import com.spring.dto.BoardCommentReactionReq;
+import com.spring.dto.ReactionCountDTO;
 import com.spring.mapper.BoardCommentMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -26,5 +28,25 @@ public class BoardCommentService {
 
   public void updateBoardComment(BoardCommentDTO reqBoard) {
     boardCommentMapper.updateBoardComment(reqBoard);
+  }
+
+  public BoardCommentReactionReq selectBoardCommentReaction(int cno, Long id) {
+    return boardCommentMapper.selectBoardCommentReaction(cno,id);
+  }
+
+  public void addBoardCommentReaction(BoardCommentReactionReq reactionReq) {
+    boardCommentMapper.insertBoardCommentReaction(reactionReq);
+  }
+
+  public void deleteBoardCommentReaction(BoardCommentReactionReq reactionReq) {
+    boardCommentMapper.deleteBoardCommentReaction(reactionReq);
+  }
+
+  public void updateBoardCommentReaction(BoardCommentReactionReq reactionReq) {
+    boardCommentMapper.updateBoardCommentReaction(reactionReq);
+  }
+
+  public ReactionCountDTO getBoardCommentReactionCount(int cno) {
+    return boardCommentMapper.selectBoardCommentReactionCount(cno);
   }
 }

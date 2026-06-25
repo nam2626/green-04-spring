@@ -26,4 +26,32 @@
     where
       cno = #{cno}
   </update>
+
+  <select id="selectBoardCommentReaction" resultType="boardCommentReq">
+    select * from board_comment_reaction where mid = #{id} and cno = #{cno}
+  </select>
+
+  <insert id="insertBoardCommentReaction">
+    insert into board_comment_reaction(mid,cno,type) values(#{mid},#{cno},#{type});
+  </insert>
+
+  <delete id="deleteBoardCommentReaction">
+    DELETE FROM board_comment_reaction
+    WHERE id = #{id}
+  </delete>
+
+  <update id="updateBoardCommentReaction">
+    update board_comment_reaction set type = #{type}
+    where id = #{id}
+  </update>
+
+  <select id="selectBoardCommentReactionCount" resultType="reaction">
+    SELECT
+      count(case when br.`type` = 'like' then 1 end) as likeCount,
+      count(case when br.`type` = 'dislike' then 1 end) as dislikeCount
+    FROM
+      board_comment b LEFT OUTER JOIN board_comment_reaction br ON b.cno = br.cno
+    WHERE 
+      b.cno = #{cno}
+  </select>
 </mapper>
