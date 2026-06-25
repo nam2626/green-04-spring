@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import com.spring.dto.BoardCommentDTO;
 import com.spring.dto.BoardDTO;
+import com.spring.dto.BoardReactionReq;
+import com.spring.dto.ReactionCountDTO;
 import com.spring.mapper.BoardMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -47,6 +49,26 @@ public class BoardService {
 
   public void updateBoard(BoardDTO reqBoard) {
     boardMapper.updateBoard(reqBoard);
+  }
+
+  public BoardReactionReq selectBoardReaction(int bno, Long id) {
+    return boardMapper.selectBoardReaction(bno,id);
+  }
+
+  public void addBoardReaction(BoardReactionReq reactionReq) {
+    boardMapper.insertBoardReaction(reactionReq);
+  }
+
+  public void deleteBoardReaction(BoardReactionReq reactionReq) {
+    boardMapper.deleteBoardReaction(reactionReq);
+  }
+
+  public void updateBoardReaction(BoardReactionReq reactionReq) {
+    boardMapper.updateBoardReaction(reactionReq);
+  }
+
+  public ReactionCountDTO getBoardReactionCount(int bno) {
+    return boardMapper.selectBoardReactionCount(bno);
   }
 
 }

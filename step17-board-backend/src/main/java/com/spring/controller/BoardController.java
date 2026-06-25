@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.spring.dto.BoardCommentDTO;
 import com.spring.dto.BoardDTO;
 import com.spring.dto.BoardReactionReq;
+import com.spring.dto.ReactionCountDTO;
 import com.spring.entity.UserEntity;
 import com.spring.service.BoardService;
 import com.spring.vo.PaggingVO;
@@ -144,9 +145,9 @@ public class BoardController {
         }
       }
 
-      BoardReactionCountDTO boardReactionCount = boardService.getBoardReactionCount(reactionReq.getBno());
+      ReactionCountDTO reactionCount = boardService.getBoardReactionCount(reactionReq.getBno());
 
-      map.put("count", boardReactionCount);
+      map.put("count", reactionCount);
       return ResponseEntity.ok(map);
   }
   

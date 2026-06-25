@@ -7,6 +7,8 @@ import org.apache.ibatis.annotations.Param;
 
 import com.spring.dto.BoardCommentDTO;
 import com.spring.dto.BoardDTO;
+import com.spring.dto.BoardReactionReq;
+import com.spring.dto.ReactionCountDTO;
 
 @Mapper
 public interface BoardMapper {
@@ -29,5 +31,15 @@ public interface BoardMapper {
   void insertBoard(BoardDTO board);
 
   void updateBoard(BoardDTO reqBoard);
+
+  BoardReactionReq selectBoardReaction(@Param("bno") int bno,@Param("id") Long id);
+
+  void insertBoardReaction(BoardReactionReq reactionReq);
+
+  void deleteBoardReaction(BoardReactionReq reactionReq);
+
+  void updateBoardReaction(BoardReactionReq reactionReq);
+
+  ReactionCountDTO selectBoardReactionCount(int bno);
 
 }
