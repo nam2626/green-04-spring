@@ -19,4 +19,11 @@
     DELETE FROM board_comment WHERE cno = #{cno}
   </delete>
 
+  <update id="updateBoardComment">
+    update board_comment
+    set
+      content = #{content}
+    where
+      cno = #{cno}
+  </update>
 </mapper>

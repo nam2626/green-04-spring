@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -59,5 +60,22 @@ public class BoardCommentController {
     boardCommentService.deleteBoardComment(cno);
     // 응답이 필요없을때
     return  ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+  }
+
+  @PatchMapping("/{cno}")
+  public ResponseEntity updateBoard(@PathVariable int cno, @RequestBody BoardCommentDTO reqBoard, @AuthenticationPrincipal UserEntity userEntity){
+    BoardCommentDTO comment = boardCommentService.selectBoardComment(cno);
+    
+    if(comment == null){
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    } 
+
+    if(comment.getMid() != userEntity.getId()){
+      return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+    }
+    reqBoard.setCno(cno);
+    boardCommentService.updateBoardComment(reqBoard);
+
+    return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
   }
 }

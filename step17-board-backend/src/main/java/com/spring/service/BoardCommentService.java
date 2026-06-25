@@ -23,4 +23,8 @@ public class BoardCommentService {
   public void deleteBoardComment(int cno) {
     boardCommentMapper.deleteBoardComment(cno);
   }
+
+  public void updateBoardComment(BoardCommentDTO reqBoard) {
+    boardCommentMapper.updateBoardComment(reqBoard);
+  }
 }

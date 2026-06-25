@@ -13,4 +13,6 @@ public interface BoardCommentMapper {
 
   void deleteBoardComment(int cno);
 
+  void updateBoardComment(BoardCommentDTO reqBoard);
+
 }
