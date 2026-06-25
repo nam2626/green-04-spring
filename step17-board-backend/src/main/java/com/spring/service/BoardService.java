@@ -37,4 +37,8 @@ public class BoardService {
     return boardMapper.selectBoardComment(bno);
   }
 
+  public void deleteBoard(int bno) {
+    boardMapper.deleteBoard(bno);
+  }
+
 }

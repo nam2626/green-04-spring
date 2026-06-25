@@ -24,4 +24,6 @@ public interface BoardMapper {
 
   List<BoardCommentDTO> selectBoardComment(int bno);
 
+  void deleteBoard(int bno);
+
 }
