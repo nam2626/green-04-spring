@@ -78,6 +78,10 @@ public class BoardController {
       Map<String, Object> map = new HashMap<>();
       map.put("board", board);
       map.put("user", entity);
+
+      board.setMid(entity.getId());
+      boardService.addBoard(board);
+
       return ResponseEntity.ok(map);
   }
   

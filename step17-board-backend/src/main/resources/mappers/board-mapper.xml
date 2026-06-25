@@ -26,4 +26,11 @@
   <select id="selectBoardComment" resultType="comment">
     select * from board_comment_view bcv where bcv.bno = #{bno}
   </select>
+  <insert id="insertBoard">
+    insert into board(title,content,mid)
+    values(#{title},#{content},#{mid})
+  </insert>
+  <delete id="deleteBoard">
+    delete from board where bno = #{bno}
+  </delete>
 </mapper> 

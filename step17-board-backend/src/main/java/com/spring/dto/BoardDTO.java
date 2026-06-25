@@ -25,7 +25,7 @@ public class BoardDTO {
   private int bcount;
   private int blike;
   private int bhate;
-  private int mid;
+  private Long mid;
   private String nickname;
 
 }

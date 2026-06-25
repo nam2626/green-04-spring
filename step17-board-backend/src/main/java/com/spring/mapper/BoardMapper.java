@@ -26,4 +26,6 @@ public interface BoardMapper {
 
   void deleteBoard(int bno);
 
+  void insertBoard(BoardDTO board);
+
 }

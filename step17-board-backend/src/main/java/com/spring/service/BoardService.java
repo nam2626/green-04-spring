@@ -41,4 +41,8 @@ public class BoardService {
     boardMapper.deleteBoard(bno);
   }
 
+  public void addBoard(BoardDTO board) {
+    boardMapper.insertBoard(board);
+  }
+
 }
