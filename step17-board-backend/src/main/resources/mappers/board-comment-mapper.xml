@@ -4,4 +4,11 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.spring.mapper.BoardCommentMapper">
 
+
+  <!-- insertBoardComment -->
+  <insert id="insertBoardComment">
+    INSERT INTO board_comment (bno,mid,content) 
+    VALUES (#{bno},#{mid},#{content})
+  </insert>
+
 </mapper>

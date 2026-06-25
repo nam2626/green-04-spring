@@ -16,6 +16,6 @@ public class BoardCommentDTO {
   private String nickname;
   private int clike;
   private int chate;
-  private int mid;
+  private Long mid;
 
 }
