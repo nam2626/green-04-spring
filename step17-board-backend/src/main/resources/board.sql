@@ -232,3 +232,11 @@ ifnull(bch.chate,0) as chate from board_comment bc
   left outer join board_comment_dislike bch on bc.cno = bch.cno;
 
 select * from board_comment_view where bno = 999;
+
+SELECT
+  count(case when br.`type` = 'like' then 1 end) as likeCount,
+  count(case when br.`type` = 'dislike' then 1 end) as dislikeCount
+FROM
+  board b LEFT OUTER JOIN board_reaction br ON b.bno = br.bno
+WHERE 
+  b.bno = 1003;

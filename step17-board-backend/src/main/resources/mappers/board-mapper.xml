@@ -38,4 +38,37 @@
     update board set title = #{title}, content = #{content}, write_update_date = CURRENT_TIMESTAMP
     where bno = #{bno}
   </update>
+
+  <select id="selectBoardReaction" resultType="boardReq">
+    select * from board_reaction where mid = #{id} and bno = #{bno}
+  </select>
+
+  <insert id="insertBoardReaction">
+    insert into(mid,bno,type) values(#{mid},#{bno},#{type});
+  </insert>
+
+  <delete id="deleteBoardReaction">
+    DELETE FROM board_reaction
+    WHERE id = #{id}
+  </delete>
+
+  <update id="updateBoardReaction">
+    update board_reaction set type = #{type}
+    where id = #{id}
+  </update>
+
+  <select id="selectBoardReactionCount" resultType="reaction">
+    SELECT
+      count(case when br.`type` = 'like' then 1 end) as likeCount,
+      count(case when br.`type` = 'dislike' then 1 end) as dislikeCount
+    FROM
+      board b LEFT OUTER JOIN board_reaction br ON b.bno = br.bno
+    WHERE 
+      b.bno = #{bno}
+  </select>
+
 </mapper> 
+
+
+
+
