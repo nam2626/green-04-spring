@@ -134,11 +134,12 @@ public class BoardController {
   public ResponseEntity<Map<String,Object>> boardReaction(@RequestBody BoardReactionReq reactionReq, @AuthenticationPrincipal UserEntity userEntity) {
       Map<String, Object> map = new HashMap<>();
       BoardReactionReq req = boardService.selectBoardReaction(reactionReq.getBno(), userEntity.getId());
-
+      
       if(req == null){
         reactionReq.setMid(userEntity.getId());
         boardService.addBoardReaction(reactionReq);
       }else{
+        reactionReq.setId(req.getId());
         if(reactionReq.getType().equals(req.getType())){
           boardService.deleteBoardReaction(reactionReq);
         }else{
