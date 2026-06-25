@@ -34,7 +34,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RequiredArgsConstructor
 public class BoardController {
 
-  private final AuthController authController;
   private final BoardService boardService;
 
   // 게시글 조회
@@ -152,6 +151,7 @@ public class BoardController {
       map.put("count", reactionCount);
       return ResponseEntity.ok(map);
   }
+
   
 }
 
