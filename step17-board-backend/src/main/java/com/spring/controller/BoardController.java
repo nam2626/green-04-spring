@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -105,8 +106,25 @@ public class BoardController {
     }
     boardService.deleteBoard(bno);
     // 응답이 필요없을때
-    // return  ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-      return ResponseEntity.status(HttpStatus.OK).body(map);
+    return  ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+      // return ResponseEntity.status(HttpStatus.OK).body(map);
+  }
+
+  @PatchMapping("/{bno}")
+  public ResponseEntity updateBoard(@PathVariable int bno, @RequestBody BoardDTO reqBoard, @AuthenticationPrincipal UserEntity userEntity){
+    BoardDTO board = boardService.selectBoard(bno);
+    
+    if(board == null){
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    } 
+
+    if(board.getMid() != userEntity.getId()){
+      return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+    }
+    reqBoard.setBno(bno);
+    boardService.updateBoard(reqBoard);
+
+    return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
   }
 
 }

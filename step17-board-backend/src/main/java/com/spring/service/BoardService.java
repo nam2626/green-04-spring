@@ -45,4 +45,8 @@ public class BoardService {
     boardMapper.insertBoard(board);
   }
 
+  public void updateBoard(BoardDTO reqBoard) {
+    boardMapper.updateBoard(reqBoard);
+  }
+
 }

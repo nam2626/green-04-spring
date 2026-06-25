@@ -33,4 +33,9 @@
   <delete id="deleteBoard">
     delete from board where bno = #{bno}
   </delete>
+
+  <update id="updateBoard">
+    update board set title = #{title}, content = #{content}, write_update_date = CURRENT_TIMESTAMP
+    where bno = #{bno}
+  </update>
 </mapper> 
