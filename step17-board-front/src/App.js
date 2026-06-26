@@ -24,7 +24,7 @@ function App() {
       {/* 공개 */}
       <Route path='/' element={<PostListPage/>}/>
       <Route path='/login' element={<LoginPage/>}/>
-      <Route path='/singup' element={<SignupPage/>}/>
+      <Route path='/signup' element={<SignupPage/>}/>
       <Route path='/posts/:id' element={<PostDetailPage/>}/>
       {/* 인증 */}
 
