@@ -1,6 +1,6 @@
 import axiosInstance from "./axiosInstance";
 
-export default postApi = {
+export const postApi = {
   getPage : (page, keyword, size) => axiosInstance.get('/api/posts',{
     params : {
         page:page,
@@ -8,5 +8,5 @@ export default postApi = {
         size : size
     }
   }) ,
-  
+
 };
