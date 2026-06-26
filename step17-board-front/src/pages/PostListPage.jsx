@@ -18,5 +18,36 @@ export default () => {
 
   return <div className="container">
     <h2>게시글 목록</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>글번호</th>
+          <th>제목</th>
+          <th>작성자</th>
+          <th>작성일</th>
+          <th>조회수</th>
+          <th>좋아요</th>
+          <th>싫어요</th>
+        </tr>
+      </thead>
+      <tbody>
+        {
+          posts && posts.map(item => <tr>
+            <td>{item.bno}</td>
+            <td>{item.title}</td>
+            <td>{item.nickname}</td>
+            <td>{item.writeUpdateDate}</td>
+            <td>{item.bcount}</td>
+            <td>{item.blike}</td>
+            <td>{item.bhate}</td>
+          </tr>)
+
+        }
+
+      </tbody>
+      <tfoot>
+        <td colSpan={2}></td>
+      </tfoot>
+    </table>
   </div>
 }
