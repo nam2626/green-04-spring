@@ -1,12 +1,12 @@
 export default ({ pagging, onPageChange } ) => {
 
   const pageNumbers = [];
-  for(i = pagging.startPageOfPageGroup ; i <= pagging.endPageOfPageGroup; i++)
+  for(let i = pagging.startPageOfPageGroup ; i <= pagging.endPageOfPageGroup; i++)
     pageNumbers.push(i);
 
   return <ul>
     <li>
-      <button disabled={pagging.priviousPageGroup} onClick={() => onPageChange(pagging.startPageOfPageGroup - 1)}>◀◀</button>
+      <button disabled={!pagging.priviousPageGroup} onClick={() => onPageChange(pagging.startPageOfPageGroup - 1)}>◀◀</button>
     </li>
     {
       pageNumbers.map(item => <li key={item}>
@@ -14,7 +14,7 @@ export default ({ pagging, onPageChange } ) => {
       </li>)
     }
     <li>
-      <button disabled={pagging.nextPageGroup} onClick={() => onPageChange(pagging.endPageOfPageGroup + 1)}>▶▶</button>
+      <button disabled={!pagging.nextPageGroup} onClick={() => onPageChange(pagging.endPageOfPageGroup + 1)}>▶▶</button>
     </li>
   </ul>
 }
