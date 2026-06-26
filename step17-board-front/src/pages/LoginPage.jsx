@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
@@ -13,9 +13,10 @@ export default () => {
   const handleLogin = async () => {
     setLoding(true);
     try{
-      await login(username,password);
+      await login(username.current.value,password.current.value);
       navigate('/');
     }catch(error){
+      console.log(error);
       setErrorMessage(error.response?.data?.message || '로그인 실패했습니다.');
     }finally{
       setLoding(false);

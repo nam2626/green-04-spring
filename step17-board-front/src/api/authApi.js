@@ -11,5 +11,5 @@ export const authApi = {
   // 로그아웃
   logout : () => axiosInstance.post('/auth/logout'),
   // 내정보
-  me : () => axiosInstance.post('/auth/me')
+  me : () => axiosInstance.get('/auth/me')
 }
