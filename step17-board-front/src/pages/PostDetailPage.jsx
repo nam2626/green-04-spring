@@ -31,7 +31,21 @@ export default () => {
       </div>
       <hr />
       <div className="comment-list">
-        
+        {commentList.map(item=><div className="comment-item">
+          <div className="comment-info">
+            <span>작성자 : {item.nickname}</span>
+            <span>작성일 : {item.cdate}</span>
+          </div>
+          <div className="comment-action">
+            <button>좋아요 👍</button>
+            <button>싫어요 👎</button>
+            
+            <button>수정</button>
+            <button>삭제</button>
+          </div>
+          <hr/>
+          <div className="comment-content">{item.content}</div>
+        </div>)}
       </div>
     </div>
   </div>
