@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { postApi } from "../api/postApi";
 import PaggingBar from "../components/PaggingBar";
 
@@ -8,6 +8,16 @@ export default () => {
   // 게시글 첫번째 페이지 로드해서 출력
   useEffect(() => {
     postApi.getPage(1, '', 20)
+    .then(response => {
+        setPosts(response.data.list);
+        setPagging(response.data.pagging);
+        console.log(response.data);
+      }
+    )
+  },[]);
+  // 페이지 번호에 해당하는 게시글 조회
+  const fetchPostData = useCallback((pageNo) => {
+    postApi.getPage(pageNo, '', 20)
     .then(response => {
         setPosts(response.data.list);
         setPagging(response.data.pagging);
