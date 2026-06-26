@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { postApi } from "../api/postApi";
+import PaggingBar from "../components/PaggingBar";
 
 export default () => {
   const [posts, setPosts] = useState([]);
@@ -46,7 +47,7 @@ export default () => {
 
       </tbody>
       <tfoot>
-        <td colSpan={2}></td>
+        <td colSpan={2}><PaggingBar pagging={pagging} onPageChange={fetchPostData}/> </td>
       </tfoot>
     </table>
   </div>
