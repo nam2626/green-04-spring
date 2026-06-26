@@ -1,10 +1,13 @@
 import { useCallback, useEffect, useState } from "react"
 import { postApi } from "../api/postApi";
 import PaggingBar from "../components/PaggingBar";
+import { useNavigate } from "react-router-dom";
 
 export default () => {
   const [posts, setPosts] = useState([]);
   const [pagging, setPagging] = useState({});
+  const navigate = useNavigate();
+
   // 게시글 첫번째 페이지 로드해서 출력
   useEffect(() => {
     postApi.getPage(1, '', 20)
@@ -45,7 +48,7 @@ export default () => {
         {
           posts && posts.map(item => <tr>
             <td>{item.bno}</td>
-            <td>{item.title}</td>
+            <td><a onClick={() => navigate(`/posts/${item.bno}`)}>{item.title}</a></td>
             <td>{item.nickname}</td>
             <td>{item.writeUpdateDate}</td>
             <td>{item.bcount}</td>
