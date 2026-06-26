@@ -15,53 +15,54 @@ export default () => {
     }).catch(error=>{
       console.log(error);
     });
-  },[]);
+  },[bno]);
 
-  return <div className="container">
+  return <div className="post-detail-container">
     {
-        !post ? <div className="post-loading">현재 게시글 읽어오고 있습니다.</div> :
-    <>
-    <h2>{post.title}</h2>
-    <div className="post-meta">
-      <span>작성자 : {post.nickname}</span>
-      <span>조회수 : {post.bcount}</span>
-      <span>최종작성일 : {post.writeUpdateDate}</span>
-    </div>
-    <hr/>
-    <div className="post-content">{post.content}</div>
-    <div className="post-footer">
-      <div>
-        <button>좋아요 👍</button>
-        <button>싫어요 👎</button>
-      </div>
-      <div>
-        <button>삭제</button>
-        <button>수정</button>
-      </div>
-    </div>
-    <div className="comment-area">
-      <div className="comment-form">
-        <textarea></textarea><button>댓글<br/>등록</button>
-      </div>
-      <hr />
-      <div className="comment-list">
-        {commentList.map(item=><div className="comment-item">
-          <div className="comment-info">
-            <span>작성자 : {item.nickname}</span>
-            <span>작성일 : {item.cdate}</span>
+      !post ? <div className="post-loading">현재 게시글 읽어오고 있습니다.</div> :
+      <>
+        <h2 className="post-detail-title">{post.title}</h2>
+        <div className="post-detail-meta">
+          <span className="meta-item"><span className="meta-label">작성자</span> {post.nickname}</span>
+          <span className="meta-item"><span className="meta-label">조회수</span> {post.bcount}</span>
+          <span className="meta-item"><span className="meta-label">작성일</span> {post.writeUpdateDate}</span>
+        </div>
+        <div className="post-detail-content">{post.content}</div>
+        <div className="post-detail-footer">
+          <div className="post-footer-group">
+            <button className="btn btn-success-outline">좋아요 👍</button>
+            <button className="btn btn-danger-outline">싫어요 👎</button>
           </div>
-          <div className="comment-action">
-            <button>좋아요 👍</button>
-            <button>싫어요 👎</button>
-
-            <button>수정</button>
-            <button>삭제</button>
+          <div className="post-footer-group">
+            <button className="btn btn-secondary">수정</button>
+            <button className="btn btn-danger-outline">삭제</button>
           </div>
-          <div className="comment-content">{item.content}</div>
-        </div>)}
-      </div>
-    </div>
-    </>
+        </div>
+        <div className="comment-section">
+          <h3 className="comment-title">댓글 목록 ({commentList ? commentList.length : 0})</h3>
+          <div className="comment-form">
+            <textarea className="comment-textarea" placeholder="댓글을 입력해 주세요."></textarea>
+            <button className="comment-submit-btn">댓글<br/>등록</button>
+          </div>
+          <div className="comment-list">
+            {commentList && commentList.map((item, index) => <div key={item.cno || index} className="comment-item">
+              <div className="comment-header">
+                <div className="comment-info">
+                  <span>👤 {item.nickname}</span>
+                  <span>📅 {item.cdate}</span>
+                </div>
+                <div className="comment-action">
+                  <button className="btn-comment-action">좋아요 👍</button>
+                  <button className="btn-comment-action">싫어요 👎</button>
+                  <button className="btn-comment-action">수정</button>
+                  <button className="btn-comment-action btn-comment-danger">삭제</button>
+                </div>
+              </div>
+              <div className="comment-content">{item.content}</div>
+            </div>)}
+          </div>
+        </div>
+      </>
     }
   </div>
 }
