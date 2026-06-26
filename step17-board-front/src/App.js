@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import NavBar from './components/NavBar';
 import { Route, Routes } from 'react-router-dom';
@@ -17,22 +16,24 @@ import PostWritePage from './pages/PostWritePage';
       /posts/:id/edit → 게시글 수정(인증 필요)
 */
 function App() {
-  return  <>
-    <NavBar/>
-    <hr />
-    <Routes>
-      {/* 공개 */}
-      <Route path='/' element={<PostListPage/>}/>
-      <Route path='/login' element={<LoginPage/>}/>
-      <Route path='/signup' element={<SignupPage/>}/>
-      <Route path='/posts/:id' element={<PostDetailPage/>}/>
-      {/* 인증 */}
+  return (
+    <div className="app-container">
+      <NavBar />
+      <main className="main-content">
+        <Routes>
+          {/* 공개 */}
+          <Route path='/' element={<PostListPage/>}/>
+          <Route path='/login' element={<LoginPage/>}/>
+          <Route path='/signup' element={<SignupPage/>}/>
+          <Route path='/posts/:id' element={<PostDetailPage/>}/>
+          {/* 인증 */}
 
-      <Route path='/posts/create' element={<PostWritePage/>}/>
-      <Route path='/posts/:id/edit' element={<PostWritePage/>}/>
-
-    </Routes>
-  </>;
+          <Route path='/posts/create' element={<PostWritePage/>}/>
+          <Route path='/posts/:id/edit' element={<PostWritePage/>}/>
+        </Routes>
+      </main>
+    </div>
+  );
 }
 
 export default App;
