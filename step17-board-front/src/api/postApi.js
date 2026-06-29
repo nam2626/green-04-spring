@@ -11,5 +11,6 @@ export const postApi = {
   getPost : (bno) => axiosInstance.get(`/api/posts/${bno}`),
   create : (data) => axiosInstance.post(`/api/posts`,data),
   update : (bno, data) => axiosInstance.patch(`/api/posts/${bno}`,data),
-  remove : (bno) => axiosInstance.delete(`/api/posts/${bno}`)
+  remove : (bno) => axiosInstance.delete(`/api/posts/${bno}`),
+  postReaction : (data) => axiosInstance.post(`/api/posts/reaction`,data) 
 };

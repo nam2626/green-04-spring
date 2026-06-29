@@ -38,6 +38,12 @@ export default () => {
     }
 
   }
+
+  const handleReaction = async (type) => {
+    await postApi.postReaction({mid : user.id, type : type, bno : post.bno})
+    .then(res => console.log(res.data))
+    .catch(err => console.log(err))
+  }
   
   return <div className="post-detail-container">
     {
@@ -54,8 +60,8 @@ export default () => {
         </div>
         <div className="post-detail-footer">
           <div className="post-footer-group">
-            <button className="btn btn-success-outline">좋아요 👍 <span>{post.blike}</span></button>
-            <button className="btn btn-danger-outline">싫어요 👎 <span>{post.bhate}</span></button>
+            <button className="btn btn-success-outline" onClick={() => handleReaction("LIKE")}>좋아요 👍 <span>{post.blike}</span></button>
+            <button className="btn btn-danger-outline" onClick={() => handleReaction("DISLIKE")}>싫어요 👎 <span>{post.bhate}</span></button>
           </div>
             { 
               isEdit &&
