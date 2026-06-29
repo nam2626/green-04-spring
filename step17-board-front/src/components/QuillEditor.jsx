@@ -34,20 +34,21 @@ export default ({onChange, defaultVale}) => {
     });
 
     }
-  });
-
-  // 초기값 설정. 수정모드일때 이전에 입력했던 게시글 값
-  if(defaultVale){
-    quillInstance.current.root.innerHTML = defaultVale;
-  }
-
-  // 내용이 변경될 때 실행할 이벤트 리스너 등록
-  quillInstance.current.on('text-change', () => {
-    if(onChange){
-      console.log(quillInstance.current.getHTML());
-      onChange(quillInstance.current.root.innerHTML);
+     // 초기값 설정. 수정모드일때 이전에 입력했던 게시글 값
+    if(defaultVale){
+      quillInstance.current.root.innerHTML = defaultVale;
     }
+
+    // 내용이 변경될 때 실행할 이벤트 리스너 등록
+    quillInstance.current.on('text-change', () => {
+      if(onChange){
+        console.log(quillInstance.current.getSemanticHTML());
+        onChange(quillInstance.current.root.innerHTML);
+      }
+    });
   },[]);
+
+ 
 
   return (
     <div style={{margin:'50px'}}>
