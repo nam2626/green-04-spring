@@ -4,7 +4,12 @@ import { useAuth } from "../context/AuthContext";
 export default () => {
   const {isAuthenticated, user, logout} = useAuth();
   const navigate = useNavigate();
-  console.log(isAuthenticated, user);
+
+  const handleLogout = async () => {
+    await logout();
+    navigate('/');
+  }
+
   return <nav className="navbar">
     <Link to="/" className="navbar-brand">📄 Spring Board</Link>
     <div className="navbar-menu">
@@ -13,7 +18,7 @@ export default () => {
           <>
             <span className="navbar-user">{user.nickname}</span>
             <Link to="/posts/create" className="nav-link">글쓰기</Link>
-            <button type="button" className="nav-btn-secondary">로그아웃</button>
+            <button type="button" onClick={handleLogout} className="nav-btn-secondary">로그아웃</button>
           </>
           :
           <>

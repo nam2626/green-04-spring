@@ -451,6 +451,108 @@ body {
   border-color: var(--success-color);
 }
 
+/* Login */
+.login-container {
+  min-height: calc(100vh - 140px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 0;
+}
+
+.login-card {
+  width: min(100%, 420px);
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  padding: 2.25rem;
+}
+
+.login-header {
+  margin-bottom: 1.75rem;
+}
+
+.login-title {
+  font-size: 1.7rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  position: relative;
+  padding-bottom: 0.55rem;
+  margin-bottom: 0.75rem;
+}
+
+.login-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 40px;
+  height: 4px;
+  background-color: var(--color-primary);
+  border-radius: 2px;
+}
+
+.login-subtitle {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
+
+.frm-login {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.login-input {
+  width: 100%;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 0.95rem;
+  padding: 0.85rem 0.95rem;
+  transition: var(--transition);
+  background-color: #ffffff;
+}
+
+.login-input::placeholder {
+  color: var(--text-muted);
+}
+
+.login-input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-glow);
+}
+
+.error-message-box {
+  background-color: var(--danger-light);
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  border-radius: var(--radius-sm);
+  color: var(--danger-color);
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 0.8rem 0.95rem;
+}
+
+.login-loading {
+  background-color: #f1f5f9;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  font-weight: 600;
+  padding: 0.8rem 0.95rem;
+  text-align: center;
+}
+
+.login-submit-btn,
+.login-signup-btn {
+  width: 100%;
+  min-height: 44px;
+}
+
 /* Comment Area */
 .comment-section {
   background-color: #f8fafc;
@@ -594,4 +696,19 @@ body {
   color: var(--text-secondary);
   font-weight: 600;
   font-size: 1.1rem;
+}
+
+@media (max-width: 640px) {
+  .main-content {
+    padding: 1.5rem 1rem;
+  }
+
+  .login-container {
+    min-height: calc(100vh - 120px);
+    padding: 1rem 0;
+  }
+
+  .login-card {
+    padding: 1.5rem;
+  }
 }

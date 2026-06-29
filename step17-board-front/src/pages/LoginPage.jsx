@@ -24,15 +24,19 @@ export default () => {
   };
 
   // 로그인 폼
-  return <div className="container">
-    <h2>로그인 페이지</h2>
-    <div className="frm-login">
-        <input type="text" placeholder="아이디를 입력하세요" ref={username}/>
-        <input type="password" placeholder="암호를 입력하세요" ref={password}/>
+  return <div className="login-container">
+    <div className="login-card">
+      <div className="login-header">
+        <h2 className="login-title">로그인</h2>
+        <p className="login-subtitle">Spring Board 계정으로 계속하세요.</p>
+      </div>
+      <div className="frm-login">
+        <input className="login-input" type="text" placeholder="아이디를 입력하세요" ref={username}/>
+        <input className="login-input" type="password" placeholder="암호를 입력하세요" ref={password}/>
         {errorMessage && <div className="error-message-box">{errorMessage}</div>}
-        {loading ? <p>현재 로그인 중입니다.</p> : <button onClick={handleLogin}>로그인</button>}
-        <button onClick={() => navigate('/auth/signup')}>회원가입</button>
-
+        {loading ? <p className="login-loading">현재 로그인 중입니다.</p> : <button className="btn btn-primary login-submit-btn" onClick={handleLogin}>로그인</button>}
+        <button className="btn btn-secondary login-signup-btn" onClick={() => navigate('/signup')}>회원가입</button>
+      </div>
     </div>
   </div>
 }
