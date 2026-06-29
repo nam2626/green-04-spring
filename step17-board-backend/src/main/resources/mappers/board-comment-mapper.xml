@@ -54,4 +54,7 @@
     WHERE 
       b.cno = #{cno}
   </select>
+    <delete id="deleteBoardCommentBno">
+    delete from board_comment where bno = #{bno}
+  </delete>
 </mapper>

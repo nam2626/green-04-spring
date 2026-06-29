@@ -1,12 +1,16 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { postApi } from "../api/postApi";
 import "quill/dist/quill.snow.css";
+import { useAuth } from "../context/AuthContext";
 
 export default () => {
   const {bno} = useParams();
   const [post ,setPost] = useState({});
   const [commentList, setCommentList] = useState([]);
+  const {user} = useAuth();
+  const navigate = useNavigate();
+
   console.log(bno);
   useEffect(() => {
     postApi.getPost(bno).then(reponse => {
@@ -17,7 +21,24 @@ export default () => {
       console.log(error);
     });
   },[bno]);
+  const isEdit = user && (user.id === post.mid);
 
+  const handleDelete = async () => {
+    if(!window.confirm('정말로 삭제하시겠습니까?')) return ;
+    try{
+      await postApi.remove(bno);
+      navigate('/');
+    }catch(err){
+      if(err.response?.status === 403){
+        alert('삭제 권한이 없습니다.')
+      }else{
+        alert('삭제 실패 했습니다.');
+      }
+      console.log(err);
+    }
+
+  }
+  
   return <div className="post-detail-container">
     {
       !post ? <div className="post-loading">현재 게시글 읽어오고 있습니다.</div> :
@@ -36,10 +57,13 @@ export default () => {
             <button className="btn btn-success-outline">좋아요 👍</button>
             <button className="btn btn-danger-outline">싫어요 👎</button>
           </div>
-          <div className="post-footer-group">
-            <button className="btn btn-secondary">수정</button>
-            <button className="btn btn-danger-outline">삭제</button>
-          </div>
+            { 
+              isEdit &&
+              <div className="post-footer-group">
+                  <button className="btn btn-secondary">수정</button>
+                  <button className="btn btn-danger-outline" onClick={handleDelete}>삭제</button>
+              </div>
+            }
         </div>
         <div className="comment-section">
           <h3 className="comment-title">댓글 목록 ({commentList ? commentList.length : 0})</h3>
