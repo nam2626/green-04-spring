@@ -41,7 +41,10 @@ export default () => {
 
   const handleReaction = async (type) => {
     await postApi.postReaction({mid : user.id, type : type, bno : post.bno})
-    .then(res => console.log(res.data))
+    .then(res => {
+      console.log(res.data);
+      setPost(prev => ({...prev, blike:res.data.count.likeCount, bhate:res.data.count.dislikeCount}))
+    })
     .catch(err => console.log(err))
   }
   
