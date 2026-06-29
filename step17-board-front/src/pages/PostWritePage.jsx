@@ -10,14 +10,18 @@ export default () => {
 
   // 1. 제목, quill Editor 글내용 입력 받는 폼
   const [form, setForm] = useState({title:'',content:''});
-  // 2. 글쓰기 버튼 클릭시 게시글 전송
-
+  
   const onChangePostDetail = (newPostDetail) => {
     setForm({...form, content : newPostDetail});
   }
-
+  
   const onChangeTitle = (e) => {
     setForm({...form, title : e.taget.value});
+  }
+  
+  // 2. 글쓰기 버튼 클릭시 게시글 전송
+  const handleSubmit = () => {
+    
   }
 
   return <div className="container">
