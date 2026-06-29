@@ -38,14 +38,14 @@ CREATE TABLE board_member
 create table board_reaction(
   id int not null AUTO_INCREMENT,
   mid int not null,
-  bno int not null,
+  bno BIGINT not null,
   type varchar(10),
   PRIMARY KEY (id)
 );
 create table board_comment_reaction(
   id int not null AUTO_INCREMENT,
   mid int not null,
-  cno int not null,
+  cno BIGINT not null,
   type varchar(10),
   PRIMARY KEY (id)
 );
@@ -78,7 +78,30 @@ ALTER TABLE board_comment
 ALTER TABLE board_comment
   ADD CONSTRAINT FK_board_TO_board_comment
     FOREIGN KEY (bno)
-    REFERENCES board (bno);
+    REFERENCES board (bno)
+    ON DELETE CASCADE;
+
+ALTER TABLE board_reaction
+  ADD CONSTRAINT FK_board_TO_board_reaction
+    FOREIGN KEY (bno)
+    REFERENCES board (bno)
+    ON DELETE CASCADE;
+
+ALTER TABLE board_reaction
+  ADD CONSTRAINT FK_board_member_TO_board_reaction
+    FOREIGN KEY (mid)
+    REFERENCES board_member (id);
+
+ALTER TABLE board_comment_reaction
+  ADD CONSTRAINT FK_board_comment_TO_board_comment_reaction
+    FOREIGN KEY (cno)
+    REFERENCES board_comment (cno)
+    ON DELETE CASCADE;
+
+ALTER TABLE board_comment_reaction
+  ADD CONSTRAINT FK_board_member_TO_board_comment_reaction
+    FOREIGN KEY (mid)
+    REFERENCES board_member (id);
 
 -- 댓글 좋아요, 싫어요, 게시글 좋아요, 싫어요는 중복 방지 위해 unique 제약조건 추가
 alter table board_reaction add constraint unique (mid, bno);
@@ -249,3 +272,44 @@ SELECT
       board_comment b LEFT OUTER JOIN board_comment_reaction br ON b.cno = br.cno
     WHERE 
       b.cno = 9848;
+
+------------------
+-- 1. 기존 FK 제거
+ALTER TABLE board_comment
+  DROP FOREIGN KEY FK_board_TO_board_comment;
+
+-- 2. 리액션 테이블 컬럼 타입을 부모 PK와 맞춤
+ALTER TABLE board_reaction
+  MODIFY bno BIGINT NOT NULL;
+
+ALTER TABLE board_comment_reaction
+  MODIFY cno BIGINT NOT NULL;
+
+-- 3. CASCADE FK 다시 생성
+ALTER TABLE board_comment
+  ADD CONSTRAINT FK_board_TO_board_comment
+    FOREIGN KEY (bno)
+    REFERENCES board (bno)
+    ON DELETE CASCADE;
+
+ALTER TABLE board_reaction
+  ADD CONSTRAINT FK_board_TO_board_reaction
+    FOREIGN KEY (bno)
+    REFERENCES board (bno)
+    ON DELETE CASCADE;
+
+ALTER TABLE board_comment_reaction
+  ADD CONSTRAINT FK_board_comment_TO_board_comment_reaction
+    FOREIGN KEY (cno)
+    REFERENCES board_comment (cno)
+    ON DELETE CASCADE;
+
+ALTER TABLE board_reaction
+ADD CONSTRAINT FK_board_member_TO_board_reaction
+  FOREIGN KEY (mid)
+  REFERENCES board_member (id);
+
+ALTER TABLE board_comment_reaction
+  ADD CONSTRAINT FK_board_member_TO_board_comment_reaction
+    FOREIGN KEY (mid)
+    REFERENCES board_member (id);

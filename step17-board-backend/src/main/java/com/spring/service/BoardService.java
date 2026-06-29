@@ -10,7 +10,6 @@ import com.spring.dto.BoardCommentDTO;
 import com.spring.dto.BoardDTO;
 import com.spring.dto.BoardReactionReq;
 import com.spring.dto.ReactionCountDTO;
-import com.spring.mapper.BoardCommentMapper;
 import com.spring.mapper.BoardMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -19,7 +18,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class BoardService {
   private final BoardMapper boardMapper;
-  private final BoardCommentMapper boardCommentMapper;
 
   public List<BoardDTO> getBoardList(int page, int size) {
     return boardMapper.selectBoardList(page,size);
@@ -42,7 +40,6 @@ public class BoardService {
   }
 
   public void deleteBoard(int bno) {
-    boardCommentMapper.deleteBoardCommentBno(bno);
     boardMapper.deleteBoard(bno);
   }
 
