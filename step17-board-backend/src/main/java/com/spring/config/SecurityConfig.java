@@ -67,7 +67,7 @@ public class SecurityConfig {
     // 허용할 프론트엔드 주소를 정확히 지정한다. 운영 환경에서는 실제 도메인으로 바꿔야 한다.
     config.setAllowedOrigins(List.of("http://localhost:3000"));
     // 브라우저가 사용할 수 있는 HTTP 메서드와 요청 헤더를 허용한다.
-    config.setAllowedMethods(List.of("GET","POST","PUT","DELETE","OPTIONS"));
+    config.setAllowedMethods(List.of("GET","POST","PUT","PATCH","DELETE","OPTIONS"));
     config.setAllowedHeaders(List.of("*"));
     // 쿠키나 Authorization 같은 인증 정보를 포함한 교차 출처 요청을 허용한다.
     config.setAllowCredentials(true);

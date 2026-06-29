@@ -60,7 +60,7 @@ export default () => {
             { 
               isEdit &&
               <div className="post-footer-group">
-                  <button className="btn btn-secondary">수정</button>
+                  <button className="btn btn-secondary" onClick={() => navigate(`/posts/${post.bno}/edit`)}>수정</button>
                   <button className="btn btn-danger-outline" onClick={handleDelete}>삭제</button>
               </div>
             }

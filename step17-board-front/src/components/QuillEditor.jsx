@@ -8,6 +8,7 @@ export default ({onChange, defaultVale}) => {
   const quillInstance = useRef(null);
 
   useEffect(() => {
+    console.log("Quill : ",defaultVale);
     if(editorRef.current && !quillInstance.current){
       quillInstance.current = new Quill(editorRef.current,{
         theme:'snow',
@@ -46,7 +47,7 @@ export default ({onChange, defaultVale}) => {
         onChange(quillInstance.current.getSemanticHTML());
       }
     });
-  },[]);
+  },[defaultVale]);
 
  
 

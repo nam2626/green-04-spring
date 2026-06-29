@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import QuillEditor from "../components/QuillEditor"
 import { useNavigate, useParams } from "react-router-dom";
 import { postApi } from "../api/postApi";
@@ -16,6 +16,23 @@ export default () => {
   // 1. 제목, quill Editor 글내용 입력 받는 폼
   const [form, setForm] = useState({title:'',content:''});
   const [error, setError] = useState('');
+
+  // 수정 모드이면 해당 게시글을 조회
+  useEffect(() => {
+    if(!isEditorMode) return;
+
+    postApi.getPost(bno)
+    .then((res) => {
+      console.log(res.data);
+      setForm(prev => ({...prev, title : res.data.board.title, content : res.data.board.content}))
+    })
+    .catch(err => {
+      alert('게시글을 읽어오지 못했습니다.');
+      navigate('/');
+    });
+   
+  },[bno,isEditorMode]);
+
   
   const onChangePostDetail = (newPostDetail) => {
     setForm(prevForm => ({...prevForm, content : newPostDetail}));
