@@ -43,7 +43,7 @@ export default ({onChange, defaultVale}) => {
     quillInstance.current.on('text-change', () => {
       if(onChange){
         console.log(quillInstance.current.getSemanticHTML());
-        onChange(quillInstance.current.root.innerHTML);
+        onChange(quillInstance.current.getSemanticHTML());
       }
     });
   },[]);
