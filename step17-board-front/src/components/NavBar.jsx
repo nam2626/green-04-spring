@@ -1,14 +1,17 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
+import { useAuth } from "../context/AuthContext";
 
 export default () => {
-  const isAuthenticate = false;
+  const {isAuthenticated, user, logout} = useAuth();
+  const navigate = useNavigate();
+  console.log(isAuthenticated, user);
   return <nav className="navbar">
     <Link to="/" className="navbar-brand">📄 Spring Board</Link>
     <div className="navbar-menu">
       {
-        isAuthenticate ?
+        isAuthenticated ?
           <>
-            <span className="navbar-user">사용자이름</span>
+            <span className="navbar-user">{user.nickname}</span>
             <Link to="/posts/create" className="nav-link">글쓰기</Link>
             <button type="button" className="nav-btn-secondary">로그아웃</button>
           </>
