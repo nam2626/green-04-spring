@@ -54,8 +54,8 @@ export default () => {
         </div>
         <div className="post-detail-footer">
           <div className="post-footer-group">
-            <button className="btn btn-success-outline">좋아요 👍</button>
-            <button className="btn btn-danger-outline">싫어요 👎</button>
+            <button className="btn btn-success-outline">좋아요 👍 <span>{post.blike}</span></button>
+            <button className="btn btn-danger-outline">싫어요 👎 <span>{post.bhate}</span></button>
           </div>
             { 
               isEdit &&

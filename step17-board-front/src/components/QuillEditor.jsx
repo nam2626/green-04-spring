@@ -6,9 +6,14 @@ export default ({onChange, defaultVale}) => {
   // 에디터를 가리킬 Ref
   const editorRef = useRef(null);
   const quillInstance = useRef(null);
+  const initializedRef = useRef(false);
+  const onChangeRef = useRef(onChange);
 
   useEffect(() => {
-    console.log("Quill : ",defaultVale);
+    onChangeRef.current = onChange;
+  }, [onChange]);
+
+  useEffect(() => {
     if(editorRef.current && !quillInstance.current){
       quillInstance.current = new Quill(editorRef.current,{
         theme:'snow',
@@ -34,21 +39,26 @@ export default ({onChange, defaultVale}) => {
         }
     });
 
+      // 내용이 변경될 때 실행할 이벤트 리스너 등록
+      quillInstance.current.on('text-change', () => {
+        if(onChangeRef.current){
+          console.log(quillInstance.current.getSemanticHTML());
+          onChangeRef.current(quillInstance.current.getSemanticHTML());
+        }
+      });
     }
-     // 초기값 설정. 수정모드일때 이전에 입력했던 게시글 값
-    if(defaultVale){
-      quillInstance.current.root.innerHTML = defaultVale;
-    }
+  },[]);
 
-    // 내용이 변경될 때 실행할 이벤트 리스너 등록
-    quillInstance.current.on('text-change', () => {
-      if(onChange){
-        console.log(quillInstance.current.getSemanticHTML());
-        onChange(quillInstance.current.getSemanticHTML());
-      }
-    });
+  useEffect(() => {
+    if(!quillInstance.current || !defaultVale || initializedRef.current) return;
+
+    // 초기값 설정. 수정모드일때 이전에 입력했던 게시글 값
+    quillInstance.current.root.innerHTML = defaultVale;
+
+    const length = quillInstance.current.getLength();
+    quillInstance.current.setSelection(Math.max(length - 1, 0), 0);
+    initializedRef.current = true;
   },[defaultVale]);
-
  
 
   return (

@@ -77,7 +77,7 @@ export default () => {
     <div className="post-detail">
       <label>내용</label>
       <div id="editor">
-        <QuillEditor onChange={onChangePostDetail} defaultVale={form.content}/>
+        <QuillEditor onChange={onChangePostDetail} defaultVale={isEditorMode ? form.content : ''}/>
       </div>
     </div>
     { error && <div className="error-box">{error}</div>}
