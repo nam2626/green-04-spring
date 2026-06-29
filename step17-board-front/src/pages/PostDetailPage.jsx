@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom"
 import { postApi } from "../api/postApi";
+import "quill/dist/quill.snow.css";
 
 export default () => {
   const {bno} = useParams();
@@ -27,7 +28,9 @@ export default () => {
           <span className="meta-item"><span className="meta-label">조회수</span> {post.bcount}</span>
           <span className="meta-item"><span className="meta-label">작성일</span> {post.writeUpdateDate}</span>
         </div>
-        <div className="post-detail-content">{post.content}</div>
+        <div className="post-detail-content ql-container ql-snow" style={{border:'none'}}>
+          <div dangerouslySetInnerHTML={{__html: post.content}}></div>
+        </div>
         <div className="post-detail-footer">
           <div className="post-footer-group">
             <button className="btn btn-success-outline">좋아요 👍</button>
