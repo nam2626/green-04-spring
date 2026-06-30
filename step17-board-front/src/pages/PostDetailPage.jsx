@@ -63,8 +63,17 @@ export default () => {
 
       
     });
-
   }
+
+  const handleDeleteComment = async (cno) => {
+    await postApi.deleteComment(cno)
+    .then(res => {
+      setCommentList(res.data.commentList)
+    })
+    .catch(err => console.log(err));
+  }
+
+  
   
   return <div className="post-detail-container">
     {
@@ -119,7 +128,7 @@ export default () => {
                     user.id == item.mid &&
                     <>
                     <button className="btn-comment-action">수정</button>
-                    <button className="btn-comment-action btn-comment-danger">삭제</button>
+                    <button className="btn-comment-action btn-comment-danger" onClick={() => handleDeleteComment(item.cno)}>삭제</button>
                     </>
                   }
                 </div>

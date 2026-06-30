@@ -63,8 +63,12 @@ public class BoardCommentController {
       return ResponseEntity.status(HttpStatus.FORBIDDEN).body(map);
     }
     boardCommentService.deleteBoardComment(cno);
+
+    map.put("commentList", boardCommentService.selectBoardCommentList(comment.getBno()));
+    map.put("message", "댓글 삭제 성공");
+
     // 응답이 필요없을때
-    return  ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    return  ResponseEntity.status(HttpStatus.OK).body(map);
   }
 
   @PatchMapping("/{cno}")
