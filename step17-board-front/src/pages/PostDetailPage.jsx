@@ -88,7 +88,19 @@ export default () => {
     });
   }
   
-  
+  const handleCommentReaction = async (type, cno) => {
+    await postApi.postCommentReaction({type : type, cno : cno})
+    .then(res => {
+      console.log(res.data);
+      setCommentList(commentList.map(comment => {
+        if(cno == comment.cno){
+          return {...comment, clike : res.data.count.likeCount, chate : res.data.count.dislikeCount};
+        }
+        return comment;
+      }))
+    })
+    .catch(err => console.log(err))
+  }
   return <div className="post-detail-container">
     {
       !post ? <div className="post-loading">현재 게시글 읽어오고 있습니다.</div> :
@@ -139,8 +151,8 @@ export default () => {
                       <span>📅 {item.cdate}</span>
                     </div>
                     <div className="comment-action">
-                      <button className="btn-comment-action">좋아요 👍 <span>{item.clike}</span></button>
-                      <button className="btn-comment-action">싫어요 👎<span>{item.chate}</span></button>
+                      <button className="btn-comment-action" onClick={() => handleCommentReaction('LIKE',item.cno)}>좋아요 👍 <span>{item.clike}</span></button>
+                      <button className="btn-comment-action" onClick={() => handleCommentReaction('DISLIKE',item.cno)}>싫어요 👎 <span>{item.chate}</span></button>
                       {
                         user && user.id === item.mid &&
                         <>
