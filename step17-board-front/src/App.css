@@ -451,6 +451,138 @@ body {
   border-color: var(--success-color);
 }
 
+/* Post Write */
+.post-write-container {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  padding: 2.5rem;
+  margin-top: 1rem;
+}
+
+.post-write-header {
+  margin-bottom: 1.75rem;
+}
+
+.post-write-title {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  position: relative;
+  padding-bottom: 0.55rem;
+}
+
+.post-write-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 40px;
+  height: 4px;
+  background-color: var(--color-primary);
+  border-radius: 2px;
+}
+
+.post-title,
+.post-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.post-title {
+  margin-bottom: 1.35rem;
+}
+
+.post-detail {
+  margin-bottom: 1.5rem;
+}
+
+.post-write-label {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.post-title-input {
+  width: 100%;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 1rem;
+  padding: 0.85rem 0.95rem;
+  transition: var(--transition);
+  background-color: #ffffff;
+}
+
+.post-title-input::placeholder {
+  color: var(--text-muted);
+}
+
+.post-title-input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-glow);
+}
+
+.post-editor {
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  background-color: #ffffff;
+}
+
+.post-editor .ql-toolbar.ql-snow {
+  border: none;
+  border-bottom: 1px solid var(--border-color);
+  background-color: #f8fafc;
+}
+
+.post-editor .ql-container.ql-snow {
+  border: none;
+  font-family: inherit;
+  font-size: 1rem;
+}
+
+.post-editor .ql-editor {
+  min-height: 360px;
+  color: var(--text-primary);
+  line-height: 1.7;
+  padding: 1rem;
+}
+
+.post-editor .ql-editor.ql-blank::before {
+  color: var(--text-muted);
+  font-style: normal;
+}
+
+.error-box {
+  background-color: var(--danger-light);
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  border-radius: var(--radius-sm);
+  color: var(--danger-color);
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 0.8rem 0.95rem;
+  margin-bottom: 1.25rem;
+}
+
+.post-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.post-actions .btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
 /* Login */
 .login-container {
   min-height: calc(100vh - 140px);
@@ -710,5 +842,21 @@ body {
 
   .login-card {
     padding: 1.5rem;
+  }
+
+  .post-write-container {
+    padding: 1.5rem;
+  }
+
+  .post-editor .ql-editor {
+    min-height: 300px;
+  }
+
+  .post-actions {
+    flex-direction: column;
+  }
+
+  .post-actions .btn {
+    width: 100%;
   }
 }

@@ -98,6 +98,26 @@ public class AuthService {
     userRepository.findByUsername(currentUser.getUsername()).ifPresent(refreshTokenRepository::deleteByUser);
   }
 
-  
+  public TokenReponse refresh(String refreshTokenValue) {
+    // 클라이언트가 보낸 Refresh Token이 서버에 저장된 토큰인지 먼저 확인한다.
+    RefreshToken stored = refreshTokenRepository.findByToken(refreshTokenValue)
+      .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 Refresh Token"));
+
+    // 만료된 Refresh Token은 재사용할 수 없도록 DB에서 삭제하고 다시 로그인하게 한다.
+    if (stored.isExpired()) {
+      refreshTokenRepository.delete(stored);
+      throw new IllegalArgumentException("Refresh Token이 만료되었습니다. 재로그인 필요");
+    }
+
+    UserEntity user = stored.getUser();
+    String newAccess = jwtTokenProvider.generateAccessToken(user);
+    String newRefresh = jwtTokenProvider.generateRefreshToken(user);
+
+    // Token Rotation: Refresh Token을 한 번 사용하면 새 값으로 교체해 이전 토큰 재사용을 막는다.
+    stored.setToken(newRefresh);
+    stored.setExpiresAt(LocalDateTime.now().plusDays(7));
+
+    return new TokenReponse(newAccess,newRefresh,"Bearer");
+  }
 
 }

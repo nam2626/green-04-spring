@@ -62,7 +62,7 @@ export default ({onChange, defaultVale}) => {
  
 
   return (
-    <div style={{margin:'50px'}}>
+    <div>
       <div ref={editorRef} style={{height:'500px'}}></div>      
     </div>
   );

@@ -20,7 +20,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.spring.security.JwtAuthenticationFilter;
 
-
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -45,6 +45,16 @@ public class SecurityConfig {
     http
     .csrf(crsf -> crsf.disable())
     .cors(cors -> cors.configurationSource(corsConfigrationSource()))
+    .exceptionHandling(ex -> ex
+      .authenticationEntryPoint((request, response, authException) -> {
+        // 인증 정보가 없거나 JWT가 유효하지 않은 요청은 로그인 필요 상태이므로 401을 반환한다.
+        response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+      })
+      .accessDeniedHandler((request, response, accessDeniedException) -> {
+        // 인증은 되었지만 권한이 부족한 요청은 접근 거부 상태이므로 403을 반환한다.
+        response.sendError(HttpServletResponse.SC_FORBIDDEN);
+      })
+    )
     .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
     .authorizeHttpRequests(auth -> auth
       .requestMatchers("/auth/**").permitAll()

@@ -68,23 +68,25 @@ export default () => {
     }
   }
 
-  return <div className="container">
-    <h2>{isEditorMode ? '게시글 수정' : '게시글 쓰기'}</h2>
+  return <div className="post-write-container">
+    <div className="post-write-header">
+      <h2 className="post-write-title">{isEditorMode ? '게시글 수정' : '게시글 쓰기'}</h2>
+    </div>
     <div className="post-title">
-      <label>제목</label>
-      <input type="text" placeholder="제목을 입력하세요" onChange={onChangeTitle} value={form.title}/>
+      <label className="post-write-label">제목</label>
+      <input className="post-title-input" type="text" placeholder="제목을 입력하세요" onChange={onChangeTitle} value={form.title}/>
     </div>
     <div className="post-detail">
-      <label>내용</label>
-      <div id="editor">
+      <label className="post-write-label">내용</label>
+      <div id="editor" className="post-editor">
         <QuillEditor onChange={onChangePostDetail} defaultVale={isEditorMode ? form.content : ''}/>
       </div>
     </div>
     { error && <div className="error-box">{error}</div>}
     <div className="post-actions">
-      <button onClick={handleSubmit} disable={loading}>{
+      <button className="btn btn-primary" onClick={handleSubmit} disabled={loading}>{
       loading ? '저장 중.....' : (isEditorMode ? '수정하기' : '글쓰기')}</button>
-      <button onClick={() => navigate(-1)}>취소</button>
+      <button className="btn btn-secondary" onClick={() => navigate(-1)}>취소</button>
     </div>
   </div>
 }

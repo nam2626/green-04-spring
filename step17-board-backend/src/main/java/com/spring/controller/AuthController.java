@@ -15,6 +15,7 @@ import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 /**
  * 인증 REST API의 진입점이다.
@@ -29,6 +30,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
  */
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 
 
@@ -75,5 +77,18 @@ public class AuthController {
       ));
   }
   
+  @ExceptionHandler(AuthenticationException.class)
+  public ResponseEntity<Map<String,String>> handleAuthenticationException(AuthenticationException e) {
+    // 로그인 실패는 사용자가 인증되지 않은 상태이므로 403이 아니라 401로 응답한다.
+    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
+      Map.of("message", "아이디 또는 비밀번호가 올바르지 않습니다.")
+    );
+  }
 
+  @PostMapping("/refresh")
+  public ResponseEntity<TokenReponse> refresh(@RequestBody Map<String, String> body) {
+    // Access Token이 만료된 클라이언트가 Refresh Token으로 새 토큰 쌍을 요청한다.
+    String refreshToken = body.get("refreshToken");
+    return ResponseEntity.ok(authService.refresh(refreshToken));
+  }
 }
