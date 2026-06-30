@@ -1,5 +1,7 @@
 package com.spring.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.spring.dto.BoardCommentDTO;
@@ -48,5 +50,9 @@ public class BoardCommentService {
 
   public ReactionCountDTO getBoardCommentReactionCount(int cno) {
     return boardCommentMapper.selectBoardCommentReactionCount(cno);
+  }
+
+  public List<BoardCommentDTO> selectBoardCommentList(int bno) {
+    return boardCommentMapper.selectBoardCommentList(bno);
   }
 }

@@ -1,5 +1,7 @@
 package com.spring.mapper;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -30,5 +32,7 @@ public interface BoardCommentMapper {
 
   void deleteBoardCommentBno(int bno);
   void deleteBoardCommentReactionBno(int bno);
+
+  List<BoardCommentDTO> selectBoardCommentList(int bno);
 
 }

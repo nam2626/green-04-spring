@@ -34,14 +34,16 @@ public class BoardCommentController {
   //댓글 추가
   // 사용자 ID, 댓글 내용, 글번호
   @PostMapping
-  public ResponseEntity addBoardComment(
+  public ResponseEntity<Map<String, Object>> addBoardComment(
     @RequestBody BoardCommentDTO comment,
     @AuthenticationPrincipal UserEntity entity
   ) {
+      Map<String, Object> map = new HashMap<>();
       comment.setMid(entity.getId());
       boardCommentService.addBoardComment(comment);
-
-      return ResponseEntity.status(HttpStatus.CREATED).build();
+      map.put("commentList", boardCommentService.selectBoardCommentList(comment.getBno()));
+      map.put("message", "댓글 등록 성공");
+      return ResponseEntity.status(HttpStatus.CREATED).body(map);
   }
 
   // 댓글 삭제

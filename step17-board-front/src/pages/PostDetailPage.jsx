@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom"
 import { postApi } from "../api/postApi";
 import "quill/dist/quill.snow.css";
@@ -9,6 +9,7 @@ export default () => {
   const [post ,setPost] = useState({});
   const [commentList, setCommentList] = useState([]);
   const {user} = useAuth();
+  const commentForm = useRef(null);
   const navigate = useNavigate();
 
   console.log(bno);
@@ -47,6 +48,14 @@ export default () => {
     })
     .catch(err => console.log(err))
   }
+
+  const handleAddComment = async () => {
+    await postApi.addComment({bno : post.bno, content:commentForm.current.value})
+    .then(res => {
+      console.log(res.data);
+    }).catch(err => console.log(err))
+
+  }
   
   return <div className="post-detail-container">
     {
@@ -79,8 +88,8 @@ export default () => {
           {
             user ?   
             <div className="comment-form">
-              <textarea className="comment-textarea" placeholder="댓글을 입력해 주세요."></textarea>
-              <button className="comment-submit-btn">댓글<br/>등록</button>
+              <textarea className="comment-textarea" ref={commentForm} placeholder="댓글을 입력해 주세요."></textarea>
+              <button className="comment-submit-btn" onClick={handleAddComment}>댓글<br/>등록</button>
             </div>
             :
             <div className="message-box">
