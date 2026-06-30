@@ -82,6 +82,7 @@ export default () => {
     .then(res => {
       console.log(res.status);
       setCommentList(res.data.commentList);
+      setCommentEditMode(0);
     }).catch(err => {
       console.log(err.status);      
     });
@@ -129,34 +130,35 @@ export default () => {
           }
           <div className="comment-list">
             {commentList && commentList.map((item, index) => <div key={item.cno || index} className="comment-item">
-              <div className="comment-header">
-                <div className="comment-info">
-                  <span>👤 {item.nickname}</span>
-                  <span>📅 {item.cdate}</span>
-                </div>
-                {
-                item.cno == commentEditMode ?
-                <div className="comment-action">
-                  <button className="btn-comment-action">좋아요 👍 <span>{item.clike}</span></button>
-                  <button className="btn-comment-action">싫어요 👎<span>{item.chate}</span></button>
-                  {
-                    user.id == item.mid &&
-                    <>
-                    <button className="btn-comment-action" onClick={() => setCommentEditMode(item.cno)}>수정</button>
-                    <button className="btn-comment-action btn-comment-danger" onClick={() => handleDeleteComment(item.cno)}>삭제</button>
-                    </>
-                  }
-                </div>
-                  :
-                    <div className="comment-form">
-                      <textarea className="comment-textarea" placeholder="댓글을 입력해 주세요." onChange={(e) => setCommentEditContent(e.target.value)}>{item.content}</textarea>
-                      <button className="comment-submit-btn" onClick={() => handleUpdateComment(cno)}>댓글<br/>수정</button>
+              {
+                commentEditMode != item.cno ?
+                <>
+                  <div className="comment-header">
+                    <div className="comment-info">
+                      <span>👤 {item.nickname}</span>
+                      <span>📅 {item.cdate}</span>
+                    </div>
+                    <div className="comment-action">
+                      <button className="btn-comment-action">좋아요 👍 <span>{item.clike}</span></button>
+                      <button className="btn-comment-action">싫어요 👎<span>{item.chate}</span></button>
+                      {
+                        user && user.id === item.mid &&
+                        <>
+                        <button className="btn-comment-action" onClick={() => setCommentEditMode(item.cno)}>수정</button>
+                        <button className="btn-comment-action btn-comment-danger" onClick={() => handleDeleteComment(item.cno)}>삭제</button>
+                        </>
+                      }
+                    </div>
+                  </div>
+                  <div className="comment-content">{item.content}</div>
+                  </>
+                :
+                  <div className="comment-form">
+                      <textarea className="comment-textarea" placeholder="댓글을 입력해 주세요." onChange={(e) => setCommentEditContent(e.target.value)} defaultValue={item.content}></textarea>
+                      <button className="comment-submit-btn" onClick={() => handleUpdateComment(item.cno)}>댓글<br/>수정</button>
                       <button className="comment-submit-btn" onClick={() => setCommentEditMode(0)}>취소</button>
-
                     </div>
                 }
-              </div>
-              <div className="comment-content">{item.content}</div>
             </div>)}
           </div>
         </div>

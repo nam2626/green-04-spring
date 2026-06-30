@@ -72,9 +72,10 @@ public class BoardCommentController {
   }
 
   @PatchMapping("/{cno}")
-  public ResponseEntity updateBoard(@PathVariable int cno, @RequestBody BoardCommentDTO reqBoard, @AuthenticationPrincipal UserEntity userEntity){
+  public ResponseEntity<Map<String, Object>> updateBoard(@PathVariable int cno, @RequestBody BoardCommentDTO reqBoard, @AuthenticationPrincipal UserEntity userEntity){
     BoardCommentDTO comment = boardCommentService.selectBoardComment(cno);
-    
+    Map<String, Object> map = new HashMap<>();
+
     if(comment == null){
       return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     } 
@@ -84,8 +85,9 @@ public class BoardCommentController {
     }
     reqBoard.setCno(cno);
     boardCommentService.updateBoardComment(reqBoard);
-
-    return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    map.put("commentList", boardCommentService.selectBoardCommentList(comment.getBno()));
+    map.put("message", "댓글 수정 성공");
+    return ResponseEntity.status(HttpStatus.OK).body(map);
   }
 
   @PostMapping("/reaction")
