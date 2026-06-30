@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom"
+import { Link, useNavigate, useParams } from "react-router-dom"
 import { postApi } from "../api/postApi";
 import "quill/dist/quill.snow.css";
 import { useAuth } from "../context/AuthContext";
@@ -76,10 +76,17 @@ export default () => {
         </div>
         <div className="comment-section">
           <h3 className="comment-title">댓글 목록 ({commentList ? commentList.length : 0})</h3>
-          <div className="comment-form">
-            <textarea className="comment-textarea" placeholder="댓글을 입력해 주세요."></textarea>
-            <button className="comment-submit-btn">댓글<br/>등록</button>
-          </div>
+          {
+            user ?   
+            <div className="comment-form">
+              <textarea className="comment-textarea" placeholder="댓글을 입력해 주세요."></textarea>
+              <button className="comment-submit-btn">댓글<br/>등록</button>
+            </div>
+            :
+            <div className="message-box">
+              <Link to={"/login"}>댓글을 입력하실려면 로그인 하세요</Link>
+            </div>
+          }
           <div className="comment-list">
             {commentList && commentList.map((item, index) => <div key={item.cno || index} className="comment-item">
               <div className="comment-header">
