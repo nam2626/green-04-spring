@@ -52,8 +52,17 @@ export default () => {
   const handleAddComment = async () => {
     await postApi.addComment({bno : post.bno, content:commentForm.current.value})
     .then(res => {
-      console.log(res.data);
-    }).catch(err => console.log(err))
+      console.log(res.status);
+      setCommentList(res.data.commentList);
+    }).catch(err => {
+      console.log(err.status)
+      if(err.status == 401){
+        alert('댓글 작성을 하실려면 로그인 하셔야합니다.');
+        navigate('/login');
+      }
+
+      
+    });
 
   }
   
@@ -104,10 +113,15 @@ export default () => {
                   <span>📅 {item.cdate}</span>
                 </div>
                 <div className="comment-action">
-                  <button className="btn-comment-action">좋아요 👍</button>
-                  <button className="btn-comment-action">싫어요 👎</button>
-                  <button className="btn-comment-action">수정</button>
-                  <button className="btn-comment-action btn-comment-danger">삭제</button>
+                  <button className="btn-comment-action">좋아요 👍 <span>{item.clike}</span></button>
+                  <button className="btn-comment-action">싫어요 👎<span>{item.chate}</span></button>
+                  {
+                    user.id == item.mid &&
+                    <>
+                    <button className="btn-comment-action">수정</button>
+                    <button className="btn-comment-action btn-comment-danger">삭제</button>
+                    </>
+                  }
                 </div>
               </div>
               <div className="comment-content">{item.content}</div>
