@@ -12,6 +12,10 @@ export default () => {
   const commentForm = useRef(null);
   const navigate = useNavigate();
 
+  // 댓글 수정을 위한 상태값
+  const [commentEditMode, setCommentEditMode] = useState(0);
+  const [commentEditContent, setCommentEditContent] = useState('');
+
   console.log(bno);
   useEffect(() => {
     postApi.getPost(bno).then(reponse => {
@@ -73,6 +77,15 @@ export default () => {
     .catch(err => console.log(err));
   }
 
+  const handleUpdateComment = async (cno) => {
+    await postApi.updateComment({cno : cno, content:commentEditContent})
+    .then(res => {
+      console.log(res.status);
+      setCommentList(res.data.commentList);
+    }).catch(err => {
+      console.log(err.status);      
+    });
+  }
   
   
   return <div className="post-detail-container">
@@ -121,17 +134,27 @@ export default () => {
                   <span>👤 {item.nickname}</span>
                   <span>📅 {item.cdate}</span>
                 </div>
+                {
+                item.cno == commentEditMode ?
                 <div className="comment-action">
                   <button className="btn-comment-action">좋아요 👍 <span>{item.clike}</span></button>
                   <button className="btn-comment-action">싫어요 👎<span>{item.chate}</span></button>
                   {
                     user.id == item.mid &&
                     <>
-                    <button className="btn-comment-action">수정</button>
+                    <button className="btn-comment-action" onClick={() => setCommentEditMode(item.cno)}>수정</button>
                     <button className="btn-comment-action btn-comment-danger" onClick={() => handleDeleteComment(item.cno)}>삭제</button>
                     </>
                   }
                 </div>
+                  :
+                    <div className="comment-form">
+                      <textarea className="comment-textarea" placeholder="댓글을 입력해 주세요." onChange={(e) => setCommentEditContent(e.target.value)}>{item.content}</textarea>
+                      <button className="comment-submit-btn" onClick={() => handleUpdateComment(cno)}>댓글<br/>수정</button>
+                      <button className="comment-submit-btn" onClick={() => setCommentEditMode(0)}>취소</button>
+
+                    </div>
+                }
               </div>
               <div className="comment-content">{item.content}</div>
             </div>)}
