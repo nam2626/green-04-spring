@@ -31,7 +31,7 @@ CREATE TABLE board_member
   username       VARCHAR(20) NOT NULL UNIQUE,
   password   CHAR(255)   NULL    ,
   nickname VARCHAR(10) NULL    ,
-  role varchar(20) NULL,
+  role varchar(20) NOT NULL DEFAULT 'ROLE_USER',
   PRIMARY KEY (id)
 );
 

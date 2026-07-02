@@ -59,7 +59,7 @@ public class BoardCommentController {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).body(map);
     } 
 
-    if(comment.getMid() != userEntity.getId()){
+    if(!isAdmin(userEntity) && !comment.getMid().equals(userEntity.getId())){
       return ResponseEntity.status(HttpStatus.FORBIDDEN).body(map);
     }
     boardCommentService.deleteBoardComment(cno);
@@ -80,7 +80,7 @@ public class BoardCommentController {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     } 
 
-    if(comment.getMid() != userEntity.getId()){
+    if(!isAdmin(userEntity) && !comment.getMid().equals(userEntity.getId())){
       return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
     }
     reqBoard.setCno(cno);
@@ -111,5 +111,9 @@ public class BoardCommentController {
 
       map.put("count", reactionCount);
       return ResponseEntity.ok(map);
+  }
+
+  private boolean isAdmin(UserEntity userEntity) {
+    return "ROLE_ADMIN".equals(userEntity.getRole());
   }
 }

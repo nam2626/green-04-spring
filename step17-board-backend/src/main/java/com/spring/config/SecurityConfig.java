@@ -57,11 +57,14 @@ public class SecurityConfig {
     )
     .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
     .authorizeHttpRequests(auth -> auth
-      .requestMatchers("/auth/**").permitAll()
+      .requestMatchers("/auth/signup", "/auth/login", "/auth/refresh").permitAll()
       .requestMatchers("/v3/api-docs/**").permitAll()
       .requestMatchers("/swagger-ui.html").permitAll()
       .requestMatchers("/swagger-ui/**").permitAll()
       .requestMatchers(HttpMethod.GET,"/api/posts/**").permitAll()
+      .requestMatchers("/admin/**").hasRole("ADMIN")
+      .requestMatchers("/api/posts/**", "/api/comments/**").hasAnyRole("USER", "ADMIN")
+      .requestMatchers("/auth/logout", "/auth/me").hasAnyRole("USER", "ADMIN")
       .anyRequest().authenticated()
     ) 
     // 필터 추가

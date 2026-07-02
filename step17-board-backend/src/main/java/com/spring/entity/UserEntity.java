@@ -47,7 +47,8 @@ public class UserEntity implements UserDetails {
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
     // 현재는 한 회원이 하나의 role만 가진 구조이므로 요소가 하나인 목록으로 반환한다.
-    return List.of(new SimpleGrantedAuthority(role));
+    String userRole = role == null || role.isBlank() ? "ROLE_USER" : role;
+    return List.of(new SimpleGrantedAuthority(userRole));
   }
 
  

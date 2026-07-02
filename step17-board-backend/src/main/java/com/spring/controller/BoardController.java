@@ -102,7 +102,7 @@ public class BoardController {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).body(map);
     } 
 
-    if(board.getMid() != userEntity.getId()){
+    if(!isAdmin(userEntity) && !board.getMid().equals(userEntity.getId())){
       return ResponseEntity.status(HttpStatus.FORBIDDEN).body(map);
     }
     boardService.deleteBoard(bno);
@@ -119,7 +119,7 @@ public class BoardController {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     } 
 
-    if(board.getMid() != userEntity.getId()){
+    if(!isAdmin(userEntity) && !board.getMid().equals(userEntity.getId())){
       return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
     }
     reqBoard.setBno(bno);
@@ -152,6 +152,9 @@ public class BoardController {
       return ResponseEntity.ok(map);
   }
 
+  private boolean isAdmin(UserEntity userEntity) {
+    return "ROLE_ADMIN".equals(userEntity.getRole());
+  }
   
 }
 
